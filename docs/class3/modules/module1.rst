@@ -1,4 +1,4 @@
-Section 1 - Troubleshoot Basic Connectivity Issues
+Section 1 - <example module>
 ==================================================
 
 |
