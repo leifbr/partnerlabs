@@ -4,10 +4,14 @@ This class, run by Optiv Security, looks at how to strategically build policies 
 
 The intent of the lab is demonstrate how balanced security, administration, and resources can be obtained by using parent and child polices security policies. 
 
+
+Expected time to complete: **1 hours**
+
+|
+|
+
 .. toctree::
    :maxdepth: 1
    :glob:
 
    modules/module*
-   
------------
