@@ -32,5 +32,19 @@ These labs are designed to familiarize engineers with F5 solutions and in some c
    :maxdepth: 1
    :caption: Unofficial - 301A Certification Lab for V11.4:
    :glob:
-   
+
    class8/class8
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Agility 2021 Optiv Lab:
+   :glob:
+
+   class17/class17
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Agility 2021 - Sirius Lab:
+   :glob:
+
+   class18/class18
