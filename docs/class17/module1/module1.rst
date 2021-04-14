@@ -1,5 +1,5 @@
 Accessing the Labs and the Environment
-===================================
+======================================
 
 In this Lab we will apply WAF parent and child policies to protect the **Hackazon** Web Application.
 
@@ -12,7 +12,7 @@ The application you will be protecting is the OWASP Hackazon applications used f
 Expected time to complete: **1 hour**
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :glob:
 
    lab*

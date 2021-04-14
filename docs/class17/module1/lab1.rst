@@ -1,6 +1,6 @@
 Accessing the Lab Environment
 =============================
-   
+
 To access F5's Unified Demo Framework (UDF) environment you will have to have an active account.  
 
 If you have UDF account and you have received a confirmation email from **noreply@registration.udf.f5.com** for the **201 Certification Lab - TMOS Administration**.  You are ready to access the labs. 
