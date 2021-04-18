@@ -3,7 +3,7 @@ Accessing the Lab Environment
 
 To access F5's Unified Demo Framework (UDF) environment you will have to have an active account.  
 
-If you have UDF account and you have received a confirmation email from **noreply@registration.udf.f5.com** for the **201 Certification Lab - TMOS Administration**.  You are ready to access the labs. 
+If you have UDF account and you have received a confirmation email from **noreply@registration.udf.f5.com** for the lab.  You are ready to access the the UDF environment and launch your lab. 
 
 If you did not receive the confirmation please check your junk folder or simply try your credentials (you can only see labs you have been invited to).  If you still cannot gain access to the course notify the instructor.
 
@@ -23,7 +23,7 @@ You will be access the labs using the F5 Unified Demo Framework (UDF).  **Chrome
 .. IMPORTANT::
    You should retain these credentials, as they will be required to any access future F5 UDF courses you attend in the F5 UDF environment
 
-2. You should see the event(s) under **Happening now**. Find the **201 Certification Lab - TMOS Administration** event and click on the **Launch** link at the far right. 
+2. You should see the event(s) under **Happening now**. The lab event you are registered for should be visible.  Click on the **Launch** link at the far right.  This will begin to deploy your lab environment.
 
 .. image:: /_static/201L/course-launch-button.png
 
@@ -47,26 +47,29 @@ Lab Environment
 ---------------
 
 .. IMPORTANT::
-   The F5 201 lab guide is written with the assumption that the lab **ubu-jumpbox** will be used as the client for testing and accessing the BIG-IPs.  Although you are welcome to use the direct access links provided for configuring and viewing the BIG-IPs.  The lab will flow more smoothly using the **ubu-jumpbox**.
+  Many labs are written with the assumption that the lab **ubu-jumpbox** will be used as the client for testing.  You are welcome to use the direct access links provided for configuring and viewing the BIG-IPs.
 
-+------------------+----------------+------------------+-----------------+-----------------+
-| **Components**   |  **Mgmt IP**   | **Access**       | **Username**    | **Password**    |
-+------------------+----------------+------------------+-----------------+-----------------+
-| bigip01          | 10.1.1.4       | GUI              | admin           | f5UDFrocks!     |
-+------------------+----------------+------------------+-----------------+-----------------+
-|                  | 10.1.1.4       | SSH              | root            | f5UDFrocks!     |
-+------------------+----------------+------------------+-----------------+-----------------+
-| bigip02          | 10.1.1.5       | GUI              | admin           | f5UDFrocks!     |
-+------------------+----------------+------------------+-----------------+-----------------+
-|                  | 10.1.1.5       | SSH              | root            | f5UDFrocks!     |
-+------------------+----------------+------------------+-----------------+-----------------+
-| ubu-jumpbox      | 10.1.1.6       | RDP              | f5student       | f5UDFrocks!     |
-+------------------+----------------+------------------+-----------------+-----------------+
-| NGLAMP           | 10.1.1.7       | SSH              | f5student       | f5UDFrocks!     |
-+------------------+----------------+------------------+-----------------+-----------------+
-|                  | 10.1.1.7       | webmin           | f5student       | f5UDFrocks!     |
-+------------------+----------------+------------------+-----------------+-----------------+
-
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+| **Components**      |  **Mgmt IP**   | **Access Method**  | **Access Type** | **Username**    | **Password**    |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+| bigip01             | 10.1.1.4       | TMUI               | GUI             | admin           | f5UDFrocks!     |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+|                     | 10.1.1.4       | Web Shell          | CLI/Bash        | root            | f5UDFrocks!     |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+| bigip02             | 10.1.1.5       | TMUI               | GUI             | admin           | f5UDFrocks!     |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+|                     | 10.1.1.5       | Web Shell          | CLI/Bash        | root            | f5UDFrocks!     |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+| ubu-jumpbox         | 10.1.1.6       | RDP                |                 | f5student       | f5UDFrocks!     |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+|                     | 10.1.1.6       | Console            | GUI             | root            | f5UDFrocks!     |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+|                     | 10.1.1.6       | Web Shell          | CLI/Bash        | root            | f5UDFrocks!     |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+| NGLAMP              | 10.1.1.7       | SSH                |                 | f5student       | f5UDFrocks!     |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
+|                     | 10.1.1.7       | webmin             | webmin GUI      | f5student       | f5UDFrocks!     |
++---------------------+----------------+--------------------+-----------------+-----------------+-----------------+
 
 Accessing the Jumpbox BIG-IP VE System Configuration 
 ----------------------------------------------------
@@ -79,26 +82,18 @@ Go to the **Components** tab and select the **Access** drop down menu and select
 Access your BIG-IP (bigip01) and verify it is prepped and ready
 ---------------------------------------------------------------
 
-From the jumpbox open a new web browser from the bottom bar and access https://10.1.1.4. Log into the BIG-IP VE system using the following credentials:
+From the jumpbox open a new web browser from the **Application** drop-down menu at the upper left corner and access https://10.1.1.4 or select **TMUI** from the bigip01 **Access** menu. Log into the BIG-IP VE system using the following credentials:
 
 .. code-block:: bash
 
    Username: admin
    Password: f5UDFrocks!
 
-.. image:: /_static/201L/bottom-bar.png
-
 Check the upper left-hand corner and ensure you are on the active device
 the status should be **ONLINE (ACTIVE)**. Most deployments are
 active-standby and either device could be the active device, so you should always check.
 
 Go to **Local Traffic > Virtual Servers** and verify your virtual
-server states. They should match the image below.
+server states.  Any preconfigured virtual services should be **Available** (green) unless otherwise specified.
 
-.. image:: /_static/201L/201ex211t1-virtuals.png
-
-.. NOTE::
-   This BIG-IP has been pre-configured and the **purple\_vs**
-   virtual server is offline by design.
-
-If everything is in order go on to the **Networking the BIG-IP lab**.
+If everything is in order go on to the next module and begin you lab.

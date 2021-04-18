@@ -18,7 +18,7 @@ In this short lab you will update the parent policy.  This will both demonstrate
 
 **Task 2 - See if the** waf_base_Only **policy inherited the changes**
 
-#. Return to hackazon main page
+#. Return to **Hackazon** main page
 #. In the **Search** field type :guilabel:`<script>alert("Your system is infected! Call 999-888-7777 for help.")</script>` and press **Enter**.  This time you will not see the blocking page.
 
 **Task 3 - Review WAF event logs on BIG-IP GUI.**

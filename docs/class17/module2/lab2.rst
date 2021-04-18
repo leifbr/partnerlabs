@@ -35,9 +35,9 @@ In this lab you will create a top-level parent policy.  This policy will set the
 
 #. Click **Save** in the upper left.
 #. Once the policy is created you can define the **Inheritance Settings**. Select the :guilabel:`waf_base` policy, in the right panel click **Inheritance Settings**.
-#. The **Inheritance settings** define parts of the policy a child policy can or cannot modify.  Click on the **Help** tab in the left hand menu bar to see the definitions of the three settings, **Mandatory**, **Optional** and **None**.  Click on the **?** next to the policy item to see its purpose.  
+#. The **Inheritance Settings** define parts of the policy a child policy can or cannot modify.  Click on the **Help** tab in the left hand menu bar to see the definitions of the three settings, **Mandatory**, **Optional** and **None**.  Click on the **?** next to the policy item to see its purpose.  
 
-Configure the **Inheritance settings** as shown on the image below, and then click **Save** and then **Apply Policy** in the upper right.
+Configure the **Inheritance Settings** as shown on the image below, and then click **Save** and then **Apply Policy** in the upper right.
 
    .. image:: ./images/image310.png
      :height: 400px
