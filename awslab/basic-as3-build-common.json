@@ -9,7 +9,8 @@
         "label": "Sample 1",
         "remark": "Simple HTTP Service with Round-Robin Load Balancing",
         "Common": {
-            "Shared_application": {
+            "class": "Tenant",
+            "Shared_Application": {
                 "class": "Application",
                 "template": "shared",
                 "service": {
