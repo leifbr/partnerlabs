@@ -19,7 +19,14 @@ These labs are designed to familiarize engineers with F5 solutions and in some c
 
 **Not all exams have lab guides created, so this repo is still under development.**
 
-|
+|.. toctree::
+   :maxdepth: 1
+   :caption: Unofficial - LTM Fundamental Lab:
+   :glob:
+
+   class2/class2
+
+
 
 .. toctree::
    :maxdepth: 1
