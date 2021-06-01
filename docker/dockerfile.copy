@@ -1,0 +1,3 @@
+FROM nginx:latest
+COPY ./cert-html.tar.gz /usr/share/nginx
+RUN tar --strip-components=6 -C /usr/share/nginx/ -xzvf /usr/share/nginx/cert-html.tar.gz home/ubuntu/git/f5-agility-labs-cert/docs/_build/html
