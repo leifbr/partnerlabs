@@ -1,5 +1,16 @@
-< for future use maybe>
-=======================
+Select your lab environment
+===========================
+Currently there are instructions on the use of one of three environments where you can run the partner labs.  
+
+These are:
+1. The **Unified Demo Framework (UDF)** F5's official lab and demo environment
+   a. This environment requires you work with you F5 field or channel engineer to obtain access.
+2. The **World-Wide Field Readiness (WWFR) vLab found on https://downloads.f5.com 
+   a. This lab can run in your own environment, but requires VMWare ESX or Workstation.
+3. The AWS F5 Lab CFT (Cloud Formation Template) an **unofficial** pay-as-you-go environment.
+   a. This lab runs in AWS at a very nominal cost and can be easy set up and torn down as desired.
+
+All labs use the same backend servers and IP addressing scheme.  Any exceptions will be noted in the environment set up guide or the various lab guides.
 
 .. toctree::
    :maxdepth: 1
