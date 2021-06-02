@@ -1,9 +1,9 @@
 Unofficial - F5 Partner Labs
-========================================================
+============================
 
 |
 
-Welcome to the Partner Labs Guides last updated on 04 APR 21
+Welcome to the Partner Labs Guides last updated on 01 JUN 21
 
 |
 These labs are designed to familiarize engineers with F5 solutions and in some cases help prepare for certification.
@@ -21,14 +21,14 @@ These labs are designed to familiarize engineers with F5 solutions and in some c
 
 .. toctree::
    :maxdepth: 1
-   :caption: Chose your lab environment:
+   :caption: Setting up and/or accessing the lab environment:
    :glob:
 
    class1/class1
 
 .. toctree::
    :maxdepth: 1
-   :caption: *Under Construction* - LTM Fundamentals Lab:
+   :caption: LTM Fundamentals Lab (UNDER CONSTRUCTION):
    :glob:
 
    class2/class2

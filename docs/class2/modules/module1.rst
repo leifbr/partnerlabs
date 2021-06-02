@@ -1,118 +1,3 @@
-Participant Hands-on Lab Guide
-
-.. image:: media/image1.png
-   :width: 1.93667in
-   :height: 0.61667in
-
-   Last Updated: 11/20/2020
-
-©2014 F5 Networks, Inc. All rights reserved. F5, F5 Networks, and the F5
-logo are trademarks of F5 Networks, Inc. in the U.S. and in certain
-other countries. Other F5 trademarks are identified at f5.com.
-
-Any other products, services, or company names referenced herein may be
-trademarks of their respective owners with no endorsement or
-affiliation, express or implied, claimed by F5.
-
-Table of Contents
-=================
-
-Table of Contents 3
-
-BIG-IP® Local Traffic Manager (LTM) - V12 Lab Guide 5
-
-Lab Overview 5
-
-Scenario 6
-
-Lab Network Diagram (based on Lamp4.0) 6
-
-Accessing the Lab Environment 7
-
-Access the Lab Environment **Error! Bookmark not defined.**
-
-Lab 1: The Basics (Networking, Pools and Virtual Servers) 10
-
-Creating VLANs 10
-
-Assigning a Self IP addresses to your VLANs 11
-
-Assigning the Default Gateway 12
-
-Creating Pools 13
-
-Creating Virtual Servers 14
-
-ExtraCredit! 16
-
-Lab 2: Load Balancing, Monitoring and Persistence 17
-
-Ratio Load Balancing 17
-
-Priority Groups Lab 19
-
-Monitor Labs 21
-
-Content Monitors 22
-
-Persistence Labs 25
-
-Simple (Source Address) Persistence 25
-
-Cookie Persistence (Cookie Insert) 28
-
-Lab 3: Accelerating Applications Lab 30
-
-TCP Express 30
-
-HTTP Optimization - RamCache Lab 31
-
-HTTP Optimization - HTTP Compression Lab 32
-
-Lab 4: SSL Offload and Security 33
-
-Creating a Self-signed certificate and key 33
-
-Creating SSL Client Profile 34
-
-Building our New Secure Virtual Server 34
-
-Securing web applications with the HTTP profile 35
-
-Lab 5: BIG-IP Policies and iRules 36
-
-Write an iRule to retrieve images when an HTTP request is received 36
-
-Use a BIG-IP Policy to retrieve images from a different pool 37
-
-Lab 6: Support and Troubleshooting 39
-
-Archive the current configuration and perform a health check using a
-QKview 39
-
-Troubleshoot using TCPDump or Curl. 41
-
-Lab 7: Device Service Clusters (DSC) 43
-
-Base Networking and HA VLAN 43
-
-Configure HA 44
-
-Bonus Lab – Traffic groups, iApps and Active-Active 46
-
-Building a new traffic group and floating IP. 46
-
-Building an HTTP application using an iApp template. 46
-
-Active-Active Setup 47
-
-Appendix 48
-
-BIG-IP Policy for retrieving jpeg images from the image_pool 48
-
-BIG-IP extra credit iRule to add PNG to access_image_pool iRule 48
-
-.. _section-1:
 
 BIG-IP® Local Traffic Manager (LTM) - V15 Lab Guide
 ===================================================
@@ -161,7 +46,7 @@ through the LTM.
 Lab Network Diagram (based on Lamp4.0)
 ======================================
 
-.. image:: media/image3.jpg
+.. image:: /_static/101/image3.jpg
    :width: 7.23272in
    :height: 7.38005in
 
@@ -207,7 +92,7 @@ browsers may work but are not supported.
 
 ..
 
-   .. image:: media/image4.png
+   .. image:: /_static/101/image4.png
       :width: 1.89815in
       :height: 1.55648in
 
@@ -224,7 +109,7 @@ browsers may work but are not supported.
 
 ..
 
-   .. image:: media/image5.png
+   .. image:: /_static/101/image5.png
       :width: 5.33579in
       :height: 0.89764in
 
@@ -237,7 +122,7 @@ browsers may work but are not supported.
 
 ..
 
-   .. image:: media/image6.png
+   .. image:: /_static/101/image6.png
       :width: 6.63315in
       :height: 1.24211in
 
@@ -246,7 +131,7 @@ browsers may work but are not supported.
 
 ..
 
-   .. image:: media/image7.png
+   .. image:: /_static/101/image7.png
       :width: 5.14211in
       :height: 1.90972in
 
@@ -255,7 +140,7 @@ browsers may work but are not supported.
 
 ..
 
-   .. image:: media/image8.png
+   .. image:: /_static/101/image8.png
       :width: 6.35902in
       :height: 2.87368in
 
@@ -294,7 +179,7 @@ In the **Deployments** tab and select the **Access** drop down menu and
 under **Win10 Jumpbox** select **RDP** and the screen size. Log on with
 the credentials in the table above.
 
-.. image:: media/image9.png
+.. image:: /_static/101/image9.png
    :width: 7.36062in
    :height: 3.32632in
 
@@ -316,7 +201,7 @@ Creating VLANs
 1. From the sidebar select **Network** **> VLANs** then select
    **Create**
 
-.. image:: media/image10.png
+.. image:: /_static/101/image10.png
    :width: 3.29032in
    :height: 2.625in
 
@@ -345,7 +230,7 @@ c. Under **Resources** in the **Interfaces** section:
 
 ..
 
-   .. image:: media/image11.png
+   .. image:: /_static/101/image11.png
       :width: 2.39187in
       :height: 1.66681in
 
@@ -359,7 +244,7 @@ Assigning a Self IP addresses to your VLANs
 
 1. Go to **Network > Self IPs**, select **Create**.
 
-.. image:: media/image12.png
+.. image:: /_static/101/image12.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML51055f77.PNG
    :width: 5.8125in
    :height: 3.08766in
@@ -399,7 +284,7 @@ v.   **Port** **Lockdown**: Allow None Allow None
 b. When you have completed your selfIP configuration, hit the |image1|
    button. You should have something similar to the following:
 
-.. image:: media/image14.png
+.. image:: /_static/101/image14.png
    :width: 5.84768in
    :height: 1.30208in
 
@@ -414,7 +299,7 @@ Assigning the Default Gateway
    a. Here is where we assign our default gateway (and other static
       routes as desired)
 
-.. image:: media/image15.png
+.. image:: /_static/101/image15.png
    :width: 3.96875in
    :height: 2.33043in
 
@@ -458,7 +343,7 @@ statistical interfaces.
 1. From the sidebar select **Local Traffic >>** **Pools** then select
    **Create**. Here we will create our new pool
 
-.. image:: media/image16.png
+.. image:: /_static/101/image16.png
    :width: 3.46998in
    :height: 3.07292in
 
@@ -496,7 +381,7 @@ b. Under **Resources**
 c. When you have complete your pool configuration, hit the **Finished**
    button
 
-.. image:: media/image17.png
+.. image:: /_static/101/image17.png
    :width: 4.375in
    :height: 1.27287in
 
@@ -508,7 +393,7 @@ Now let’s build our virtual server
 1. Under **Local Traffic** select **Virtual Servers** then select
    **Create**.
 
-.. image:: media/image18.png
+.. image:: /_static/101/image18.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML5118b969.PNG
    :width: 3.71994in
    :height: 3.08333in
@@ -545,7 +430,7 @@ b. Under **Configurations**
 
 ..
 
-   .. image:: media/image19.png
+   .. image:: /_static/101/image19.png
       :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML58387b2.PNG
       :width: 2.97587in
       :height: 0.99517in
@@ -568,7 +453,7 @@ c. Under **Resources**
 
 2. You have now created a Virtual Server (Note: Items in blue are links)
 
-.. image:: media/image20.png
+.. image:: /_static/101/image20.png
    :width: 6.75892in
    :height: 1.44179in
 
@@ -578,7 +463,7 @@ c. Under **Resources**
 
    b. Refresh the browser screen several times (use “<ctrl>” F5)
 
-.. image:: media/image21.png
+.. image:: /_static/101/image21.png
    :width: 2.65963in
    :height: 1.40625in
 
@@ -589,7 +474,7 @@ c. Go to **Statistics > Module Statistics > Local Traffic**
 
    i. Choose **Virtual Servers** from drop down
 
-.. image:: media/image22.png
+.. image:: /_static/101/image22.png
    :width: 2.98593in
    :height: 1.44792in
 
@@ -649,7 +534,7 @@ Diagram for the IP address.
 
    a. Go to **Statistics>Dashboard**
 
-.. image:: media/image23.png
+.. image:: /_static/101/image23.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML59e5bf2.PNG
    :width: 3.13542in
    :height: 1.81755in
@@ -682,7 +567,7 @@ Ratio Load Balancing
    **Members** from the top bar or you could click on the **Members**
    link in the Pool List screen.
 
-.. image:: media/image24.png
+.. image:: /_static/101/image24.png
    :width: 5.35046in
    :height: 1.60014in
 
@@ -698,7 +583,7 @@ a. Note: When we created the pool, we performed all our configuration on
       methods have two options, (Node) or (Member). Remember the
       difference?
 
-.. image:: media/image25.png
+.. image:: /_static/101/image25.png
    :width: 5.01042in
    :height: 2.59576in
 
@@ -712,7 +597,7 @@ a. Then under **Current Members**
 
        1. Change the **Ratio** of the member to 3
 
-.. image:: media/image26.png
+.. image:: /_static/101/image26.png
    :width: 4.26042in
    :height: 4.04175in
 
@@ -768,7 +653,7 @@ fails.
       ii. Set the **Priority Group Activation** to **Less than …** **2**
           Available Members.
 
-.. image:: media/image27.png
+.. image:: /_static/101/image27.png
    :width: 5.4375in
    :height: 2.03332in
 
@@ -780,7 +665,7 @@ c. Select the pool members **10.1.20.11** and **10.1.20.12** and set
    i. This will allow you to change the priority on that particular
       member.
 
-.. image:: media/image28.png
+.. image:: /_static/101/image28.png
    :width: 4.49091in
    :height: 4.26042in
 
@@ -810,7 +695,7 @@ c. Select the pool members **10.1.20.11** and **10.1.20.12** and set
 
 ..
 
-   .. image:: media/image29.png
+   .. image:: /_static/101/image29.png
       :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML3001afba.PNG
       :width: 6.9739in
       :height: 1.24444in
@@ -844,7 +729,7 @@ Default Monitors
 
    b. Select the **Default Monitor** tab.
 
-.. image:: media/image30.png
+.. image:: /_static/101/image30.png
    :width: 4.2837in
    :height: 2.06685in
 
@@ -890,7 +775,7 @@ its basic authentication capabilities.
 2. Select **Local Traffic>Monitor** on the side-bar and select the plus
    (**+**) sign or the **Create**
 
-.. image:: media/image32.png
+.. image:: /_static/101/image32.png
    :width: 3.78002in
    :height: 2.46226in
 
@@ -901,7 +786,7 @@ a. Now we can create a monitor to check the content of our web page to
 
    ii. **Type**: HTTP
 
-.. image:: media/image33.png
+.. image:: /_static/101/image33.png
    :width: 1.93333in
    :height: 2.56016in
 
@@ -918,7 +803,7 @@ b. Once you have selected your parent (Type) monitor, you can access the
    iii. Enter **user.1**/**password** for the **Username** and
         **Password**
 
-.. image:: media/image34.png
+.. image:: /_static/101/image34.png
    :width: 4.13542in
    :height: 5.56558in
 
@@ -927,7 +812,7 @@ c. Click **Finish** and you will be taken back to **Local
 
 ..
 
-   .. image:: media/image35.png
+   .. image:: /_static/101/image35.png
       :width: 0.94444in
       :height: 0.55556in
 
@@ -948,7 +833,7 @@ c. Click **Finish** and you will be taken back to **Local
        window in the **Configuration** section and move it to the Active
        window.
 
-.. image:: media/image36.png
+.. image:: /_static/101/image36.png
    :width: 3.76042in
    :height: 3.10417in
 
@@ -1003,7 +888,7 @@ Simple (Source Address) Persistence
    a. From the **Persistence Profiles** screen select the **Create**
       button.
 
-.. image:: media/image37.png
+.. image:: /_static/101/image37.png
    :width: 4.27597in
    :height: 2.09375in
 
@@ -1013,7 +898,7 @@ b. At the **New Persistence Profile** screen enter:
 
    ii. **Persistence** **Type**: Source Address Affinity
 
-.. image:: media/image38.png
+.. image:: /_static/101/image38.png
    :width: 2.61621in
    :height: 2.04167in
 
@@ -1062,7 +947,7 @@ and Resources are on different pages.
 
 b. Set the **Default Persistence Profile** to **my-src-persist**.
 
-.. image:: media/image39.png
+.. image:: /_static/101/image39.png
    :width: 3.41667in
    :height: 1.90957in
 
@@ -1079,7 +964,7 @@ d. Testing Source Address Affinity
 
    iii. Select **Persistence Records** for the **Statistics Type** menu
 
-.. image:: media/image40.png
+.. image:: /_static/101/image40.png
    :width: 4.47075in
    :height: 2.22917in
 
@@ -1104,7 +989,7 @@ d. Testing Source Address Affinity
 4. Now, in this window you can watch you persistence records. You may
    want to set **Auto Refresh** to 20 seconds.
 
-.. image:: media/image41.png
+.. image:: /_static/101/image41.png
    :width: 4.8125in
    :height: 1.80366in
 
@@ -1135,7 +1020,7 @@ b. Our **Persistence Type** will be **Cookie**
 
 c. This brings us to the **Configuration** section.
 
-.. image:: media/image42.png
+.. image:: /_static/101/image42.png
    :width: 3.59403in
    :height: 3.15625in
 
@@ -1162,7 +1047,7 @@ f. Hit **Update**
 
 g. Whoa! Did you just get this error message?
 
-.. image:: media/image43.png
+.. image:: /_static/101/image43.png
    :width: 4.64151in
    :height: 1.83072in
 
@@ -1179,7 +1064,7 @@ h. Remember what we said earlier about some Profiles requiring
    b. Go to **HTTP Profile** in the **Configuration** section and select
       the default HTTP (**http**) profile.
 
-.. image:: media/image44.png
+.. image:: /_static/101/image44.png
    :width: 3.13229in
    :height: 3.69328in
 
@@ -1205,7 +1090,7 @@ d. Now we can go back to the **Resource** tab and add our cookie
       i. On the web page under **HTTP Request and Response Information**
          click the **Request and Response Header** link.
 
-.. image:: media/image45.png
+.. image:: /_static/101/image45.png
    :width: 2.61822in
    :height: 2.2125in
 
@@ -1244,7 +1129,7 @@ b. From the dropdown menus place the **tcp-wan-optimized** profile on
 
 ..
 
-   .. image:: media/image46.png
+   .. image:: /_static/101/image46.png
       :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML30460794.PNG
       :width: 5.59375in
       :height: 4.70384in
@@ -1284,18 +1169,18 @@ c. Clear the statistics on your pool and the refresh the main web page
    sidebar, from the **Statistics Type** drop down menu select
    **Profiles Summary**
 
-.. image:: media/image47.png
+.. image:: /_static/101/image47.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML1165ae63.PNG
    :width: 3.55238in
    :height: 2.125in
 
 5. Select the View link next to the **Web Acceleration** profile type
 
-.. image:: media/image48.png
+.. image:: /_static/101/image48.png
    :width: 1.91667in
    :height: 1.20833in
 
-.. image:: media/image49.png
+.. image:: /_static/101/image49.png
    :width: 4.45349in
    :height: 1.26124in
 
@@ -1342,7 +1227,7 @@ c. At the **HTTP Compression** drop down menu select the HTTP
    b. Select the **View** link next to the **HTTP Compression** profile
       type
 
-.. image:: media/image50.png
+.. image:: /_static/101/image50.png
    :width: 2.71523in
    :height: 1.8in
 
@@ -1361,7 +1246,7 @@ c. On the web page under, **HTTP** **Request and Response Information**
 
 ..
 
-   .. image:: media/image51.png
+   .. image:: /_static/101/image51.png
       :width: 2.92178in
       :height: 1.45833in
 
@@ -1394,7 +1279,7 @@ Creating a Self-signed certificate and key
 1. Go to **System > Certificate Management > Traffic Certificate
    Management > SSL Certificates** **List** and select **Create**
 
-.. image:: media/image52.png
+.. image:: /_static/101/image52.png
    :width: 5.83333in
    :height: 1.83891in
 
@@ -1404,7 +1289,7 @@ Certificate…**
 a. NOTE: The default key size is **2048**, you can save SSL resources on
    the **server-side** by lowering this key size.
 
-.. image:: media/image53.png
+.. image:: /_static/101/image53.png
    :width: 2.60099in
    :height: 2.75581in
 
@@ -1424,7 +1309,7 @@ Creating SSL Client Profile
 1. Go to **Local** **Traffic>Profiles>SSL>Client** menu and select
    **Create**.
 
-.. image:: media/image54.png
+.. image:: /_static/101/image54.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTMLf292a2.PNG
    :width: 2.15302in
    :height: 1.94805in
@@ -1444,7 +1329,7 @@ b. Under **Configuration** in the **Certificate Key Chain** section,
 
    ii. Select **Add**
 
-.. image:: media/image55.png
+.. image:: /_static/101/image55.png
    :width: 2.23377in
    :height: 1.08439in
 
@@ -1511,7 +1396,7 @@ Securing web applications with the HTTP profile
       iv.  **Insert XForwarded For**: Enabled (because we talked about
            it earlier)
 
-.. image:: media/image56.png
+.. image:: /_static/101/image56.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML566674e6.PNG
    :width: 3.25in
    :height: 3.44635in
@@ -1604,7 +1489,7 @@ c. Note the highlighted content, click on HTTP_REQUEST and HTTP::uri to
 
 a. All you image content should come from Node 4 (10.1.20.14).
 
-.. image:: media/image57.png
+.. image:: /_static/101/image57.png
    :width: 3.0328in
    :height: 2.51948in
 
@@ -1632,7 +1517,7 @@ use a BIG-IP policy.
 
 ..
 
-   .. image:: media/image58.png
+   .. image:: /_static/101/image58.png
       :width: 2.67708in
       :height: 1.36123in
 
@@ -1657,7 +1542,7 @@ use a BIG-IP policy.
 
 ..
 
-   .. image:: media/image60.png
+   .. image:: /_static/101/image60.png
       :width: 5.22628in
       :height: 1.33333in
 
@@ -1671,7 +1556,7 @@ a. Select the **Save Draft Policy** drop-down menu and select **Save and
 
 ..
 
-   .. image:: media/image61.png
+   .. image:: /_static/101/image61.png
       :width: 2.47917in
       :height: 1.75529in
 
@@ -1695,7 +1580,7 @@ c. If your policy is working is working correctly all the images under
 
 d. Other images are PNG images and have a different extension.
 
-.. image:: media/image57.png
+.. image:: /_static/101/image57.png
    :width: 2.01665in
    :height: 1.67532in
 
@@ -1730,7 +1615,7 @@ c. From **System>Support** select the **New Support Snapshot** button to
 
 ..
 
-   .. image:: media/image64.png
+   .. image:: /_static/101/image64.png
       :width: 4.13816in
       :height: 4.01299in
 
@@ -1764,7 +1649,7 @@ f. Once the file is uploaded you can click on the hostname to view you
 
 ..
 
-   .. image:: media/image65.png
+   .. image:: /_static/101/image65.png
       :width: 3.03774in
       :height: 2.13701in
 
@@ -2076,7 +1961,7 @@ i. In the **Certificate Signing Authority** select **Generate New
 
 ..
 
-   .. image:: media/image66.png
+   .. image:: /_static/101/image66.png
       :width: 4.5974in
       :height: 0.53243in
 
@@ -2084,7 +1969,7 @@ v. If some information is missing delete the trust and try again.
 
 ..
 
-   .. image:: media/image67.png
+   .. image:: /_static/101/image67.png
       :width: 4.51948in
       :height: 0.50506in
 
@@ -2330,28 +2215,28 @@ Appendix
 BIG-IP Policy for retrieving jpeg images from the image_pool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. image:: media/image68.png
+.. image:: /_static/101/image68.png
    :width: 6.89583in
    :height: 3.39781in
 
 BIG-IP extra credit iRule to add PNG to access_image_pool iRule
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. |image1| image:: media/image13.png
+.. |image1| image:: /_static/101/image13.png
    :width: 0.625in
    :height: 0.20833in
-.. |image2| image:: media/image13.png
+.. |image2| image:: /_static/101/image13.png
    :width: 0.625in
    :height: 0.20833in
-.. |image3| image:: media/image31.png
+.. |image3| image:: /_static/101/image31.png
    :width: 0.32292in
    :height: 0.27083in
-.. |image4| image:: media/image59.png
+.. |image4| image:: /_static/101/image59.png
    :width: 0.25836in
    :height: 0.21669in
-.. |image5| image:: media/image62.png
+.. |image5| image:: /_static/101/image62.png
    :width: 3.10815in
    :height: 1.38542in
-.. |image6| image:: media/image63.png
+.. |image6| image:: /_static/101/image63.png
    :width: 2.66667in
    :height: 2.02376in
