@@ -9,12 +9,16 @@ A big difference is the IP addressing is standardized (as much as possible) arou
 
 I will probably not explain everything you need to know, especially if you haven't used AWS much, but I will give you the basics of using the template.
 
-1. Clone the respository to your device
-1. Go to cloud formation in your AWS console and **f5-aws-bigip-labs-vX.x** template.
-1. Most of the template is self explanatory or can be defaulted.
-   1. Enter a stack name.
-   2. Under **Networking Configuration** select an AZ.  Only **east** AZs are available at this time.
-   3. You can default until **SSH Key**.  Select your SSH key pair you want to use.
+#. Clone the git respository to your device or just download the **f5_aws_bigip_labs-vX.x.yml** CFT template which can be found here: https://github.com/leifbr/partnerlabs/blob/master/awslab/f5-aws-bigip-labs-v1.0.yml 
+#. Log in to your AWS account and your management console.
+#. Search for CloudFormation (if you don’t already have it as a favorite) and click on CloudFormation
+#. Select **Create Stack**
+#. Select **Upload a template file** and hit the **Choose file** button.
+#. Upload the **f5-aws-bigip-labs-vX.x.yml** and click **Next**
+#. Most of the template is self explanatory or can be defaulted.
+   #. Enter a stack name.
+   #. Under **Networking Configuration** select an AZ.  Only **east** AZs are available at this time.
+   #. You can default until **SSH Key**.  Select your SSH key pair you want to use.
    4. Source Address(es) for manager and web application access. Enter your source IP for to restrict lab access.  When in doubt you can just enter **0.0.0.0/0** and open it up.
    5. Again you can default until **BIG-IP Base Networking and Virtual Service Configuration** here is where you will tell the BIG-IP how you want your lab set up.
       1. If you leave the defaults the BIG-IP will basically be a blank slate.  Yours to configure however you want.
