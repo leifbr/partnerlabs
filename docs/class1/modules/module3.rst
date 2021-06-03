@@ -39,8 +39,8 @@ I will probably not explain everything you need to know, especially if you haven
       #. Under **AS3 Declaration URL** you can enter a link to the json that will configure your layer 4-7 services (pools, virtual servers, etc). 
       #. **CONSULT YOUR LAB GUIDE TO DETERMINE THE NETWORKING AND L4-7 SERVICES REQUIRED FOR YOUR LAB**
 
-      ..IMPORTANT:
-      If you enter an AS3 URL make sure **configBigipNet** is set to **Yes** or you will end up with no configuration on the BIG-IP.
+      .. IMPORTANT::
+         If you enter an AS3 URL make sure **configBigipNet** is set to **Yes** or you will end up with no configuration on the BIG-IP.
 
 #. Hit **NEXT** 
 #. If will take a few minutes for the environment to spin up and a little longer for all the containers on the backend server to come up.
@@ -51,8 +51,15 @@ I will probably not explain everything you need to know, especially if you haven
    #. Using PuTTY or SSH and your keypair, SSH to the BIG-IP using your keypair.
    #. At the TMSH prompt enter:
 
-   ..BASH:
-     mod auth user admin password <your password> shell bash
+ .. admonition:: TMSH
+    
+    mod auth user admin password <your password> shell bash
 
-   #. this will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
 
+This will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
+
+  #. Go to the **Bigip1Url** in **Outputs** (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
+  #. Verify the containers are up and running by accessing this lab guide container on the back end server.  Going to the **WebserverPublicUrl**.   
+  #. From **Outputs** make note of the **WebserverPublicIp** as this  Elastic IP connects to 10.1.10.100 on the BIG-IP allowing extenal access to the virtual server.
+
+  **Congratulations!**  You are now ready to begin the labs.

@@ -1498,7 +1498,7 @@ Resources:
             - 'sudo docker run -itd --restart unless-stopped --name f5demo2 -p 10.1.20.12:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo3 -p 10.1.20.13:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name hack20 -p 10.1.20.20:80:80 mutzel/all-in-one-hackazon:postinstall ./start.sh > start.log'
-            - 'sudo docker run -itd --restart unless-stopped --name labguide -p 10.1.20.100:80:80 leifbr/partnerlabs:v1'
+            - 'sudo docker run -itd --restart unless-stopped --name partnerlabs -p 10.1.20.100:80:80 leifbr/partnerlabs'
             - 'sudo apt install vsftpd -y'
             - 'sudo systemctl start vsftpd'
             - 'sudo systemctl enable vsftpd'
