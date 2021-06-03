@@ -4,4 +4,4 @@ media/
 pdf/*
 .vscode
 *.sublime-*
-*.tar.gz
+docker/partnerlabs.tar.gz
