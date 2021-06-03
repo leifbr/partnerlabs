@@ -28,6 +28,7 @@ I will probably not explain everything you need to know, especially if you haven
       #. **Custom Image Id** When you select any BIG-IP image above you will build a BIG-IP using an AMI for BIG-IP v15.1.2.1.  If you would like to work under another version, or if the lab requires another version, you can enter the AMI for that BIG-IP image here and it will override the **BIG-IP Image Name** selection.
       #. You can default until **SSH Key**.  Select your SSH key pair you want to use. 
       #. Source Address(es) for BIG-IP management and web application access. Enter your source IP or subnet to restrict lab access.  When in doubt you can just enter **0.0.0.0/0** and open it up wide .
+<<<<<<< HEAD
 
     .. IMPORTANT::
        You must have a key pair to utilitize the lab.  If you do not have a key pair, stop, and set one up.
