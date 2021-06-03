@@ -51,8 +51,8 @@ I will probably not explain everything you need to know, especially if you haven
    #. Using PuTTY or SSH and your keypair, SSH to the BIG-IP using your keypair.
    #. At the TMSH prompt enter:
 
-   ..COMMAND:
-   mod auth user admin password <your password> shell bash
+   ..BASH:
+     mod auth user admin password <your password> shell bash
 
    #. this will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
 
