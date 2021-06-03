@@ -1,6 +1,4 @@
-F5 Unified Demo Enviroment
-==========================
-**(UNDER CONSTRUCTION)**
-This environment is available for use in coordination with an F5 Solutions Engineer or Architect. 
-
+WWFR vLab Environment
+=====================
+Guides, labs and building blocks to for this environment can be found on https://downloads.f5.com and are restricted to partner and F5 engineers.
 

@@ -41,3 +41,18 @@ I will probably not explain everything you need to know, especially if you haven
 
       ..IMPORTANT:
       If you enter an AS3 URL make sure **configBigipNet** is set to **Yes** or you will end up with no configuration on the BIG-IP.
+
+#. Hit **NEXT** 
+#. If will take a few minutes for the environment to spin up and a little longer for all the containers on the backend server to come up.
+#. Once the stack is complete you can set up access to the BIG-IP.
+
+   #. Select your stack and select **Output**.
+   #. Find the **Bigip1ManagementEipAddress**. This is the Elastic IP (EIP) you will this to connect to the BIG-IP
+   #. Using PuTTY or SSH and your keypair, SSH to the BIG-IP using your keypair.
+   #. At the TMSH prompt enter:
+
+   ..COMMAND:
+   mod auth user admin password <your password> shell bash
+
+   #. this will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
+
