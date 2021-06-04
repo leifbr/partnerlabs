@@ -13,11 +13,11 @@
       "Shared": {
         "class": "Application",
         "template": "shared",
-        "ftp_pool": {
+        "ssh_pool": {
           "members": [
             {
               "addressDiscovery": "static",
-              "servicePort": 21,
+              "servicePort": 22,
               "serverAddresses": [
                 "10.1.20.11"
               ],
@@ -75,22 +75,19 @@
           ],
           "class": "SNAT_Pool"
         },
-        "ftp_vs": {
+        "ssh_vs": {
           "layer4": "tcp",
-          "pool": "ftp_pool",
+          "pool": "ssh_pool",
           "translateServerAddress": true,
           "translateServerPort": true,
           "class": "Service_TCP",
-          "profileFTP": {
-            "bigip": "/Common/ftp"
-          },
           "profileTCP": {
             "bigip": "/Common/tcp"
           },
           "virtualAddresses": [
-            "10.1.10.100"
+            "10.1.10.105"
           ],
-          "virtualPort": 21,
+          "virtualPort": 22,
           "persistenceMethods": [],
           "snat": {
             "use": "/Common/Shared/SNAT249_pool"
@@ -155,9 +152,9 @@
     }
   },
   "supported": {
-    "ltm pool /Common/ftp_pool": {
+    "ltm pool /Common/ssh_pool": {
       "members": {
-        "/Common/10.1.20.11:21": {
+        "/Common/10.1.20.11:22": {
           "address": "10.1.20.11"
         }
       },
@@ -195,13 +192,12 @@
         "/Common/10.1.20.249": ""
       }
     },
-    "ltm virtual /Common/ftp_vs": {
-      "destination": "/Common/10.1.10.100:21",
+    "ltm virtual /Common/ssh_vs": {
+      "destination": "/Common/10.1.10.100:22",
       "ip-protocol": "tcp",
       "mask": "255.255.255.255",
-      "pool": "/Common/ftp_pool",
+      "pool": "/Common/ssh_pool",
       "profiles": {
-        "/Common/ftp": {},
         "/Common/tcp": {}
       },
       "source": "0.0.0.0/0",
@@ -359,9 +355,9 @@
     "ltm node /Common/10.1.20.14": {
       "address": "10.1.20.14"
     },
-    "ltm pool /Common/ftp_pool": {
+    "ltm pool /Common/ssh_pool": {
       "members": {
-        "/Common/10.1.20.11:21": {
+        "/Common/10.1.20.11:22": {
           "address": "10.1.20.11"
         }
       },
@@ -394,13 +390,12 @@
         "/Common/10.1.20.249": ""
       }
     },
-    "ltm virtual /Common/ftp_vs": {
+    "ltm virtual /Common/ssh_vs": {
       "destination": "/Common/10.1.10.100:21",
       "ip-protocol": "tcp",
       "mask": "255.255.255.255",
-      "pool": "/Common/ftp_pool",
+      "pool": "/Common/ssh_pool",
       "profiles": {
-        "/Common/ftp": {},
         "/Common/tcp": {}
       },
       "source": "0.0.0.0/0",
