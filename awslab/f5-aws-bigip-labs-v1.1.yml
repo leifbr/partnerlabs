@@ -1,7 +1,8 @@
 ---
 # f5-aws-bigip-labs.yaml
-# copies from leifv8net-3nic-bigip
-# v1 - added ProFTPd to backend server, added .105 as VIP, change 60-netcfg, 
+# copied from leifv8net-3nic-bigip
+# v1 - added .105 as VIP, change 60-netcfg
+# v1.1 - add second EIP VIP (105), added juice-shop to the backend
 AWSTemplateFormatVersion: 2010-09-09
 Conditions:
   noCustomImageId: !Equals 
@@ -204,17 +205,31 @@ Outputs:
         - !GetAtt 
           - Bigip1Instance
           - PublicIp
-  Bigip1VipEipAddress:
-    Description: EIP address for VIP
+  Bigip1VipEipTo100:
+    Description: EIP address for VIP 10.1.10.100
     Value: !Join 
       - ''
       - - 'http://'
-        - !Ref Bigip1VipEipAddress
+        - !Ref Bigip1VipEipTo100
         - ':80'
-  Bigip1VipPrivateIp:
+  Bigip1VipPrivateIp100:
     Description: VIP on External Interface Secondary IP 1
     Value: !Select 
       - '0'
+      - !GetAtt 
+        - Bigip1subnet1Az1Interface
+        - SecondaryPrivateIpAddresses
+  Bigip1VipEipTo105:
+    Description: EIP address for VIP 10.1.10.105
+    Value: !Join 
+      - ''
+      - - 'http://'
+        - !Ref Bigip1VipEipTo105
+        - ':80'
+  Bigip1VipPrivateIp105:
+    Description: VIP on External Interface Secondary IP 1
+    Value: !Select 
+      - '1'
       - !GetAtt 
         - Bigip1subnet1Az1Interface
         - SecondaryPrivateIpAddresses
@@ -298,16 +313,16 @@ Parameters:
     Type: String
   applicationInstanceType:
     AllowedValues:
-      - t1.micro
+      - t2.micro
+      - t2.small
       - t2.medium
-      - m3.medium
-      - m3.xlarge
-      - m2.xlarge
+      - t2.large
+      - t2.xlarge
       - m3.2xlarge
       - c3.large
       - c3.xlarge
     ConstraintDescription: Must be a valid EC2 instance type
-    Default: m3.medium
+    Default: t2.medium
     Description: Webserver EC2 instance type
     Type: String
   availabilityZone1:
@@ -1255,20 +1270,38 @@ Resources:
         - !Ref bigipManagementSecurityGroup
       SubnetId: !Ref managementSubnetAz1
     Type: 'AWS::EC2::NetworkInterface'
-  Bigip1VipEipAddress:
+  Bigip1VipEipTo100:
     DependsOn: AttachGateway
     Properties:
       Domain: vpc
     Type: 'AWS::EC2::EIP'
-  Bigip1VipEipAssociation:
+  Bigip1VipEip100Association:
     DependsOn: AttachGateway
     Properties:
       AllocationId: !GetAtt 
-        - Bigip1VipEipAddress
+        - Bigip1VipEipTo100
         - AllocationId
       NetworkInterfaceId: !Ref Bigip1subnet1Az1Interface
       PrivateIpAddress: !Select
         - '0'
+        - !GetAtt 
+          - Bigip1subnet1Az1Interface
+          - SecondaryPrivateIpAddresses
+    Type: 'AWS::EC2::EIPAssociation'
+  Bigip1VipEipTo105:
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+    Type: 'AWS::EC2::EIP'
+  Bigip1VipEip105Association:
+    DependsOn: AttachGateway
+    Properties:
+      AllocationId: !GetAtt 
+        - Bigip1VipEipTo105
+        - AllocationId
+      NetworkInterfaceId: !Ref Bigip1subnet1Az1Interface
+      PrivateIpAddress: !Select
+        - '1'
         - !GetAtt 
           - Bigip1subnet1Az1Interface
           - SecondaryPrivateIpAddresses
@@ -1459,6 +1492,8 @@ Resources:
             Primary: 'false'
           - PrivateIpAddress: 10.1.20.13
             Primary: 'false'
+          - PrivateIpAddress: 10.1.20.14
+            Primary: 'false'
           - PrivateIpAddress: 10.1.20.20
             Primary: 'false'
       Tags:
@@ -1494,14 +1529,13 @@ Resources:
             - 'sudo systemctl start docker'
             - 'sudo systemctl enable docker'
             - 'echo Start up containerize web services'
+            - 'sudo docker run -itd --restart unless-stopped --name partnerlabs -p 10.1.20.100:80:80 leifbr/partnerlabs'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo1 -p 10.1.20.11:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo2 -p 10.1.20.12:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo3 -p 10.1.20.13:80:80 chen23/f5-demo-php'
+            - 'sudo docker run -itd --restart unless-stopped --name f5demo3 -p 10.1.20.14:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name hack20 -p 10.1.20.20:80:80 mutzel/all-in-one-hackazon:postinstall ./start.sh > start.log'
-            - 'sudo docker run -itd --restart unless-stopped --name partnerlabs -p 10.1.20.100:80:80 leifbr/partnerlabs'
-            - 'sudo apt install vsftpd -y'
-            - 'sudo systemctl start vsftpd'
-            - 'sudo systemctl enable vsftpd'
+            - 'sudo docker run -itd --restart unless-stopped --name juice30 -p 10.1.20.20:3000:3000 bkimminich/juice-shop'
 
     Type: 'AWS::EC2::Instance'
   WebserverSecurityGroup:
@@ -1516,6 +1550,10 @@ Resources:
           FromPort: '80'
           IpProtocol: tcp
           ToPort: '80'
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '80'
+          IpProtocol: tcp
+          ToPort: '3000'
         - CidrIp: !Ref restrictedSrcAddressApp
           FromPort: '8081'
           IpProtocol: tcp
@@ -1550,6 +1588,10 @@ Resources:
           FromPort: '80'
           IpProtocol: tcp
           ToPort: '80'
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '8080'
+          IpProtocol: tcp
+          ToPort: '8081'
         - CidrIp: !Ref restrictedSrcAddressApp
           FromPort: '443'
           IpProtocol: tcp
