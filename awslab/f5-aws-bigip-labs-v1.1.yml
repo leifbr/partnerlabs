@@ -1248,7 +1248,11 @@ Resources:
       GroupSet:
         - !Ref bigipInternalSecurityGroup
       SubnetId: !Ref subnet2Az1
-      PrivateIpAddress: 10.1.20.245
+      PrivateIpAddresses:
+        - PrivateIpAddress: 10.1.20.245
+          Primary: 'true'
+        - PrivateIpAddress: 10.1.20.249
+          Primary: 'false'
     Type: 'AWS::EC2::NetworkInterface'
   Bigip1ManagementEipAddress:
     DependsOn: AttachGateway
@@ -1584,6 +1588,10 @@ Resources:
     Properties:
       GroupDescription: Public or external interface rules
       SecurityGroupIngress:
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '22'
+          IpProtocol: tcp
+          ToPort: '22'
         - CidrIp: !Ref restrictedSrcAddressApp
           FromPort: '80'
           IpProtocol: tcp
