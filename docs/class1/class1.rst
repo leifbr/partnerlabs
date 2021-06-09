@@ -18,3 +18,10 @@ All labs use the same backend servers and IP addressing scheme.  Any exceptions 
    :glob:
 
    modules/module*
+
+   Lab Network Diagram
+   -------------------
+
+   .. image:: /_static/_intro/vLabNG_Diagram_v1.png
+   :width: 7.23272in
+   :height: 7.38005in

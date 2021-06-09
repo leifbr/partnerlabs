@@ -12,7 +12,15 @@ A big difference is the IP addressing is standardized (as much as possible) arou
 
 I will probably not explain everything you need to know, especially if you haven't used AWS much, but I will give you the basics of using the template.
 
+Prerequisites
+-------------
+#. Subscribe to Ubuntu 18.04 LTS – Bionic for backend server at https://aws.amazon.com/marketplace/pp/prodview-pkjqrkcfgcaog
+#. Subscribe to F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/server/procurement?productId=3e567b08-20a9-444f-a72a-7e8da3c2cbdf 
 #. Clone the git respository to your device or just download the **f5_aws_bigip_labs-vX.x.yml** CFT template which can be found here: https://github.com/leifbr/partnerlabs/blob/master/awslab/f5-aws-bigip-labs-v1.0.yml 
+
+Creating the stack
+------------------
+
 #. Log in to your AWS account and your management console.
 #. Search for CloudFormation (if you don’t already have it as a favorite) and click on CloudFormation
 #. Select **Create Stack**
@@ -44,6 +52,10 @@ I will probably not explain everything you need to know, especially if you haven
 
 #. Hit **NEXT** 
 #. If will take a few minutes for the environment to spin up and a little longer for all the containers on the backend server to come up.
+
+Establishing access to the BIG-IP
+---------------------------------
+
 #. Once the stack is complete you can set up access to the BIG-IP.
 
    #. Select your stack and select **Output**.
@@ -55,11 +67,13 @@ I will probably not explain everything you need to know, especially if you haven
     
     mod auth user admin password <your password> shell bash
 
-
 This will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
 
   #. Go to the **Bigip1Url** in **Outputs** (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
   #. Verify the containers are up and running by accessing this lab guide container on the back end server.  Going to the **WebserverPublicUrl**.   
-  #. From **Outputs** make note of the **WebserverPublicIp** as this  Elastic IP connects to 10.1.10.100 on the BIG-IP allowing extenal access to the virtual server.
+  #. From **Outputs** make note of the following:
+   #. **Bigip1VipEip100** you will use this address to access the virtual server with the private IP (Bigip1VipPrivateIp100) of **10.1.10.100**
+   #. **Bigip1VipEip105** you will use this address to access the virtual server with the private IP (Bigip1VipPrivateIp105) of **10.1.10.105**
+   #. Of course you can always refer back to **Outputs** for this information.
 
   **Congratulations!**  You are now ready to begin the labs.
