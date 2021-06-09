@@ -5,33 +5,9 @@ BIG-IP® Local Traffic Manager (LTM) - V15 Lab Guide
 This lab guide is designed for you to get an understanding of the BIG-IP
 Local Traffic Manager (LTM) product.
 
-Lab Overview
-------------
-
--  F5 BIG-IP LTM VE, licensed using F5-BIG-VE-LAB-V18-LIC
-
--  Your BIG-IP is as close to factory default as possible, only the
-   following changes have been made:
-
-   -  The management IP has already been configured
-
-   -  The initial setup has been completed. (Licensing and Platform
-      information)
-
-   -  The Idle Timeout was modified from 1200 seconds to 7200 seconds
-
-   -  The Welcome messages for the GUI and SSH were changed.
-
-   -  An archive file base-setup-and-licensing.ucs was created allowing
-      you to revert to the base settings above.
-
-Various directory and application services are available within the lab
-environment.
-
+..IMPORTANT::
 DO NOT COPY INFORMATION FROM THE SCREENSHOTS. THEY ARE FOR REFERENCE
 ONLY.
-
-.. _section-2:
 
 Scenario
 --------
@@ -43,10 +19,10 @@ does not wish to use the LTM as the default gateway. Our solution will
 be to use SNATs to force traffic to passing through the BIG-IP to return
 through the LTM.
 
-Lab Network Diagram (based on Lamp4.0)
-======================================
+Lab Network Diagram
+===================
 
-.. image:: /_static/101/image3.jpg
+.. image:: /_static/101/vLabNG_Diagram_v1.png
    :width: 7.23272in
    :height: 7.38005in
 

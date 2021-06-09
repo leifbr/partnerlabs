@@ -73,7 +73,7 @@ This will set the password for connecting to the TMUI (GUI) interface of the BIG
   #. Verify the containers are up and running by accessing this lab guide container on the back end server.  Going to the **WebserverPublicUrl**.   
   #. From **Outputs** make note of the following:
    #. **Bigip1VipEip100** you will use this address to access the virtual server with the private IP (Bigip1VipPrivateIp100) of **10.1.10.100**
-   #. **Bigip1VipEip105** you will use this address to access the virtual server with the private IP (Bigip1VipPrivateIp100) of **10.1.10.105**
+   #. **Bigip1VipEip105** you will use this address to access the virtual server with the private IP (Bigip1VipPrivateIp105) of **10.1.10.105**
    #. Of course you can always refer back to **Outputs** for this information.
 
   **Congratulations!**  You are now ready to begin the labs.
