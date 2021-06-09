@@ -4,7 +4,8 @@ F5 Channel SE - AWS Lab Environment
 This environment is available for use by engineers wishing to build a lab environment in AWS using the provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site or in the partnerlabs container available on http://docker.com.
 
 .. IMPORTANT::
-    Deploying this cloud formation template will incur cost. According to the AWS estimate it should be less than 0.50 USD per hour to run the lab using the defaults.  But you run this lab at your own risk.  I highly recommended budget reminders.
+    Deploying this cloud formation template will incur cost. According to the AWS estimate it should be less than 0.30 USD per hour to run the lab using free trial BIG-IP or a BYOL BIG-IP.  Regardless you run this lab at your own risk. Neither myself or F5 is responsible for any cost you incure. 
+    **I highly recommended budget reminders.**
 
 Some things to know when using the the **f5-aws-bigip-labs-vX.x** CFT template.  It is based off the 3nic PAYG learning stack found here: https://github.com/F5Networks/f5-aws-cloudformation/tree/master/experimental/standalone/3nic/learning-stack/payg
 
@@ -15,12 +16,23 @@ I will probably not explain everything you need to know, especially if you haven
 Prerequisites
 -------------
 #. Subscribe to Ubuntu 18.04 LTS – Bionic for backend server at https://aws.amazon.com/marketplace/pp/prodview-pkjqrkcfgcaog
-#. Subscribe to F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/server/procurement?productId=3e567b08-20a9-444f-a72a-7e8da3c2cbdf 
-#. Clone the git respository to your device or just download the **f5_aws_bigip_labs-vX.x.yml** CFT template which can be found here: https://github.com/leifbr/partnerlabs/blob/master/awslab/f5-aws-bigip-labs-v1.0.yml 
+#. Subscribe to the F5 BIG-IP Virtual Edition you will be using:
+
+.. IMPORTANT::
+   The is a **FREE TRIAL** once you subscribe for a BIG-IP from the AWS website:
+   *Try one unit of this product for 30 days. There will be no software charges for that unit, but AWS infrastructure charges still apply. Free Trials will automatically convert to a paid subscription upon expiration and you will be charged for additional usage above the free units provided.*  Once the free trial is up there is a hourly license charge for the BIG-IP instance you use, with the exception of the BYOL. 
+
+   #. F5 BIG-IP Virtual Edition - GOOD (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-lphsy6izllsmq?ref_=beagle&applicationId=AWS-Marketplace-Console (0.43/hr)
+   #. F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (1.77/hr)
+   #. F5 Per-App-VE Advanced WAF with LTM, IPI, TC (PAYG, 25Mbps) https://aws.amazon.com/marketplace/pp/prodview-7ykhgfdcrjazq?ref_=beagle&applicationId=AWS-Marketplace-Console (0.47/hr)
+   #. F5 BIG-IP VE - ALL (BYOL, 2 Boot Locations) - https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (0.40/hr estimate for EC2 charges not license)
+   
+
 
 Creating the stack
 ------------------
 
+#. Clone the git respository to your device or just download the **f5_aws_bigip_labs-vX.x.yml** CFT template which can be found here: https://github.com/leifbr/partnerlabs/blob/master/awslab/
 #. Log in to your AWS account and your management console.
 #. Search for CloudFormation (if you don’t already have it as a favorite) and click on CloudFormation
 #. Select **Create Stack**

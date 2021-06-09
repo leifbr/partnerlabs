@@ -23,28 +23,10 @@ Description: >-
 Mappings:
   BigipRegionMap:
     us-east-1:
-      AdvancedWaf200Mbps: ami-0b73b2aca703043ab
-      AdvancedWaf25Mbps: ami-0321a9bbade252257
-      Best10000Mbps: ami-0e3fe87d7e43b5b50
-      Best1000Mbps: ami-07a11c8e532396d25
-      Best200Mbps: ami-095f529ef2c34f7f6
       Best25Mbps: ami-0c0a28362686c2f82
-      Best5000Mbps: ami-039ec20391b71b582
-      Better10000Mbps: ami-094ab76b8654c6756
-      Better1000Mbps: ami-095d614081bb453b1
-      Better200Mbps: ami-0af79b237d99fde16
-      Better25Mbps: ami-0311beb242b37d723
-      Better5000Mbps: ami-09ad9a8b379ba576e
-      Good10000Mbps: ami-07dd51565ee745187
-      Good1000Mbps: ami-0597f3de2aef586ac
-      Good16vCPU: ami-0243706fdff494428
-      Good200Mbps: ami-08a40f0f6bbeeaf63
       Good25Mbps: ami-08ab79e97e15a8b41
-      Good5000Mbps: ami-00066ec32395465b0
-      PerAppVeAwaf200Mbps: ami-0605917f93f6eda95
       PerAppVeAwaf25Mbps: ami-0b974dae3e7a42601
-      PerAppVeLtm200Mbps: ami-0874330d49253bba6
-      PerAppVeLtm25Mbps: ami-0fc6e6e20f730e681
+      BYOL: ami-0ee78e91f97dcb9a6 
   WebserverRegionMap:
     us-east-1:
       AMI: ami-062c6373d7ae34101
@@ -377,27 +359,9 @@ Parameters:
   imageName:
     AllowedValues:
       - Good25Mbps
-      - Good200Mbps
-      - Good1000Mbps
-      - Good5000Mbps
-      - Good10000Mbps
-      - Good16vCPU
-      - Better25Mbps
-      - Better200Mbps
-      - Better1000Mbps
-      - Better5000Mbps
-      - Better10000Mbps
       - Best25Mbps
-      - Best200Mbps
-      - Best1000Mbps
-      - Best5000Mbps
-      - Best10000Mbps
-      - AdvancedWaf25Mbps
-      - AdvancedWaf200Mbps
       - PerAppVeAwaf25Mbps
-      - PerAppVeAwaf200Mbps
-      - PerAppVeLtm25Mbps
-      - PerAppVeLtm200Mbps
+      - BYOL
     ConstraintDescription: Must be a valid F5 BIG-IP VE image type
     Default: Best25Mbps
     Description: F5 BIG-IP Performance Type
@@ -405,29 +369,11 @@ Parameters:
   imageVersion:
     AllowedValues:
       - Good25Mbps
-      - Good200Mbps
-      - Good1000Mbps
-      - Good5000Mbps
-      - Good10000Mbps
-      - Good16vCPU
-      - Better25Mbps
-      - Better200Mbps
-      - Better1000Mbps
-      - Better5000Mbps
-      - Better10000Mbps
       - Best25Mbps
-      - Best200Mbps
-      - Best1000Mbps
-      - Best5000Mbps
-      - Best10000Mbps
-      - AdvancedWaf25Mbps
-      - AdvancedWaf200Mbps
       - PerAppVeAwaf25Mbps
-      - PerAppVeAwaf200Mbps
-      - PerAppVeLtm25Mbps
-      - PerAppVeLtm200Mbps
+      - BYOL
     ConstraintDescription: Must be a valid F5 BIG-IP VE image type
-    Default: Best25Mbps
+    Default: Good25Mbps
     Description: F5 BIG-IP Performance Type
     Type: String
   instanceType:

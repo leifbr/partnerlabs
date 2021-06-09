@@ -13,15 +13,16 @@ These are:
 
 All labs use the same backend servers and IP addressing scheme.  Any exceptions will be noted in the environment set up guide or the various lab guides.
 
+Lab Network Diagram
+-------------------
+
+.. image:: /_static/_intro/vLabNG_Diagram_v1.png
+   :width: 3.62in
+   :height: 3.70in
+
 .. toctree::
    :maxdepth: 1
    :glob:
 
    modules/module*
 
-   Lab Network Diagram
-   -------------------
-
-   .. image:: /_static/_intro/vLabNG_Diagram_v1.png
-   :width: 7.23272in
-   :height: 7.38005in
