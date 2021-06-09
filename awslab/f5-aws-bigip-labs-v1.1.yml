@@ -26,7 +26,7 @@ Mappings:
       Best25Mbps: ami-0c0a28362686c2f82
       Good25Mbps: ami-08ab79e97e15a8b41
       PerAppVeAwaf25Mbps: ami-0b974dae3e7a42601
-      BYOL: ami-0ee78e91f97dcb9a6 
+      BYOL: ami-0ee78e91f97dcb9a6
   WebserverRegionMap:
     us-east-1:
       AMI: ami-062c6373d7ae34101
