@@ -28,7 +28,6 @@ Prerequisites
    #. F5 BIG-IP VE - ALL (BYOL, 2 Boot Locations) - https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (0.40/hr estimate for EC2 charges not license)
    
 
-
 Creating the stack
 ------------------
 
@@ -89,3 +88,15 @@ This will set the password for connecting to the TMUI (GUI) interface of the BIG
    #. Of course you can always refer back to **Outputs** for this information.
 
   **Congratulations!**  You are now ready to begin the labs.
+
+Deleting the Lab Environment
+============================
+
+You can stop and restart the EC2 BIG-IP and Webserver EC2 instances to reduce AWS charges.  Alternately you can save you work via an UCS archive of the BIG-IP.
+
+When you are finished with the lab you can simply delete the template from the CloudFormation page and the will remove all AWS objects built by the template.
+
+.. IMPORTANT::
+   When using BYOL or an evaluation key remember to **REVOKE** your license prior to deleting the stack.  The license can then be re-used to license the next stack you build.
+
+An evaluation license key can be used throughout the 30 or 45 evaluation period by **revoking** the license prior to deleting the BIG-IP.
