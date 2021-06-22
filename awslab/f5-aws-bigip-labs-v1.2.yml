@@ -118,12 +118,12 @@ Mappings:
       Best25Mbps: ami-06f3dee4526313f4d
       Good25Mbps: ami-08732960cdb417d41
       PerAppVeAwaf25Mbps: ami-0215056a785175c03
-      BYOL: ami-0ee78e91f97dcb9a6
+      BYOL: ami-0e29443c0d2baed53
     us-gov-west-1:
       Best25Mbps: ami-02d2f5a1b6dc87290
       Good25Mbps: ami-0780b0367d58330b2
       PerAppVeAwaf25Mbps: ami-0d4b1d8f206342a75
-      BYOL: 
+      BYOL: ami-0eb3a46cc8ab47c95
     us-west-1:
       Best25Mbps: ami-0b44273acf268a39b
       Good25Mbps: ami-06c31f9d1db9987ab
@@ -163,6 +163,10 @@ Mappings:
       AMI: ami-0df67e53683379235
     sa-east-1:
       AMI: ami-02e7ee0747b6c93dc
+    us-gov-east-1:
+      AMI: ami-0e29443c0d2baed53
+    us-gov-west-1:
+      AMI: ami-0eb3a46cc8ab47c95
     us-east-1:
       AMI: ami-021f21db624970cc7
     us-east-2:
