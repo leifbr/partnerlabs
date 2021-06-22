@@ -21,16 +21,156 @@ Description: >-
   webserver (Bitnami LAMP stack with username bitnami **WARNING** This template
   creates Amazon EC2 Instances. You will be billed for the AWS resources used if
   you create a stack from this template.
+# Mappings:
+  # BigipRegionMap:
+    # us-east-1:
+      # Best25Mbps: ami-0c0a28362686c2f82
+      # Good25Mbps: ami-08ab79e97e15a8b41
+      # PerAppVeAwaf25Mbps: ami-0b974dae3e7a42601
+      # BYOL: ami-0ee78e91f97dcb9a6
+  # WebserverRegionMap:
+    # us-east-1:
+      # AMI: ami-062c6373d7ae34101
 Mappings:
   BigipRegionMap:
+    ap-east-1:
+      Best25Mbps: ami-027b4ab863c2da7f8
+      Good25Mbps: ami-09a1085441da2337d
+      PerAppVeAwaf25Mbps: ami-008aa07f46dee009c
+      PerAppVeLtm200Mbps: ami-0fd12f7488a0723ee
+      BYOL: ami-06e2d384ab36eb36c
+    ap-northeast-1:
+      Best25Mbps: ami-0ce200d5adce5bc61
+      Good25Mbps: ami-0efbbbabdf301064d
+      PerAppVeAwaf25Mbps: ami-0ea38c70981337688
+      BYOL: ami-01059c3f3325d9619
+    ap-northeast-2:
+      Best25Mbps: ami-0b39a40920dcd1543
+      Good25Mbps: ami-0e9fc329f7d109e3b
+      PerAppVeAwaf25Mbps: ami-026c73d8ff3402cbb
+      BYOL: ami-097d818e4963e017a
+    ap-south-1:
+      Best25Mbps: ami-0776d0783057e08b9
+      Good25Mbps: ami-0800adf463e9b14ec
+      PerAppVeAwaf25Mbps: ami-0eb3c581d4fd17d96
+      BYOL: ami-07fd3f2ef5f902f86
+    ap-southeast-1:
+      Best25Mbps: ami-0401897cb0a99f30e
+      Good25Mbps: ami-0cb2c3e6c276234b2
+      PerAppVeAwaf25Mbps: ami-0e934093ef30ff3ae
+      BYOL: ami-071c2bc10872531f5
+    ap-southeast-2:
+      Best25Mbps: ami-0d5dcf7f826f622e7
+      Good25Mbps: ami-0a580f5c65fcb5e49
+      PerAppVeAwaf25Mbps: ami-092635782475be56b
+      BYOL: ami-04d1e8e98d3f5424e
+    ca-central-1:
+      Best25Mbps: ami-0877c38a20d99d071
+      Good25Mbps: ami-0a0ed6f787c8c8dff
+      PerAppVeAwaf25Mbps: ami-06740abdb748cae66
+      BYOL: ami-07a23cf5bd0e7a6cb
+    eu-central-1:
+      Best25Mbps: ami-098453531ef0c1bf4
+      Good25Mbps: ami-0fc032b443ad3a71e
+      PerAppVeAwaf25Mbps: ami-053e169cd8ab57179
+      BYOL: ami-06595fe1a66756714
+    eu-north-1:
+      Best25Mbps: ami-01404d56e699a511d
+      Good25Mbps: ami-0d30abaf975feddb3
+      PerAppVeAwaf25Mbps: ami-016ae7d43fc115799
+      BYOL: ami-040d17864c9c3aad4
+    eu-west-1:
+      Best25Mbps: ami-09a3ca9fc1e414aff
+      Good25Mbps: ami-05751c51782c56aae
+      PerAppVeAwaf25Mbps: ami-0d663b4c5212fa3a5
+      BYOL: ami-03c8e8b5f014b5e90
+    eu-west-2:
+      Best25Mbps: ami-0123d57ef778fde74
+      Good25Mbps: ami-0d442de7a4ba7ff3e
+      PerAppVeAwaf25Mbps: ami-0c502e0885a86e22a
+      BYOL: ami-0eac8ccf75d7ff1ca
+    eu-west-3:
+      Best25Mbps: ami-0b7c81ae1547c8fd6
+      Good25Mbps: ami-013e0788a02e6e651
+      PerAppVeAwaf25Mbps: ami-0692f5e492e7250cd
+      BYOL: ami-038614f050432d6d9
+    me-south-1:
+      Best25Mbps: ami-0daa4796b6dde072a
+      Good25Mbps: ami-0eaf8a086eb79380b
+      PerAppVeAwaf25Mbps: ami-05cd33be861b6c07b
+      BYOL: ami-0a60fd9f3faf7c29d
+    sa-east-1:
+      Best25Mbps: ami-099171da951358ee3
+      Good25Mbps: ami-034677cc80c5d068f
+      PerAppVeAwaf25Mbps: ami-0bb9274cf7ccdffef
+      BYOL: ami-01925a4e0390f0e0c
     us-east-1:
       Best25Mbps: ami-0c0a28362686c2f82
       Good25Mbps: ami-08ab79e97e15a8b41
       PerAppVeAwaf25Mbps: ami-0b974dae3e7a42601
       BYOL: ami-0ee78e91f97dcb9a6
+    us-east-2:
+      Best25Mbps: ami-0b6e94aa6111effc6
+      Good25Mbps: ami-0baaca47317ac95b6
+      PerAppVeAwaf25Mbps: ami-0d786ca692564c819
+      BYOL: ami-0648f74287ffaf373
+    us-gov-east-1:
+      Best25Mbps: ami-06f3dee4526313f4d
+      Good25Mbps: ami-08732960cdb417d41
+      PerAppVeAwaf25Mbps: ami-0215056a785175c03
+      BYOL: ami-0ee78e91f97dcb9a6
+    us-gov-west-1:
+      Best25Mbps: ami-02d2f5a1b6dc87290
+      Good25Mbps: ami-0780b0367d58330b2
+      PerAppVeAwaf25Mbps: ami-0d4b1d8f206342a75
+      BYOL: 
+    us-west-1:
+      Best25Mbps: ami-0b44273acf268a39b
+      Good25Mbps: ami-06c31f9d1db9987ab
+      PerAppVeAwaf25Mbps: ami-0710cd212a6513ccd
+      BYOL: ami-01d7302c269a9f9f2
+    us-west-2:
+      Best25Mbps: ami-0e5e6c0095256ac49
+      Good25Mbps: ami-0a0b59d02e622f065
+      PerAppVeAwaf25Mbps: ami-04e085d39662477f7
+      BYOL: ami-0f0f99f3ad7f0a55e
   WebserverRegionMap:
+    ap-east-1:
+      AMI: ami-03f495ecce4208867
+    ap-northeast-1:
+      AMI: ami-0f4c7c0b57bb44791
+    ap-northeast-2:
+      AMI: ami-091b01cd1626c1898
+    ap-south-1:
+      AMI: ami-08831dd3549a454bf
+    ap-southeast-1:
+      AMI: ami-049c7e6a8fbacc0a6
+    ap-southeast-2:
+      AMI: ami-018d40e755400deb2
+    ca-central-1:
+      AMI: ami-0534a8203e795f522
+    eu-central-1:
+      AMI: ami-02005be39814f8ff6
+    eu-north-1:
+      AMI: ami-0b2f42a292be6ac0c
+    eu-west-1:
+      AMI: ami-04a5854614a5ef0b2
+    eu-west-2:
+      AMI: ami-047061fd75afc6f50
+    eu-west-3:
+      AMI: ami-0d4b40e9dde1d7bbe
+    me-south-1:
+      AMI: ami-0df67e53683379235
+    sa-east-1:
+      AMI: ami-02e7ee0747b6c93dc
     us-east-1:
-      AMI: ami-062c6373d7ae34101
+      AMI: ami-021f21db624970cc7
+    us-east-2:
+      AMI: ami-069eca27fa16433a0
+    us-west-1:
+      AMI: ami-04bedabfec81a844a
+    us-west-2:
+      AMI: ami-020b9db557781b212
 Metadata:
   'AWS::CloudFormation::Interface':
     ParameterGroups:
@@ -150,67 +290,72 @@ Metadata:
         default: Timezone (Olson)
   Version: 5.11.0
 Outputs:
+  availabilityZone1:
+    Description: Availability Zone
+    Value: !GetAtt 
+      - Bigip1Instance
+      - AvailabilityZone
   # Az1ApplicationSubnet:
     # Description: Az1Application Subnet Id
     # Value: !Ref Az1ApplicationSubnet
-  Bigip1ExternalInterfacePrivateIp:
-    Description: Internally routable IP of the public interface on BIG-IP
-    Value: !GetAtt 
-      - Bigip1subnet1Az1Interface
-      - PrimaryPrivateIpAddress
   # Bigip1InstanceId:
     # Description: Instance Id of BIG-IP in Amazon
     # Value: !Ref Bigip1Instance
-  Bigip1InternalInterface:
-    Description: Internal interface ID on BIG-IP
-    Value: !Ref Bigip1InternalInterface
-  Bigip1InternalInterfacePrivateIp:
-    Description: Internally routable IP of internal interface on BIG-IP
-    Value: !GetAtt 
-      - Bigip1InternalInterface
-      - PrimaryPrivateIpAddress
-  Bigip1ManagementEipAddress:
-    Description: IP address of the management port on BIG-IP
-    Value: !Ref Bigip1ManagementEipAddress
-  Bigip1ManagementInterface:
-    Description: Management interface ID on BIG-IP
-    Value: !Ref Bigip1ManagementInterface
   Bigip1ManagementInterfacePrivateIp:
     Description: Internally routable IP of the management interface on BIG-IP
     Value: !GetAtt 
       - Bigip1ManagementInterface
       - PrimaryPrivateIpAddress
+  Bigip1ManagementEipAddress:
+    Description: The public IP address of the management port on BIG-IP
+    Value: !Ref Bigip1ManagementEipAddress
+  # Bigip1ManagementInterface:
+    # Description: Management interface ID on BIG-IP
+    # Value: !Ref Bigip1ManagementInterface
   Bigip1MgmtUrl:
-    Description: BIG-IP Management GUI
+    Description: Link to the BIG-IP Management GUI
     Value: !Join 
       - ''
       - - 'https://'
         - !GetAtt 
           - Bigip1Instance
           - PublicIp
+  # Bigip1InternalInterface:
+    # Description: Internal interface ID on BIG-IP
+    # Value: !Ref Bigip1InternalInterface
+  Bigip1InternalInterfacePrivateIp:
+    Description: Internally routable Self IP of the internal interface on BIG-IP
+    Value: !GetAtt 
+      - Bigip1InternalInterface
+      - PrimaryPrivateIpAddress
+  Bigip1ExternalInterfacePrivateIp:
+    Description: Internally routable Self IP of the public/external facing interface on BIG-IP
+    Value: !GetAtt 
+      - Bigip1subnet1Az1Interface
+      - PrimaryPrivateIpAddress
   Bigip1VipEipTo100:
-    Description: EIP address for VIP 10.1.10.100
+    Description: Public EIP address tied to 10.1.10.100 for virtual servers
     Value: !Join 
       - ''
       - - 'http://'
         - !Ref Bigip1VipEipTo100
         - ':80'
   Bigip1VipPrivateIp100:
-    Description: VIP on External Interface Secondary IP 1
+    Description: Private virtual server address on the external interface (Secondary IP 1)
     Value: !Select 
       - '0'
       - !GetAtt 
         - Bigip1subnet1Az1Interface
         - SecondaryPrivateIpAddresses
   Bigip1VipEipTo105:
-    Description: EIP address for VIP 10.1.10.105
+    Description: Public EIP address tied to 10.1.10.105 for virtual servers
     Value: !Join 
       - ''
       - - 'http://'
         - !Ref Bigip1VipEipTo105
         - ':80'
   Bigip1VipPrivateIp105:
-    Description: VIP on External Interface Secondary IP 1
+    Description:  Private virtual server address on the external interface (Secondary IP 2)
     Value: !Select 
       - '1'
       - !GetAtt 
@@ -264,11 +409,6 @@ Outputs:
     Value: !GetAtt 
       - Webserver
       - PrivateIp
-  availabilityZone1:
-    Description: Availability Zone
-    Value: !GetAtt 
-      - Bigip1Instance
-      - AvailabilityZone
 Parameters:
   allowPhoneHome:
     AllowedValues:
