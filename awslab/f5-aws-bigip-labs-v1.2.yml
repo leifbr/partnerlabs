@@ -3,7 +3,7 @@
 # copied from leifv8net-3nic-bigip
 # v1 - added .105 as VIP, change 60-netcfg
 # v1.1 - add second EIP VIP (105), added juice-shop to the backend
-# v1.2 - clean up output
+# v1.2 - clean up output, added regions and AMIs
 AWSTemplateFormatVersion: 2010-09-09
 Conditions:
   noCustomImageId: !Equals 
