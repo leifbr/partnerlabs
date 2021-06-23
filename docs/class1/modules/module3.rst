@@ -4,7 +4,7 @@ F5 Channel SE - AWS Lab Environment
 This environment is available for use by engineers wishing to build a lab environment in AWS using the provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site or in the partnerlabs container available on http://docker.com.
 
 .. IMPORTANT::
-    Deploying this cloud formation template will incur cost. According to the AWS estimate it should be less than 0.30 USD per hour to run the lab using free trial BIG-IP or a BYOL BIG-IP.  Regardless you run this lab at your own risk. Neither myself or F5 is responsible for any cost you incure. 
+    **Deploying this cloud formation template WILL INCUR COST.** According to the AWS estimate it should be less than 0.30 USD per hour to run the lab using free trial BIG-IP or a BYOL BIG-IP.  Regardless you run this lab at your own risk. Neither myself or F5 is responsible for any cost you incure. 
     **I highly recommended budget reminders.**
 
 Some things to know when using the the **f5-aws-bigip-labs-vX.x** CFT template.  It is based off the 3nic PAYG learning stack found here: https://github.com/F5Networks/f5-aws-cloudformation/tree/master/experimental/standalone/3nic/learning-stack/payg
@@ -22,10 +22,10 @@ Prerequisites
    The is a **FREE TRIAL** once you subscribe for a BIG-IP from the AWS website:
    *Try one unit of this product for 30 days. There will be no software charges for that unit, but AWS infrastructure charges still apply. Free Trials will automatically convert to a paid subscription upon expiration and you will be charged for additional usage above the free units provided.*  Once the free trial is up there is a hourly license charge for the BIG-IP instance you use, with the exception of the BYOL. 
 
-   #. F5 BIG-IP Virtual Edition - GOOD (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-lphsy6izllsmq?ref_=beagle&applicationId=AWS-Marketplace-Console (0.43/hr)
-   #. F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (1.77/hr)
-   #. F5 Per-App-VE Advanced WAF with LTM, IPI, TC (PAYG, 25Mbps) https://aws.amazon.com/marketplace/pp/prodview-7ykhgfdcrjazq?ref_=beagle&applicationId=AWS-Marketplace-Console (0.47/hr)
-   #. F5 BIG-IP VE - ALL (BYOL, 2 Boot Locations) - https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (0.40/hr estimate for EC2 charges not license)
+   #. F5 BIG-IP Virtual Edition - GOOD (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-lphsy6izllsmq?ref_=beagle&applicationId=AWS-Marketplace-Console (0.43/hr estimated EC2 and Licensing)
+   #. F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (1.77/hr estimated EC2 and Licensing)
+   #. F5 Per-App-VE Advanced WAF with LTM, IPI, TC (PAYG, 25Mbps) https://aws.amazon.com/marketplace/pp/prodview-7ykhgfdcrjazq?ref_=beagle&applicationId=AWS-Marketplace-Console (0.47/hr estimated EC2 and Licensing)
+   #. F5 BIG-IP VE - ALL (BYOL, 2 Boot Locations) - https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (0.40/hr estimate for EC2 charges, no licensing charges, can be used with evaluation keys)
    
 
 Creating the stack
@@ -71,7 +71,7 @@ Establishing access to the BIG-IP
 
    #. Select your stack and select **Output**.
    #. Find the **Bigip1ManagementEipAddress**. This is the Elastic IP (EIP) you will this to connect to the BIG-IP
-   #. Using PuTTY or SSH and your keypair, SSH to the BIG-IP using your keypair.
+   #. Using PuTTY or SSH and your keypair, SSH to the BIG-IP.
    #. At the TMSH prompt enter:
 
  .. admonition:: TMSH
@@ -80,23 +80,32 @@ Establishing access to the BIG-IP
 
 This will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
 
-  #. Go to the **Bigip1Url** in **Outputs** (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
+  #. Go to the **Bigip1MgmtUrl** in **Outputs** (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
+
+  ..NOTE::
+    If you are using an evaluation key or BYOL key you will have to license the BIG-IP.
+
   #. Verify the containers are up and running by accessing this lab guide container on the back end server.  Going to the **WebserverPublicUrl**.   
   #. From **Outputs** make note of the following:
-   #. **Bigip1VipEip100** you will use this address to access the virtual server with the private IP (Bigip1VipPrivateIp100) of **10.1.10.100**
-   #. **Bigip1VipEip105** you will use this address to access the virtual server with the private IP (Bigip1VipPrivateIp105) of **10.1.10.105**
+   #. **Bigip1VipEip100** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp100) of **10.1.10.100**
+   #. **Bigip1VipEip105** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp105) of **10.1.10.105**
    #. Of course you can always refer back to **Outputs** for this information.
 
   **Congratulations!**  You are now ready to begin the labs.
 
-Deleting the Lab Environment
-============================
+Deleting the Lab Environment (AWS Stack)
+----------------------------------------
 
-You can stop and restart the EC2 BIG-IP and Webserver EC2 instances to reduce AWS charges.  Alternately you can save you work via an UCS archive of the BIG-IP.
+You can stop and restart the EC2 BIG-IP and Webserver EC2 instances to reduce AWS charges, to retain you environment as is, but it is probably more economical to just delete the stack and recreate is later.
 
-When you are finished with the lab you can simply delete the template from the CloudFormation page and the will remove all AWS objects built by the template.
+
+When you delete the stack on the CloudFormation page and all AWS objects built by the template will be removed.
+
+If you do decide to delete the stack consider the following:
+
+#. If you are not done you can save you work via an UCS archive of the BIG-IP, download it to your PC, recreate the stack later and upload and restore the UCS archive.
+#. If you are using evaluation key or BYOL key you **Revoke** the license and re-use the key can be used again.  For evaluation keys that will be 30 or 45 days after your first activated the keys. by **revoking** the license prior to deleting the BIG-IP.
 
 .. IMPORTANT::
-   When using BYOL or an evaluation key remember to **REVOKE** your license prior to deleting the stack.  The license can then be re-used to license the next stack you build.
+   When using a **BYOL** or an **evaluation key** remember to **REVOKE** your license prior to deleting the stack.  The license can then be re-used to license the next stack you build.
 
-An evaluation license key can be used throughout the 30 or 45 evaluation period by **revoking** the license prior to deleting the BIG-IP.
