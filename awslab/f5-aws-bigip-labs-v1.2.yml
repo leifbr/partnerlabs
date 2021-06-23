@@ -383,7 +383,7 @@ Outputs:
       - Webserver
       - PublicIp
   WebserverPublicUrl:
-    Description: Public URL for the Webserver
+    Description: Public URL for the Webserver runs the partner lab guides container
     Value: !Join 
       - ''
       - - 'http://'
@@ -1364,6 +1364,8 @@ Resources:
       GroupSet:
         - !Ref bigipManagementSecurityGroup
       SubnetId: !Ref managementSubnetAz1
+      PrivateIpAddress:
+        - PrivateIpAddress: 10.1.1.4
     Type: 'AWS::EC2::NetworkInterface'
   Bigip1VipEipTo100:
     DependsOn: AttachGateway
