@@ -19,12 +19,12 @@ All labs use the same backend servers and IP addressing scheme.  Any exceptions 
 
    modules/module*
 
-   Lab Network Diagram
-   -------------------
+Lab Network Diagram
+-------------------
    
-   This is a basic diagram for the IP addressing scheme and back end web services provided in all the labs.
+This is a basic diagram for the IP addressing scheme and back end web services provided in all the labs.
 
-   .. image:: /_static/_intro/vLabNG_Diagram_v1.png
-      :width: 3.62in
-      :height: 3.70in
+.. image:: /_static/_intro/vLabNG_Diagram_v1.png
+   :width: 3.62in
+   :height: 3.70in
    
