@@ -1611,7 +1611,7 @@ Resources:
       UserData: !Base64 
         'Fn::Join':
           - |+       
-   
+ 
           - - '#!/bin/bash'
             - 'echo Attach secondary IPs to interface eth0'
             - 'cd /home/ubuntu'
@@ -1632,7 +1632,6 @@ Resources:
             - 'sudo docker run -itd --restart unless-stopped --name f5demo4 -p 10.1.20.14:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name hack20 -p 10.1.20.20:80:80 mutzel/all-in-one-hackazon:postinstall ./start.sh > start.log'
             - 'sudo docker run -itd --restart unless-stopped --name juice30 -p 10.1.20.20:3000:3000 bkimminich/juice-shop'
-
     Type: 'AWS::EC2::Instance'
   WebserverSecurityGroup:
     Properties:
