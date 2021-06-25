@@ -3,7 +3,7 @@ F5 Channel SE - AWS Lab Environment
 **(UNDER CONSTRUCTION)**
 This environment is available for use by engineers wishing to build a lab environment in AWS using the provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site or in the partnerlabs container available on http://docker.com.
 
-.. IMPORTANT::
+.. important::
     **Deploying this cloud formation template WILL INCUR COST.** According to the AWS estimate it should be less than 0.30 USD per hour to run the lab using free trial BIG-IP or a BYOL BIG-IP.  Regardless you run this lab at your own risk. Neither myself or F5 is responsible for any cost you incure. 
     **I highly recommended budget reminders.**
 
@@ -18,7 +18,7 @@ Prerequisites
 #. Subscribe to Ubuntu 18.04 LTS – Bionic for backend server at https://aws.amazon.com/marketplace/pp/prodview-pkjqrkcfgcaog
 #. Subscribe to the F5 BIG-IP Virtual Edition you will be using:
 
-.. IMPORTANT::
+.. important::
    The is a **FREE TRIAL** once you subscribe for a BIG-IP from the AWS website:
    *Try one unit of this product for 30 days. There will be no software charges for that unit, but AWS infrastructure charges still apply. Free Trials will automatically convert to a paid subscription upon expiration and you will be charged for additional usage above the free units provided.*  Once the free trial is up there is a hourly license charge for the BIG-IP instance you use, with the exception of the BYOL. 
 
@@ -48,8 +48,8 @@ Creating the stack
       #. You can default until **SSH Key**.  Select your SSH key pair you want to use. 
       #. Source Address(es) for BIG-IP management and web application access. Enter your source IP or subnet to restrict lab access.  When in doubt you can just enter **0.0.0.0/0** and open it up wide .
 
-    .. IMPORTANT::
-       You must have a key pair to utilitize the lab.  If you do not have a key pair, stop, and set one up.
+      .. important::
+         You must have a key pair to utilitize the lab.  If you do not have a key pair, stop, and set one up.
  
    #. You can default until **BIG-IP BASE NETWORKING AND VIRTUAL SERVICE CONFIGURATION** here is where you will tell the BIG-IP how you want your lab set up.
 
@@ -58,7 +58,7 @@ Creating the stack
       #. Under **AS3 Declaration URL** you can enter a link to the json that will configure your layer 4-7 services (pools, virtual servers, etc). 
       #. **CONSULT YOUR LAB GUIDE TO DETERMINE THE NETWORKING AND L4-7 SERVICES REQUIRED FOR YOUR LAB**
 
-      .. IMPORTANT::
+      .. important::
          If you enter an AS3 URL make sure **configBigipNet** is set to **Yes** or you will end up with no configuration on the BIG-IP.
 
 #. Hit **NEXT** 
@@ -74,22 +74,22 @@ Establishing access to the BIG-IP
    #. Using PuTTY or SSH and your keypair, SSH to the BIG-IP.
    #. At the TMSH prompt enter:
 
- .. admonition:: TMSH
-    
-    mod auth user admin password <your password> shell bash
+   .. admonition:: TMSH
+     
+     mod auth user admin password <your password> shell bash
 
 This will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
 
-  #. Go to the **Bigip1MgmtUrl** in **Outputs** (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
+  #. Go to the **Bigip1MgmtUrl** in **Outputs** tab of the stack (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
 
-  ..NOTE::
-    If you are using an evaluation key or BYOL key you will have to license the BIG-IP.
+  .. note:: 
+     If you are using an evaluation key or BYOL key you will have to activate the license the BIG-IP.
 
-  #. Verify the containers are up and running by accessing this lab guide container on the back end server.  Going to the **WebserverPublicUrl**.   
+  #. Verify the containers are up and running by accessing this lab guide container on the back end server.  Going to the **WebserverPublicUrl** in .
   #. From **Outputs** make note of the following:
-   #. **Bigip1VipEip100** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp100) of **10.1.10.100**
-   #. **Bigip1VipEip105** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp105) of **10.1.10.105**
-   #. Of course you can always refer back to **Outputs** for this information.
+     #. **Bigip1VipEip100** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp100) of **10.1.10.100**
+     #. **Bigip1VipEip105** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp105) of **10.1.10.105**  
+  #. Of course you can always refer back to the stack **Outputs** for this information.
 
   **Congratulations!**  You are now ready to begin the labs.
 
@@ -106,6 +106,6 @@ If you do decide to delete the stack consider the following:
 #. If you are not done you can save you work via an UCS archive of the BIG-IP, download it to your PC, recreate the stack later and upload and restore the UCS archive.
 #. If you are using evaluation key or BYOL key you **Revoke** the license and re-use the key can be used again.  For evaluation keys that will be 30 or 45 days after your first activated the keys. by **revoking** the license prior to deleting the BIG-IP.
 
-.. IMPORTANT::
+.. important::
    When using a **BYOL** or an **evaluation key** remember to **REVOKE** your license prior to deleting the stack.  The license can then be re-used to license the next stack you build.
 
