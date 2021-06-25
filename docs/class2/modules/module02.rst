@@ -6,15 +6,14 @@ VLANs, and assign a self IP addresses to our VLAN. As mentioned during
 our lecture portion, BIG-IPs may be put in-line or one-armed depending
 on your customer’s requirements and topology.
 
-**UDF** - Under Components, select the Access drop-down and then TMUI
-**AWS** - Go to https://<Bigip1ManagementEipAddress>
+Log on to the BIG-IP TMUI (GUI) Interface:
+  - **UDF** - Under Components, select the Access drop-down and then TMUI
+  - **AWS** - Go to https://<Bigip1ManagementEipAddress>
 
 Creating VLANs
 --------------
 
-   You will need create two untagged VLANs, one client-side VLAN
-   (**client_vlan**) and one server-side VLAN (**server_vlan)** for the
-   devices in your network.
+You will need create two untagged VLANs, one client-side VLAN (**client_vlan**) and one server-side VLAN (**server_vlan)** for the devices in your network.
 
 1. From the sidebar select **Network** **> VLANs** then select
    **Create**
@@ -46,16 +45,15 @@ c. Under **Resources** in the **Interfaces** section:
    iii. Select the **Add** button. Leave all other items at the default
         setting.
 
-..
-
-   .. image:: /_static/101/image11.png
-      :width: 2.39187in
-      :height: 1.66681in
+.. image:: /_static/101/image11.png
+   :width: 2.39187in
+   :height: 1.66681in
 
 iv. When you have completed your VLAN configuration, hit the
     **Finished** button
 
-Create another untagged VLAN named **server_vlan** on interface **1.2.**
+.. important::
+   Now create another untagged VLAN named **server_vlan** on interface **1.2.**
 
 Assigning a Self IP addresses to your VLANs
 -------------------------------------------
@@ -70,35 +68,28 @@ a. Create a new self IP, for the **server_vlan** and **client_vlan**
    VLANs. In **Network >> Self IPs >> New Self IP**, under
    **Configuration** enter:
 
-..
++---------------+---------------+---------------+
+|    Option     |  Server-side  |  Client-side  |
++===============+===============+===============+
+| Name          | server_ip     | client_ip     |
++---------------+---------------+---------------+
+| IP Address    | 10.1.20.245   | 10.1.10.245   |
++---------------+---------------+---------------+
+| Netmask       | 255.255.255.0 | 255.255.255.0 |
++---------------+---------------+---------------+
+| VLAN          | server_vlan   | client_vlan   |
++---------------+---------------+---------------+
+| Port Lockdown | Allow None    | Allow None    |
++---------------+---------------+---------------+
 
-   **Server-Side Client-side**
+- The default ** Port Lockdown** setting of **Allow None** means the Self IP only responds to ICMP requests.
+- The **Allow Defaults** selection opens the following on the self IP of the VLAN.
+   - TCP: ssh, domain, snmp, https
+   - TCP: 4353, 6699 (for F5 protocols, such as HA and iQuery)
+   - UDP: 520, cap, domain, f5-iquery, snmp
+   - PROTOCOL: ospf
 
-i.   **Name**: server_ip client_ip
-
-ii.  **IP Address**: 10.1.20.245 10.1.10.245
-
-iii. **Netmask**: 255.255.255.0 255.255.255.0
-
-iv.  **VLAN**: server_vlan client_vlan
-
-v.   **Port** **Lockdown**: Allow None Allow None
-
-     1. The default “\ **Allow** **None**\ ” means the Self IP would
-        respond only to ICMP.
-
-     2. The “\ **Allow** **Defaults**\ ” selection opens the following
-        on the self IP of the VLAN
-
-        a. TCP: ssh, domain, snmp, https
-
-        b. TCP: 4353, 6699 (for F5 protocols, such as HA and iQuery)
-
-        c. UDP: 520, cap, domain, f5-iquery, snmp
-
-        d. PROTOCOL: ospf
-
-b. When you have completed your selfIP configuration, hit the |image1|
+b. When you have completed your selfIP configuration, hit the **Finished**
    button. You should have something similar to the following:
 
 .. image:: /_static/101/image14.png
@@ -130,7 +121,7 @@ b. Under **Properties**
    v.   **Gateway** **Address**: 10.1.10.1
 
    vi.  When you have completed defining your default gateway, hit the
-        |image2| button
+        **Finished** button
 
 1. Verify your network configuration
 
@@ -157,10 +148,7 @@ statistical interfaces.
 a. Under **Configuration**:
 
    i.   **Name**: www_pool
-
-        1. The name is for management purposes only, no spaces can be
-           used
-
+          - The name is for management purposes only, no spaces can be used
    ii.  **Description**: <optional>
 
    iii. **Health** **Monitor**: http
@@ -173,15 +161,15 @@ b. Under **Resources**
 
    iii. **New Members**:
 
-+-------------------------------+--------------------------------------+
-| **Address**                   | **Service Port**                     |
-+===============================+======================================+
-| 10.1.20.11                    | 80                                   |
-+-------------------------------+--------------------------------------+
-| 10.1.20.12                    | 80                                   |
-+-------------------------------+--------------------------------------+
-| 10.1.20.13                    | 80                                   |
-+-------------------------------+--------------------------------------+
++-------------+------------------+
+| **Address** | **Service Port** |
++=============+==================+
+| 10.1.20.11  | 80               |
++-------------+------------------+
+| 10.1.20.12  | 80               |
++-------------+------------------+
+| 10.1.20.13  | 80               |
++-------------+------------------+
 
 1. As you enter each IP address and port combination hit **Add** button
 
@@ -215,12 +203,11 @@ a. Under **General Properties**
 
    iv.  **Source/Address:** <leave blank>
 
-        1. **Note:** The default is 0.0.0.0/0, all source IP address are
-           allowed
+        .. note:: The default is 0.0.0.0/0, all source IP address are allowed
 
    v.   **Destination** **Address/Mask:** 10.1.10.100
 
-        1. NOTE: The default mask is /32
+        .. note:: The default mask is /32
 
    vi.  **Service Port**: 80 or HTTP
 
@@ -235,9 +222,7 @@ b. Under **Configurations**
 
    ii. **Source Address Translation**: Auto Map
 
-..
-
-   .. image:: /_static/101/image19.png
+  .. image:: /_static/101/image19.png
       :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML58387b2.PNG
       :width: 2.97587in
       :height: 0.99517in
@@ -258,13 +243,17 @@ c. Under **Resources**
 1. When you have complete your pool configuration, hit the **Finished**
    button
 
-2. You have now created a Virtual Server (Note: Items in blue are links)
+2. You have now created a Virtual Server
 
 .. image:: /_static/101/image20.png
    :width: 6.75892in
    :height: 1.44179in
 
+.. note:: Items in the GUI that are blue are links ie. shortcuts
+
 3. Now let’s see if our virtual server works!
+     - **UDF** - from the ubu-jumpbox go to http://10.1.10.100
+     - **AWS** - from your PC go to http://<Bigip1VipEipTo100> in your stack Output tab
 
    a. Open the browser to the Virtual Server you just created
 

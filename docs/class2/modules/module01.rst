@@ -7,15 +7,17 @@ Local Traffic Manager (LTM) product. These labs can aid you in obtaining F5 cert
 
 Below you will find lab access base on the lab environment (UDF or AWS) you will be using.
 
-.. IMPORTANT::
+.. important::
   **DO NOT CONFIGURE FROM THE FROM THE SCREENSHOTS AS THEY ARE NOT ALWAYS UPDATED AND MAY CONTAIN INACCURATE INFORMATION**
 
 Lab Network Diagram
 -------------------
 
 .. image:: /_static/101/vLabNG_Diagram_v1.png
-   :width: 7.23272in
    :height: 7.38005in
+   :width: 7.23272in
+   :alt: Lab Diagram
+
 
 **UDF Lab User Info**
 ---------------------
@@ -48,8 +50,7 @@ In the **Deployments** tab and select the **Access** drop down menu and
 under **ubu-Jumpbox** select **XRDP** and the screen size similiar to the image below. Log on with
 the credentials in the table above.
 
-..image:: 
-  /_static/101/image9.png
+.. image:: /_static/101/image9.png
 
 **AWS Lab User Info**
 ---------------------
