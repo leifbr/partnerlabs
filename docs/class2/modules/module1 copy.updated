@@ -1,13 +1,12 @@
 
-BIG-IP® Local Traffic Manager (LTM) - V15 Lab Guide
-===================================================
+BIG-IP® Local Traffic Manager (LTM) Lab Guide - Introduction
+==================================================
 
 This lab guide is designed for you to get an understanding of the BIG-IP
 Local Traffic Manager (LTM) product.
 
 ..IMPORTANT::
-DO NOT COPY INFORMATION FROM THE SCREENSHOTS. THEY ARE FOR REFERENCE
-ONLY.
+  DO NOT COPY INFORMATION FROM THE SCREENSHOTS. THEY ARE FOR REFERENCE ONLY.
 
 Scenario
 --------
@@ -26,112 +25,14 @@ Lab Network Diagram
    :width: 7.23272in
    :height: 7.38005in
 
-Accessing the Lab Environment
-=============================
-
-.. _accessing-the-lab-environment-1:
-
-Accessing the Lab Environment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To access F5’s Unified Demo Framework (UDF) environment you will have to
-have an active account.
-
-If you have UDF account and you have received a confirmation email
-from **noreply@registration.udf.f5.com** for the **201 Certification Lab
-- TMOS Administration**. You are ready to access the labs.
-
-If you did not receive the confirmation please check your junk folder or
-simply try your credentials (you can only see labs you have been invited
-to). If you still cannot gain access to the course notify the
-instructor.
-
-If you do NOT have an active account you should have received an email
-from **noreply@registration.udf.f5.com** with you username (email
-address) and a temporary password. If you did not receive an email
-please check your junk mail folder to see if the email was flagged as
-spam. Activate your account by setting your password and then proceed
-below.
-
-Accessing the UDF labs
-~~~~~~~~~~~~~~~~~~~~~~
-
-You will be access the labs using the F5 Unified Demo Framework
-(UDF). **Chrome** is the preferred browser for UDF access. Other
-browsers may work but are not supported.
-
-1. Open your browser and navigate to the F5
-   UDF `https://udf.f5.com <https://udf.f5.com/>`__
-
-   -  Select the **Non-F5 Users** option and log in using your UDF
-      credentials.
-
-..
-
-   .. image:: /_static/101/image4.png
-      :width: 1.89815in
-      :height: 1.55648in
-
-   **Important:**
-
-   You should retain these credentials, as they will be required to any
-   access future F5 UDF courses you
-
-   attend in the F5 UDF environment
-
-2. You should see the event(s) under **Happening now**. Find the **LTM
-   Short Course** event and click on the **Launch** link at the far
-   right.
-
-..
-
-   .. image:: /_static/101/image5.png
-      :width: 5.33579in
-      :height: 0.89764in
-
-3. Click the **Join** button. **Manage SSH Keys**\ * should not be
-   required.*
-
-4. At the top you will see **Documentation** and **Deployment**. In
-   the **Documentation** section you can elect to leave the session, see
-   how long the session will last and course documentation.
-
-..
-
-   .. image:: /_static/101/image6.png
-      :width: 6.63315in
-      :height: 1.24211in
-
-5. Click on the **Deployment** tab. The VM instances will take a few
-   minutes to provision and will be ready when you have a green arrow.
-
-..
-
-   .. image:: /_static/101/image7.png
-      :width: 5.14211in
-      :height: 1.90972in
-
-6. To access an instance, click the **Access** link and select the type
-   of access you want from the drop-down menu.
-
-..
-
-   .. image:: /_static/101/image8.png
-      :width: 6.35902in
-      :height: 2.87368in
-
-**Note**
-
-If you use the Web Shell use ctrl-shift-v to paste.
-
-Lab Environment
-~~~~~~~~~~~~~~~
-
-**Important**
+UDF Lab User Info
+=================
+Accessing the Lab Images
+------------------------
 
 +------------------+----------+----------+------------+--------------+
-| **Components**   | **Mgmt   | **       | **         | **Password** |
-|                  | IP**     | Access** | Username** |              |
+| **Components**   | **Mgmt** | **       | **         | **Password** |
+|                  |  **IP**  | Access** | Username** |              |
 +==================+==========+==========+============+==============+
 | bigip01          | 10.1.1.4 | GUI      | admin      | f5UDFrocks!  |
 +------------------+----------+----------+------------+--------------+
@@ -141,24 +42,37 @@ Lab Environment
 +------------------+----------+----------+------------+--------------+
 |                  | 10.1.1.5 | SSH      | root       | f5UDFrocks!  |
 +------------------+----------+----------+------------+--------------+
-| Win10 Jumpbox    | 10.1.1.6 | RDP      | f5student  | f5UDFrocks!  |
+| ubu-jumpbox      | 10.1.1.6 | RDP      | f5student  | f5UDFrocks!  |
 +------------------+----------+----------+------------+--------------+
-| Lamp v4          | 10.1.1.7 | SSH      | f5student  | f5UDFrocks!  |
+| LAMPNG           | 10.1.1.7 | SSH      | f5student  | f5UDFrocks!  |
 +------------------+----------+----------+------------+--------------+
 |                  | 10.1.1.7 | webmin   | f5student  | f5UDFrocks!  |
 +------------------+----------+----------+------------+--------------+
 
-Accessing the Win10 Jumpbox to begin the labs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Accessing the Ubuntu Jumpbox to begin the labs
+----------------------------------------------
 
 In the **Deployments** tab and select the **Access** drop down menu and
-under **Win10 Jumpbox** select **RDP** and the screen size. Log on with
+under **ubu-Jumpbox** select **XRDP** and the screen size. Log on with
 the credentials in the table above.
 
-.. image:: /_static/101/image9.png
-   :width: 7.36062in
-   :height: 3.32632in
+**.. image:: /_static/101/image9.png**
 
+AWS Lab User Info
+=================
+
++------------------+----------+----------+------------+--------------+
+| **Components**   | **Mgmt** | **       | **         | **Password** |
+|                  |  **IP**  | Access** | Username** |              |
++==================+==========+==========+============+==============+
+| bigip01          | 10.1.1.4 | GUI      | admin      | <yourpasswd> |
++------------------+----------+----------+------------+--------------+
+|                  | 10.1.1.4 | SSH      | admin      | <privatekey> |
++------------------+----------+----------+------------+--------------+
+| webserver        | 10.1.1.7 | SSH      | ubuntu     | <privatekey> |
++------------------+----------+----------+------------+--------------+
+
+|
 Lab 1: The Basics (Networking, Pools and Virtual Servers)
 =========================================================
 
@@ -167,8 +81,11 @@ VLANs, and assign a self IP addresses to our VLAN. As mentioned during
 our lecture portion, BIG-IPs may be put in-line or one-armed depending
 on your customer’s requirements and topology.
 
+**UDF** - Under Components, select the Access drop-down and then TMUI
+**AWS** - Go to https://<Bigip1ManagementEipAddress>
+
 Creating VLANs
-~~~~~~~~~~~~~~
+--------------
 
    You will need create two untagged VLANs, one client-side VLAN
    (**client_vlan**) and one server-side VLAN (**server_vlan)** for the
@@ -216,7 +133,7 @@ iv. When you have completed your VLAN configuration, hit the
 Create another untagged VLAN named **server_vlan** on interface **1.2.**
 
 Assigning a Self IP addresses to your VLANs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------------
 
 1. Go to **Network > Self IPs**, select **Create**.
 
@@ -268,7 +185,7 @@ b. When you have completed your selfIP configuration, hit the |image1|
 **
 
 Assigning the Default Gateway
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 1. Go to **Network > Routes** and then **Add**.
 
@@ -296,21 +213,14 @@ b. Under **Properties**
 
 1. Verify your network configuration
 
-   a. Ping your client-side self ip (**10.1.10.245**) to verify
-      connectivity
-
-   b. Use an SSH utility, such as puTTY, to access your BIG-IP
-      management port at 10.1.1.245.
-
-      i.   User: **root** Password: **f5UDFrocks!**
+   b. Use SSH or WebShell (UDF Only) to access your BIG-IP.
 
       ii.  Ping your default gateway, 10.1.10.1
 
       iii. Ping a web server at 10.1.20.11.
 
 Creating Pools
-~~~~~~~~~~~~~~
-
+--------------
 In this lab we will build a pool and virtual serve to support our web
 site and verify our configurations by accessing our web servers through
 the BIG-IP. Verification will be performed visually and through various
@@ -362,7 +272,7 @@ c. When you have complete your pool configuration, hit the **Finished**
    :height: 1.27287in
 
 Creating Virtual Servers
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 Now let’s build our virtual server
 
@@ -481,11 +391,7 @@ Diagram for the IP address.
 
 1. Check out the Linux CLI and TMSH
 
-   a. **Username**: root **Password**: f5UDFrocks!
-
-      i.   Select VT100 as the terminal type
-
-      ii.  Review the information of the following commands:
+   a. Review the information of the following command:
 
       iii. **bigtop –n**
 
@@ -506,7 +412,7 @@ Diagram for the IP address.
 
            1. Show statistics of all virtual servers
 
-4. Check out the Dashboard!
+2. Check out the Dashboard!
 
    a. Go to **Statistics>Dashboard**
 
