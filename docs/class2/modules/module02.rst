@@ -63,7 +63,6 @@ Assigning a Self IP addresses to your VLANs
 1. Go to **Network > Self IPs**, select **Create**.
 
 .. image:: /_static/101/image12.png
-   :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML51055f77.PNG
    :width: 5.8125in
    :height: 3.08766in
 
