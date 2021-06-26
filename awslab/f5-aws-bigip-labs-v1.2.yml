@@ -17,11 +17,12 @@ Conditions:
     - 'Yes'
     - !Ref configBigipNet    
 Description: >-
-  Template v5.11.0: AWS CloudFormation Template for creating a full stack with a
+  Template v1.2.0: AWS CloudFormation Template for creating a full stack with a
   3NIC BIG-IP, a 1 Availability Zone VPC, subnets, security groups and a
-  webserver (Bitnami LAMP stack with username bitnami **WARNING** This template
-  creates Amazon EC2 Instances. You will be billed for the AWS resources used if
-  you create a stack from this template.
+  webserver with standized IP addressing for learning F5 BIG-IP solutions.  Based off
+  the 3NIC learning stack developed by F5.
+  **WARNING** This template creates Amazon EC2 Instances. You will be billed for the 
+  AWS resources used if you create a stack from this template.
 # Mappings:
   # BigipRegionMap:
     # us-east-1:
@@ -294,7 +295,7 @@ Metadata:
         default: Subnet2 in AZ2
       timezone:
         default: Timezone (Olson)
-  Version: 5.11.0
+  Version: 1.2.0
 Outputs:
   availabilityZone1:
     Description: Availability Zone
