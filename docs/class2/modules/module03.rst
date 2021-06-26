@@ -34,8 +34,8 @@ a. Note: When we created the pool, we performed all our configuration on
    a. Change the **Load** **Balancing** **Method** to **Ratio (Member)**
 
    b. As you look at the drop down menu, notice most load balancing
-      methods have two options, (Node) or (Member). Remember the
-      difference?
+      methods have two options, **(Node)** or **(Member)**. You should know the
+      difference between the two.
 
 .. image:: /_static/101/image25.png
    :width: 5.01042in
@@ -150,17 +150,16 @@ c. Select the pool members **10.1.20.11** and **10.1.20.12** and set
 ..
 
    .. image:: /_static/101/image29.png
-      :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML3001afba.PNG
       :width: 6.9739in
       :height: 1.24444in
 
 b. The status indicator now goes to black, indicating the member has
    been disabled
 
-9. Once again, select **Statistics**, reset the pool statistics, browse
+1. Once again, select **Statistics**, reset the pool statistics, browse
    to the virtual server and see which pool members are taking hits now.
 
-Once you are done testing re-enable your disabled pool member.
+.. tip:: Once you are done testing re-enable your disabled pool member.
 
 Monitor Labs
 ------------
@@ -206,27 +205,13 @@ e. Click on the **Update** button to finalize your changes.
 Content Monitors
 ----------------
 
-The default monitor simply tells us the IP address is accessible, but we
-really don’t know the status of the particular application the node
-supports. We are now going to create a monitor to specifically test the
-application we are interested in. We are going to check our web site and
-its basic authentication capabilities.
+The default monitor simply tells us the IP address is accessible, but we really don’t know the status of the particular application the node supports. We are now going to create a monitor to specifically test the application we are interested in. We are going to basic contnet check of our web site to determine it the servers are responding properly.
 
-1. Browse to **http://10.1.10.100** and on the web page select the
-   **Basic Authentication** link under **Authentication Examples**.
+1. Browse to **http://10.1.10.100**.  You have an number of content items you could use to check the site status.  You could check for text on this page. You could view the source code and check for a text string not normally visible to the user. You can also look in the HTTP header information being returned. 
 
-   a. User: **user.1**
+2. We will be looking for the HTTP status “\ **200 OK**\ ” in the HTTP header infomration as our receive string to determine availability.
 
-   b. Password: **password**
-
-   c. You could use text from this page or text within the source code
-      to test for availability. You could also use HTTP statuses or
-      header information. You will be looking for the HTTP status
-      “\ **200 OK**\ ” as our receive string to determine availability.
-
-   d. Note the URI is **/basic**. You will need this for your monitor.
-
-2. Select **Local Traffic>Monitor** on the side-bar and select the plus
+1. Select **Local Traffic>Monitor** on the side-bar and select the plus
    (**+**) sign or the **Create**
 
 .. image:: /_static/101/image32.png
@@ -244,22 +229,17 @@ a. Now we can create a monitor to check the content of our web page to
    :width: 1.93333in
    :height: 2.56016in
 
-b. Once you have selected your parent (Type) monitor, you can access the
-   **Configuration** section
+b. Once you have selected your parent (Type) monitor, you can access the **Configuration** section
 
-   i.   **Send String**: Enter the command to retrieve the page you want
-        “\ **GET /basic/ HTTP/1.0 \\r\n\r\n**\ ” (no quotes)
+   i.   **Send String**: Enter the command to retrieve the page you want **GET /index.php HTTP/1.0\\r\\n\\r\\n**
 
    ii.  In the Receive String box put “\ **200 OK**\ ” (no quotes)
 
-        1. **NOTE**: The receive string is not case sensitive.
+   .. image:: /_static/101/image34.png
+      :alt: Monitor configuration
+      :scale: 75
 
-   iii. Enter **user.1**/**password** for the **Username** and
-        **Password**
-
-.. image:: /_static/101/image34.png
-   :width: 4.13542in
-   :height: 5.56558in
+.. note:: The receive string is not case sensitive.
 
 c. Click **Finish** and you will be taken back to **Local
    Traffic>Monitors**
@@ -270,7 +250,7 @@ c. Click **Finish** and you will be taken back to **Local
       :width: 0.94444in
       :height: 0.55556in
 
-12. Where is your new Monitor?
+1.  Where is your new Monitor?
 
     a. **Hint:** Check the lower right hand corner of the Monitors list,
        here you can go to the next page or view all Monitors
@@ -278,7 +258,7 @@ c. Click **Finish** and you will be taken back to **Local
     b. You can change the number of records displayed per page in
        **System>Preferences**
 
-13. Go to **Local Traffic>Pools>www_pool** and choose **Properties**
+2.  Go to **Local Traffic>Pools>www_pool** and choose **Properties**
     from the top bar.
 
     a. Remove the **http** monitor from the Active box.
@@ -342,10 +322,9 @@ In this lab we will configure a couple types of persistence and view their behav
           a. From the **Persistence Profiles** screen select the **Create**
              button.
        
-       .. image:: /_static/101/image37.png
-          :width: 4.27597in
-          :height: 2.09375in
-       
+         .. image:: /_static/101/image37.png
+            :scale: 75
+      
        b. At the **New Persistence Profile** screen enter:
        
           i.  **Name**: my-src-persist
@@ -367,19 +346,15 @@ In this lab we will configure a couple types of persistence and view their behav
        
           ii.  **Prefix Length**: None
        
-               1. This is the default, and is a /32 prefix (255.255.255.255
-                  mask).
+               1. This is the default, and is a /32 prefix (255.255.255.255 mask).
        
                2. Each new IP address will create a new persistence record.
-       
-          iii. **Hint**: You can’t change the settings until you have checked
-               the Custom box.
-       
-               1. Hey, I didn’t write the GUI, but actually this is very useful
-                  in knowing which configuration items were modified from the
-                  default.
-       
-          iv.  Click the Finished button.
+
+.. hint::
+   You can’t change the settings until you have checked the Custom box.  Hey, I didn’t write the GUI, but actually this is very useful in knowing which configuration items were modified from the default.
+
+|
+          iii.  Click the Finished button.
        
        e. You have just created your first custom Profile.
        
@@ -392,13 +367,12 @@ In this lab we will configure a couple types of persistence and view their behav
        
              i.  Select **www_vs** and the **Resources** tab or ….
        
-             ii. Take the shortcut directly to the **Resources** of the virtual
-                 server. (Can you find it?)
-       
-       **Note:** When we created the Virtual Server everything was on a single
-       page, we find when we return to modify the Virtual Server the Properties
-       and Resources are on different pages.
-       
+             ii. Take the shortcut directly to the **Resources** of the virtual server. (Can you find it?)
+
+      .. note:: 
+         When we created the Virtual Server everything was on a single page, we find when we return to modify the Virtual Server the Properties and Resources are on different pages.
+      
+      |
        b. Set the **Default Persistence Profile** to **my-src-persist**.
        
        .. image:: /_static/101/image39.png
@@ -426,21 +400,19 @@ In this lab we will configure a couple types of persistence and view their behav
           display has been disabled in version 12.1. A TMSH database command is
           required to activate it.
        
-          a. SSH to you BIG-IP at 10.1.1.245. Username: **root** Password:
-             **f5UDFrocks!**
+          a. SSH to you BIG-IP.
        
           b. At the prompt enter: **tmsh**
        
-          c. At the TMSH prompt enter the command in the **Persistence Value**
-             GUI.
-       
-             i. **modify sys db
-                ui.statistics.modulestatistics.localtraffic.persistencerecords
-                value true**
-       
-                1. Tab completion will make this a little easier
-       
-       2. Now, in this window you can watch you persistence records. You may
+          c. At the TMSH prompt enter the command in the **Persistence Value** GUI.
+
+            .. admonition:: TMSH
+
+               modify sys db ui.statistics.modulestatistics.localtraffic.persistencerecords value true**
+               
+Tab completion will make this a little easier
+            
+       1. Now, in this window you can watch you persistence records. You may
           want to set **Auto Refresh** to 20 seconds.
        
        .. image:: /_static/101/image41.png
@@ -540,12 +512,18 @@ In this lab we will configure a couple types of persistence and view their behav
           d. Did you hit a different server?
        
           e. Refresh several times. Are you hitting the same server?
+          f. Let's take a look at the cookie.
        
-             i. On the web page under **HTTP Request and Response Information**
-                click the **Request and Response Header** link.
+             i. On the web page of the demo application right click and select **Inspect**. This should work on most browsers.
+             ii. In the **Element** bar of the Inspect window select **Network** and refresh your web page.
+             iii. In the **Name** section of the Inspect window on the content select **f5demo.css** and **Cookies** on the **Name** bar.  Here you will see the BIG-IP cookie that was inserted.
+
+             .. tip::
+               **Inspect** is your friend.  Learn to use it.  It will aid in debugging, iRules, monitors and more.
        
-       .. image:: /_static/101/image45.png
-          :width: 2.61822in
-          :height: 2.2125in
+.. image:: /_static/101/image45.png
+   :alt: Inspect page window
+   :scale: 50
+   :align: center
        
-       Archive your work in the file: **lab3_lb_monitor_and_persist**
+Archive your work in the file: **lab3_lb_monitor_and_persist**
