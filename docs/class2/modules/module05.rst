@@ -103,8 +103,9 @@ Building our New Secure Virtual Server
 
    h. **Finish**
 
-2. Testing our secure server. Go to you **secure_vs** at
-   **https://10.1.10.105**
+2. Testing our secure server. 
+      - **UDF** - Go to you **secure_vs** at **https://10.1.10.105**
+      - **AWS** - Go to Go to you **secure_vs** at **https://<Bigip1VipEipTo105>**
 
    a. If you want to watch member traffic, go to the **www_pool** and
       reset the statistics.
@@ -127,17 +128,14 @@ Securing web applications with the HTTP profile
 
    c. Under **Settings**:
 
-      i.   Set the **Fallback Host**: http://10.1.1.252 *(this will take
-           you an internal site)*
+      i.   Set the **Fallback Host**: https://www.f5.com *(this will take you an alternate site)*
 
-      ii.  **Fallback on Error Codes**: 404 (fallback site if a 404
-           error is received)
+      ii.  **Fallback on Error Codes**: 404 *(fallback site if a 404 error is received)*
 
       iii. **Response Headers Allowed**: Content-Type Set-Cookie
            Location
 
-      iv.  **Insert XForwarded For**: Enabled (because we talked about
-           it earlier)
+      iv.  **Insert XForwarded For**: Enabled *(to save the original client ip)*
 
 .. image:: /_static/101/image56.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML566674e6.PNG
@@ -146,7 +144,7 @@ Securing web applications with the HTTP profile
 
 d. Attach your new HTTP Profile to your secure (HTTPS) virtual server
 
-3. Browse to your secure virtual server.
+1. Browse to your secure virtual server.
 
    a. Do web pages appear normal?
 
@@ -156,18 +154,11 @@ d. Attach your new HTTP Profile to your secure (HTTPS) virtual server
 
       i. What is the result?
 
-   d. Go to the **Request and Response Headers** page, you should see a
-      sanitized server response at the bottom of the web page and the
-      original client IP address.
+   d. Using your browser Inspect window check the server response.  Altenately you can to the **Request and Response Headers** from the **Demo** drop-down menu to view the headers. You should see your sanitized server response and the original client IP address in the **x-forward-for** header, which is itself new.
 
-   a. You can compare the headers by accessing your HTTP virtual server
-      at `http://10.1.10.100 <http://10.128.10.100>`__.
+   a. You can compare the headers by accessing your HTTP virtual server your unsecure **www_vs** and looking at the responses.
 
-   b. While you are looking at the headers, check for the
-      **X-Forwarded-For** header received by the server
-
-NOTE: Even though the data is encrypted between your browser and the
-virtual server, the LTM can still modify the data (i.e. resource
-cloaking) because the data is unencrypted and decompressed within TMOS.
+.. note:: 
+   Even though the data is encrypted between your browser and the virtual server, the LTM can still modify the data (i.e. resource cloaking) because the data is unencrypted and decompressed within TMOS.
 
 Archive your work in a file called: **lab5_security**
