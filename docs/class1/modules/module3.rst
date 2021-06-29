@@ -1,6 +1,6 @@
 F5 Channel SE - AWS Lab Environment
 ===================================
-**(UNDER CONSTRUCTION)**
+**(BETA)**
 This environment is available for use by engineers wishing to build a lab environment in AWS using the provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site or in the partnerlabs container available on https://hub.docker.com/repository/docker/leifbr/partnerlabs.
 
 .. important::
@@ -19,8 +19,8 @@ Prerequisites
 #. Subscribe to the F5 BIG-IP Virtual Edition you will be using:
 
 .. important::
-   The is a **FREE TRIAL** once you subscribe for a BIG-IP from the AWS website:
-   *Try one unit of this product for 30 days. There will be no software charges for that unit, but AWS infrastructure charges still apply. Free Trials will automatically convert to a paid subscription upon expiration and you will be charged for additional usage above the free units provided.*  Once the free trial is up there is a hourly license charge for the BIG-IP instance you use, with the exception of the BYOL. 
+   The43 is a **FREE TRIAL** once you subscribe for a BIG-IP from the AWS website:
+   *Try one unit of this product for 30 days. There will be no software charges for that unit, but AWS infrastructure charges still apply. Free Trials will automatically convert to a paid subscription upon expiration and you will be charged for additional usage above the free units provided.*  Once the free trial is up there is a hourly license charge for the BIG-IP instance you use, with the exception of the BYOL. Of course all instances incur EC2 costs.
 
    #. F5 BIG-IP Virtual Edition - GOOD (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-lphsy6izllsmq?ref_=beagle&applicationId=AWS-Marketplace-Console (0.43/hr estimated EC2 and Licensing)
    #. F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (1.77/hr estimated EC2 and Licensing)
@@ -31,26 +31,26 @@ Prerequisites
 Creating the stack
 ------------------
 
-#. Clone the git respository to your device or just download the **f5_aws_bigip_labs-vX.x.yml** CFT template which can be found here: https://github.com/leifbr/partnerlabs/blob/master/awslab/
+#. Clone the git respository to your device or just download the **f5_aws_bigip_labs.yml** CFT template which can be found here: https://github.com/leifbr/partnerlabs/blob/master/awslab/
 #. Log in to your AWS account and your management console.
 #. Search for CloudFormation (if you don’t already have it as a favorite) and click on CloudFormation
 #. Select **Create Stack**
 #. Select **Upload a template file** and hit the **Choose file** button.
-#. Upload the **f5-aws-bigip-labs-vX.x.yml** and click **Next**
+#. Upload the **f5-aws-bigip-labs.yml** and click **Next**
 #. Most of the template is self explanatory or can be defaulted.
 
    #. Under **Stack name** enter a name for your stack.
-   #. Under **NETWORKING CONFIRGUTION** select an AZ (Availability Zone).  Only **us east** AZs are available at this time.
+   #. Under **NETWORKING CONFIRGUTION** select an AZ (Availability Zone).
    #. Under **INSTANCE CONFIGURATION**
 
-      #. **BIG-IP Image Name** The default is **Best25Mbps** which allows you access to all the modules.  For LTM only labs you may be able to make do with GOOD25Mbps to save a bit of money.
+      #. **BIG-IP Image Name** The default is **GOOD25Mbps** which allows you to learn the basics and is inexpensive. All images selected here are v15.1.2.1
       #. **Custom Image Id** When you select any BIG-IP image above you will build a BIG-IP using an AMI for BIG-IP v15.1.2.1.  If you would like to work under another version, or if the lab requires another version, you can enter the AMI for that BIG-IP image here and it will override the **BIG-IP Image Name** selection.
       #. You can default until **SSH Key**.  Select your SSH key pair you want to use. 
-      #. Source Address(es) for BIG-IP management and web application access. Enter your source IP or subnet to restrict lab access.  When in doubt you can just enter **0.0.0.0/0** and open it up wide .
 
       .. important::
-         You must have a key pair to utilitize the lab.  If you do not have a key pair, stop, and set one up.
+         **You must have a key pair to utilitize the lab.**  If you do not have a key pair, stop, and set one up.
  
+      #. Source Address(es) for BIG-IP management and web application access. Enter your source IP or subnet to restrict lab access.  When in doubt you can just enter **0.0.0.0/0** and open it up wide .
    #. You can default until **BIG-IP BASE NETWORKING AND VIRTUAL SERVICE CONFIGURATION** here is where you will tell the BIG-IP how you want your lab set up.
 
       #. If you leave the defaults the BIG-IP will basically be a blank slate.  Yours to configure however you want.
@@ -80,18 +80,20 @@ Establishing access to the BIG-IP
 
 This will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
 
-  #. Go to the **Bigip1MgmtUrl** in **Outputs** tab of the stack (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
+#. Go to the **Bigip1MgmtUrl** in **Outputs** tab of the stack (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
 
-  .. note:: 
-     If you are using an evaluation key or BYOL key you will have to activate the license the BIG-IP.
+.. note:: 
+   If you are using an evaluation key or BYOL key you will have to activate the license the BIG-IP.
 
-  #. Verify the containers are up and running by accessing this lab guide container on the back end server.  Going to the **WebserverPublicUrl** in .
-  #. From **Outputs** make note of the following:
-     #. **Bigip1VipEip100** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp100) of **10.1.10.100**
-     #. **Bigip1VipEip105** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp105) of **10.1.10.105**  
-  #. Of course you can always refer back to the stack **Outputs** for this information.
+#. Verify the containers are up and running by accessing this lab guide container on the back end server by going to the **WebserverPublicUrl**.
+#. From **Outputs** make note of the following
 
-  **Congratulations!**  You are now ready to begin the labs.
+   #. **Bigip1VipEip100** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp100) of **10.1.10.100**
+   #. **Bigip1VipEip105** you will use this address to access any virtual server with the private IP (Bigip1VipPrivateIp105) of **10.1.10.105**
+
+#. Of course you can always refer back to the stack **Outputs** for this information.
+
+**Congratulations!**  You are now ready to begin the labs.
 
 Deleting the Lab Environment (AWS Stack)
 ----------------------------------------
@@ -104,7 +106,7 @@ When you delete the stack on the CloudFormation page and all AWS objects built b
 If you do decide to delete the stack consider the following:
 
 #. If you are not done you can save you work via an UCS archive of the BIG-IP, download it to your PC, recreate the stack later and upload and restore the UCS archive.
-#. If you are using evaluation key or BYOL key you **Revoke** the license and re-use the key can be used again.  For evaluation keys that will be 30 or 45 days after your first activated the keys. by **revoking** the license prior to deleting the BIG-IP.
+#. If you are using evaluation key or BYOL key you can **Revoke** the license and the key can be used again.  For evaluation keys that will be 30 or 45 days (depending on the key) after you first activated the key.
 
 .. important::
    When using a **BYOL** or an **evaluation key** remember to **REVOKE** your license prior to deleting the stack.  The license can then be re-used to license the next stack you build.
