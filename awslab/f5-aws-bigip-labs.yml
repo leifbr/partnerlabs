@@ -1,0 +1,1877 @@
+---
+# f5-aws-bigip-labs.yaml
+# copied from leifv8net-3nic-bigip
+# v1 - added .105 as VIP, change 60-netcfg
+# v1.1 - add second EIP VIP (105), added juice-shop to the backend
+# v1.2 - clean up output, added regions and AMIs, set mgmt IP
+# v1.3 - cleaned up parameters, opened Internal and Web SG to all 10.1.20.0 traffic, ready for beta
+AWSTemplateFormatVersion: 2010-09-09
+Conditions:
+  noCustomImageId: !Equals 
+    - OPTIONAL
+    - !Ref customImageId
+  optin: !Equals 
+    - 'Yes'
+    - !Ref allowUsageAnalytics
+  cfgnet: !Equals 
+    - 'Yes'
+    - !Ref configBigipNet    
+Description: >-
+  Template v1.3.0: AWS CloudFormation Template for creating a full stack with a
+  3NIC BIG-IP, a 1 Availability Zone VPC, subnets, security groups and a
+  webserver with standized IP addressing for learning F5 BIG-IP solutions.  Based off
+  the 3NIC learning stack developed by F5.
+  **WARNING** This template creates Amazon EC2 Instances. You will be billed for the 
+  AWS resources used if you create a stack from this template.
+# Mappings:
+  # BigipRegionMap:
+    # us-east-1:
+      # Best25Mbps: ami-0c0a28362686c2f82
+      # Good25Mbps: ami-08ab79e97e15a8b41
+      # PerAppVeAwaf25Mbps: ami-0b974dae3e7a42601
+      # BYOL: ami-0ee78e91f97dcb9a6
+  # WebserverRegionMap:
+    # us-east-1:
+      # AMI: ami-062c6373d7ae34101
+Mappings:
+  BigipRegionMap:
+    ap-east-1:
+      Best25Mbps: ami-027b4ab863c2da7f8
+      Good25Mbps: ami-09a1085441da2337d
+      PerAppVeAwaf25Mbps: ami-008aa07f46dee009c
+      PerAppVeLtm200Mbps: ami-0fd12f7488a0723ee
+      BYOL: ami-06e2d384ab36eb36c
+    ap-northeast-1:
+      Best25Mbps: ami-0ce200d5adce5bc61
+      Good25Mbps: ami-0efbbbabdf301064d
+      PerAppVeAwaf25Mbps: ami-0ea38c70981337688
+      BYOL: ami-01059c3f3325d9619
+    ap-northeast-2:
+      Best25Mbps: ami-0b39a40920dcd1543
+      Good25Mbps: ami-0e9fc329f7d109e3b
+      PerAppVeAwaf25Mbps: ami-026c73d8ff3402cbb
+      BYOL: ami-097d818e4963e017a
+    ap-south-1:
+      Best25Mbps: ami-0776d0783057e08b9
+      Good25Mbps: ami-0800adf463e9b14ec
+      PerAppVeAwaf25Mbps: ami-0eb3c581d4fd17d96
+      BYOL: ami-07fd3f2ef5f902f86
+    ap-southeast-1:
+      Best25Mbps: ami-0401897cb0a99f30e
+      Good25Mbps: ami-0cb2c3e6c276234b2
+      PerAppVeAwaf25Mbps: ami-0e934093ef30ff3ae
+      BYOL: ami-071c2bc10872531f5
+    ap-southeast-2:
+      Best25Mbps: ami-0d5dcf7f826f622e7
+      Good25Mbps: ami-0a580f5c65fcb5e49
+      PerAppVeAwaf25Mbps: ami-092635782475be56b
+      BYOL: ami-04d1e8e98d3f5424e
+    ca-central-1:
+      Best25Mbps: ami-0877c38a20d99d071
+      Good25Mbps: ami-0a0ed6f787c8c8dff
+      PerAppVeAwaf25Mbps: ami-06740abdb748cae66
+      BYOL: ami-07a23cf5bd0e7a6cb
+    eu-central-1:
+      Best25Mbps: ami-098453531ef0c1bf4
+      Good25Mbps: ami-0fc032b443ad3a71e
+      PerAppVeAwaf25Mbps: ami-053e169cd8ab57179
+      BYOL: ami-06595fe1a66756714
+    eu-north-1:
+      Best25Mbps: ami-01404d56e699a511d
+      Good25Mbps: ami-0d30abaf975feddb3
+      PerAppVeAwaf25Mbps: ami-016ae7d43fc115799
+      BYOL: ami-040d17864c9c3aad4
+    eu-west-1:
+      Best25Mbps: ami-09a3ca9fc1e414aff
+      Good25Mbps: ami-05751c51782c56aae
+      PerAppVeAwaf25Mbps: ami-0d663b4c5212fa3a5
+      BYOL: ami-03c8e8b5f014b5e90
+    eu-west-2:
+      Best25Mbps: ami-0123d57ef778fde74
+      Good25Mbps: ami-0d442de7a4ba7ff3e
+      PerAppVeAwaf25Mbps: ami-0c502e0885a86e22a
+      BYOL: ami-0eac8ccf75d7ff1ca
+    eu-west-3:
+      Best25Mbps: ami-0b7c81ae1547c8fd6
+      Good25Mbps: ami-013e0788a02e6e651
+      PerAppVeAwaf25Mbps: ami-0692f5e492e7250cd
+      BYOL: ami-038614f050432d6d9
+    me-south-1:
+      Best25Mbps: ami-0daa4796b6dde072a
+      Good25Mbps: ami-0eaf8a086eb79380b
+      PerAppVeAwaf25Mbps: ami-05cd33be861b6c07b
+      BYOL: ami-0a60fd9f3faf7c29d
+    sa-east-1:
+      Best25Mbps: ami-099171da951358ee3
+      Good25Mbps: ami-034677cc80c5d068f
+      PerAppVeAwaf25Mbps: ami-0bb9274cf7ccdffef
+      BYOL: ami-01925a4e0390f0e0c
+    us-east-1:
+      Best25Mbps: ami-0c0a28362686c2f82
+      Good25Mbps: ami-08ab79e97e15a8b41
+      PerAppVeAwaf25Mbps: ami-0b974dae3e7a42601
+      BYOL: ami-0ee78e91f97dcb9a6
+    us-east-2:
+      Best25Mbps: ami-0b6e94aa6111effc6
+      Good25Mbps: ami-0baaca47317ac95b6
+      PerAppVeAwaf25Mbps: ami-0d786ca692564c819
+      BYOL: ami-0648f74287ffaf373
+    us-gov-east-1:
+      Best25Mbps: ami-06f3dee4526313f4d
+      Good25Mbps: ami-08732960cdb417d41
+      PerAppVeAwaf25Mbps: ami-0215056a785175c03
+      BYOL: ami-0e29443c0d2baed53
+    us-gov-west-1:
+      Best25Mbps: ami-02d2f5a1b6dc87290
+      Good25Mbps: ami-0780b0367d58330b2
+      PerAppVeAwaf25Mbps: ami-0d4b1d8f206342a75
+      BYOL: ami-0eb3a46cc8ab47c95
+    us-west-1:
+      Best25Mbps: ami-0b44273acf268a39b
+      Good25Mbps: ami-06c31f9d1db9987ab
+      PerAppVeAwaf25Mbps: ami-0710cd212a6513ccd
+      BYOL: ami-01d7302c269a9f9f2
+    us-west-2:
+      Best25Mbps: ami-0e5e6c0095256ac49
+      Good25Mbps: ami-0a0b59d02e622f065
+      PerAppVeAwaf25Mbps: ami-04e085d39662477f7
+      BYOL: ami-0f0f99f3ad7f0a55e
+  WebserverRegionMap:
+    ap-east-1:
+      AMI: ami-03f495ecce4208867
+    ap-northeast-1:
+      AMI: ami-0f4c7c0b57bb44791
+    ap-northeast-2:
+      AMI: ami-091b01cd1626c1898
+    ap-south-1:
+      AMI: ami-08831dd3549a454bf
+    ap-southeast-1:
+      AMI: ami-049c7e6a8fbacc0a6
+    ap-southeast-2:
+      AMI: ami-018d40e755400deb2
+    ca-central-1:
+      AMI: ami-0534a8203e795f522
+    eu-central-1:
+      AMI: ami-02005be39814f8ff6
+    eu-north-1:
+      AMI: ami-0b2f42a292be6ac0c
+    eu-west-1:
+      AMI: ami-04a5854614a5ef0b2
+    eu-west-2:
+      AMI: ami-047061fd75afc6f50
+    eu-west-3:
+      AMI: ami-0d4b40e9dde1d7bbe
+    me-south-1:
+      AMI: ami-0df67e53683379235
+    sa-east-1:
+      AMI: ami-02e7ee0747b6c93dc
+    us-gov-east-1:
+      AMI: ami-0e29443c0d2baed53
+    us-gov-west-1:
+      AMI: ami-0eb3a46cc8ab47c95
+    us-east-1:
+      AMI: ami-021f21db624970cc7
+    us-east-2:
+      AMI: ami-069eca27fa16433a0
+    us-west-1:
+      AMI: ami-04bedabfec81a844a
+    us-west-2:
+      AMI: ami-020b9db557781b212
+Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+      - Label:
+          default: NETWORKING CONFIGURATION
+        Parameters:
+          - Vpc
+          - managementSubnetAz1
+          - managementSubnetAz2
+          - subnet1Az1
+          - subnet1Az2
+          - subnet2Az1
+          - subnet2Az2
+          - availabilityZone1
+          - availabilityZone2
+          - numberOfAdditionalNics
+          - additionalNicLocation
+      - Label:
+          default: INSTANCE CONFIGURATION
+        Parameters:
+          - imageName
+          - customImageId
+          - instanceType
+          - applicationInstanceType
+          - licenseKey1
+          - licenseKey2
+          - managementGuiPort
+          - sshKey
+          - restrictedSrcAddress
+          - restrictedSrcAddressApp
+          - ntpServer
+          - timezone
+          - bigIpModules
+
+      - Label:
+          default: BIG-IP BASE NETWORKING AND VIRTUAL SERVICE CONFIGURATION
+        Parameters:
+          - configBigipNet
+          - declarationUrl
+      - Label:
+          default: TAGS
+        Parameters:
+          - application
+          - environment
+          - group
+          - owner
+          - costcenter
+      - {}
+      - Label:
+          default: TEMPLATE ANALYTICS
+        Parameters:
+          - allowUsageAnalytics
+          - allowPhoneHome      
+    ParameterLabels:
+      Vpc:
+        default: VPC
+      additionalNicLocation:
+        default: Additional NIC Location
+      allowPhoneHome:
+        default: Send Anonymous Device Statistics to F5
+      allowUsageAnalytics:
+        default: Send Anonymous Template Statistics to F5
+      application:
+        default: Application
+      applicationInstanceType:
+        default: Application Instance Type
+      availabilityZone1:
+        default: Availability Zone 1
+      availabilityZone2:
+        default: Availability Zone 2
+      bigIpModules:
+        default: BIG-IP Modules
+      costcenter:
+        default: Cost Center
+      customImageId:
+        default: Custom Image Id
+      declarationUrl:
+        default: AS3 Declaration URL
+      environment:
+        default: Environment
+      group:
+        default: Group
+      imageName:
+        default: BIG-IP Image Name
+      instanceType:
+        default: AWS Instance Size
+      licenseKey1:
+        default: License Key 1
+      licenseKey2:
+        default: License Key 2
+      managementGuiPort:
+        default: BIG-IP Management Port
+      managementSubnetAz1:
+        default: Management Subnet AZ1
+      managementSubnetAz2:
+        default: Management Subnet AZ2
+      ntpServer:
+        default: NTP Server
+      numberOfAdditionalNics:
+        default: Number Of Additional NICs
+      owner:
+        default: Owner
+      restrictedSrcAddress:
+        default: Source Address(es) for Management Access
+      restrictedSrcAddressApp:
+        default: Source Address(es) for Web Application Access (80/443)
+      sshKey:
+        default: SSH Key
+      subnet1Az1:
+        default: Subnet1 in AZ1
+      subnet1Az2:
+        default: Subnet1 in AZ2
+      subnet2Az1:
+        default: Subnet2 in AZ1
+      subnet2Az2:
+        default: Subnet2 in AZ2
+      timezone:
+        default: Timezone (Olson)
+  Version: 1.2.0
+Outputs:
+  availabilityZone1:
+    Description: Availability Zone
+    Value: !GetAtt 
+      - Bigip1Instance
+      - AvailabilityZone
+  # Az1ApplicationSubnet:
+    # Description: Az1Application Subnet Id
+    # Value: !Ref Az1ApplicationSubnet
+  # Bigip1InstanceId:
+    # Description: Instance Id of BIG-IP in Amazon
+    # Value: !Ref Bigip1Instance
+  Bigip1ManagementInterfacePrivateIp:
+    Description: Internally routable IP of the management interface on BIG-IP
+    Value: !GetAtt 
+      - Bigip1ManagementInterface
+      - PrimaryPrivateIpAddress
+  Bigip1ManagementEipAddress:
+    Description: The public IP address of the management port on BIG-IP
+    Value: !Ref Bigip1ManagementEipAddress
+  # Bigip1ManagementInterface:
+    # Description: Management interface ID on BIG-IP
+    # Value: !Ref Bigip1ManagementInterface
+  Bigip1MgmtUrl:
+    Description: Link to the BIG-IP Management GUI
+    Value: !Join 
+      - ''
+      - - 'https://'
+        - !GetAtt 
+          - Bigip1Instance
+          - PublicIp
+  # Bigip1InternalInterface:
+    # Description: Internal interface ID on BIG-IP
+    # Value: !Ref Bigip1InternalInterface
+  Bigip1InternalInterfacePrivateIp:
+    Description: Internally routable Self IP of the internal interface on BIG-IP
+    Value: !GetAtt 
+      - Bigip1InternalInterface
+      - PrimaryPrivateIpAddress
+  Bigip1ExternalInterfacePrivateIp:
+    Description: Internally routable Self IP of the public/external facing interface on BIG-IP
+    Value: !GetAtt 
+      - Bigip1subnet1Az1Interface
+      - PrimaryPrivateIpAddress
+  Bigip1VipEipTo100:
+    Description: Public EIP address tied to 10.1.10.100 for virtual servers
+    Value: !Ref Bigip1VipEipTo100
+  Bigip1VipPrivateIp100:
+    Description: Private virtual server address on the external interface (Secondary IP 1)
+    Value: !Select 
+      - '0'
+      - !GetAtt 
+        - Bigip1subnet1Az1Interface
+        - SecondaryPrivateIpAddresses
+  Bigip1VipEipTo105:
+    Description: Public EIP address tied to 10.1.10.105 for virtual servers
+    Value: !Ref Bigip1VipEipTo105
+  Bigip1VipPrivateIp105:
+    Description:  Private virtual server address on the external interface (Secondary IP 2)
+    Value: !Select 
+      - '1'
+      - !GetAtt 
+        - Bigip1subnet1Az1Interface
+        - SecondaryPrivateIpAddresses
+  # Bigip1subnet1Az1Interface:
+    # Description: External interface Id on BIG-IP
+    # Value: !Ref Bigip1subnet1Az1Interface
+  # Bigip1subnet1Az1SelfEipAddress:
+    # Description: IP Address of the External interface attached to BIG-IP
+    # Value: !Ref Bigip1subnet1Az1SelfEipAddress
+  DnsServers:
+    Description: DNS server for VPC
+    Value: 10.1.0.2
+  # Vpc:
+    # Description: VPC ID
+    # Value: !Ref Vpc
+  WebserverPublicIp:
+    Description: Public IP for Webserver
+    Value: !GetAtt 
+      - Webserver
+      - PublicIp
+  WebserverPublicUrl:
+    Description: Public URL for the partner lab guides container running on the backend server 
+    Value: !Join 
+      - ''
+      - - 'http://'
+        - !GetAtt 
+          - Webserver
+          - PublicIp
+  # bigipExternalSecurityGroup:
+    # Description: Public or External Security Group
+    # Value: !Ref bigipExternalSecurityGroup
+  # bigipInternalSecurityGroup:
+    # Description: Private or Internal Security Group
+    # Value: !Ref bigipInternalSecurityGroup
+  # bigipManagementSecurityGroup:
+    # Description: Management Security Group
+    # Value: !Ref bigipManagementSecurityGroup
+  # managementSubnetAz1:
+    # Description: Az1Management Subnet Id
+    # Value: !Ref managementSubnetAz1
+  # subnet1Az1:
+    # Description: Az1External Subnet Id
+    # Value: !Ref subnet1Az1
+  # subnet2Az1:
+    # Description: Az1Internal Subnet Id
+    # Value: !Ref subnet2Az1
+  webserverPrivateIp:
+    Description: Private IP for Webserver
+    Value: !GetAtt 
+      - Webserver
+      - PrivateIp
+Parameters:
+  allowPhoneHome:
+    AllowedValues:
+      - 'Yes'
+      - 'No'
+    Default: 'Yes'
+    Description: >-
+      This deployment can send anonymous device statistics to F5 to help us
+      determine how to improve our solutions. If you select **No** statistics
+      are not sent.
+    Type: String
+  allowUsageAnalytics:
+    AllowedValues:
+      - 'Yes'
+      - 'No'
+    Default: 'Yes'
+    Description: >-
+      This deployment can send anonymous template statistics to F5 to help us
+      determine how to improve our solutions. If you select **No** statistics
+      are not sent.
+    Type: String
+  application:
+    Default: f5app
+    Description: Name of the Application Tag
+    Type: String
+  applicationInstanceType:
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+      - t2.xlarge
+      - m3.2xlarge
+      - c3.large
+      - c3.xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+    Default: t2.medium
+    Description: Webserver EC2 instance type
+    Type: String
+  availabilityZone1:
+    Description: Name of an Availability Zone in this Region
+    Type: 'AWS::EC2::AvailabilityZone::Name'
+  bigIpModules:
+    Default: 'ltm:nominal'
+    Description: >-
+      Comma separated list of modules and levels to provision, for example:
+      ltm:nominal,asm:nominal
+    Type: String
+  costcenter:
+    Default: f5costcenter
+    Description: Name of the Cost Center Tag
+    Type: String
+  customImageId:
+    ConstraintDescription: Must be a valid AMI Id
+    Default: OPTIONAL
+    Description: >-
+      If you would like to deploy using a custom BIG-IP image, provide the AMI
+      Id.  **Note**: Unless specifically required, leave the default of
+      **OPTIONAL**
+    MaxLength: 255
+    MinLength: 1
+    Type: String
+  configBigipNet:
+    AllowedValues:
+      - 'Yes'
+      - 'No'
+    Default: 'No'
+    Description: >-
+      If you select Yes the base networking for the BIG-IP will be configured for you.
+      If you select No you will have to configure the base networking manually.
+    Type: String
+  declarationUrl:
+    AllowedPattern: >-
+      ^(http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$|^none$
+    Default: none
+    Description: >-
+      URL for the AS3 declaration JSON file to be deployed. Leave as **none** to
+      deploy without a service configuration. 
+      IMPORTANT: If you supply a URL select YES for the Network Configuration
+    Type: String
+  environment:
+    Default: f5env
+    Description: Name of the Environment Tag
+    Type: String
+  group:
+    Default: f5group
+    Description: Name of the Group Tag
+    Type: String
+  imageName:
+    AllowedValues:
+      - Good25Mbps
+      - Best25Mbps
+      - PerAppVeAwaf25Mbps
+      - BYOL
+    ConstraintDescription: Must be a valid F5 BIG-IP VE image type
+    Default: Good25Mbps
+    Description: F5 BIG-IP Image Type, there are 3 PAYG images to select from and a BYOL image.  You must have a production, lab or evaluation license key to use BYOL.  **WARNING** You should REVOKE the license prior to deleting stack.
+    Type: String
+  # imageVersion:
+    # AllowedValues:
+      # - Good25Mbps
+      # - Best25Mbps
+      # - PerAppVeAwaf25Mbps
+      # - BYOL
+    # ConstraintDescription: Must be a valid F5 BIG-IP VE image type
+    # Default: Good25Mbps
+    # Description: F5 BIG-IP Performance Type
+    # Type: String
+  instanceType:
+    AllowedValues:
+      - m5.xlarge
+      - m5.4xlarge
+      - m5.large
+      - m5.12xlarge
+      - m4.xlarge
+      - m4.large
+      - m4.4xlarge
+      - m4.2xlarge
+      - m4.16xlarge
+      - m4.10xlarge
+      - m3.xlarge
+      - m3.medium
+      - m3.large
+      - m3.2xlarge
+      - cc2.8xlarge
+      - c5.xlarge
+      - c5.large
+      - c5.4xlarge
+      - c5.9xlarge
+      - c4.xlarge
+      - c4.8xlarge
+      - c4.4xlarge
+      - c4.2xlarge
+      - c3.xlarge
+      - c3.8xlarge
+      - c3.4xlarge
+      - c3.2xlarge
+      - c5n.2xlarge
+      - c5n.4xlarge
+    ConstraintDescription: Must be a valid EC2 instance type for BIG-IP
+    Default: m5.xlarge
+    Description: Size of the F5 BIG-IP Virtual Instance
+    Type: String
+  ntpServer:
+    Default: 0.pool.ntp.org
+    Description: NTP server for this implementation
+    Type: String
+  owner:
+    Default: f5owner
+    Description: Name of the Owner Tag
+    Type: String
+  restrictedSrcAddress:
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: Must be a valid IP CIDR range of the form x.x.x.x/x.
+    Description: ' The IP address range used to SSH and access managment GUI on the EC2 instances'
+    MaxLength: '18'
+    MinLength: '9'
+    Type: String
+  restrictedSrcAddressApp:
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: Must be a valid IP CIDR range of the form x.x.x.x/x.
+    Description: ' The IP address range that can be used to access web traffic (80/443) to the EC2 instances'
+    MaxLength: '18'
+    MinLength: '9'
+    Type: String
+  sshKey:
+    Description: EC2 KeyPair to enable SSH access to the BIG-IP instance
+    Type: 'AWS::EC2::KeyPair::KeyName'
+  timezone:
+    Default: UTC
+    Description: >-
+      Enter the Olson timezone string from /usr/share/zoneinfo. The default is
+      'UTC'. See the TZ column here
+      (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for legal
+      values. For example, 'US/Eastern'.
+    Type: String
+Resources:
+  ApplicationDefaultRoute:
+    DependsOn: AttachGateway
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref ApplicationRouteTable
+    Type: 'AWS::EC2::Route'
+  ApplicationRouteTable:
+    Properties:
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Application Route Table:'
+              - !Ref 'AWS::StackName'
+        - Key: Network
+          Value: Application
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::RouteTable'
+  AttachGateway:
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+  Az1ApplicationSubnet:
+    Properties:
+      AvailabilityZone: !Ref availabilityZone1
+      CidrBlock: 10.1.30.0/24
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - Az
+              - '1'
+              - ' Application Subnet:'
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::Subnet'
+  Az1ApplicationSubnetRouteTableAssociation:
+    Properties:
+      RouteTableId: !Ref ApplicationRouteTable
+      SubnetId: !Ref Az1ApplicationSubnet
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+  Az1ExternalSubnetRouteTableAssociation:
+    Properties:
+      RouteTableId: !Ref ExternalRouteTable
+      SubnetId: !Ref subnet1Az1
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+  Az1InternalSubnetRouteTableAssociation:
+    Properties:
+      RouteTableId: !Ref InternalRouteTable
+      SubnetId: !Ref subnet2Az1
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+  Az1ManagementSubnetRouteTableAssociation:
+    Properties:
+      RouteTableId: !Ref ManagementRouteTable
+      SubnetId: !Ref managementSubnetAz1
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+  Bigip1Instance:
+    Metadata:
+      'AWS::CloudFormation::Init':
+        config:
+          commands:
+            000-disable-1nicautoconfig:
+              command: /usr/bin/setdb provision.1nicautoconfig disable
+            001-rest-provision-extramb:
+              command: /usr/bin/setdb provision.extramb 1000
+            002-rest-use-extramb:
+              command: /usr/bin/setdb restjavad.useextramb true
+            003-rest-post:
+              command: >-
+                /usr/bin/curl -s -f -u admin: -H "Content-Type:
+                application/json" -d '{"maxMessageBodySize":134217728}' -X POST
+                http://localhost:8100/mgmt/shared/server/messaging/settings/8100
+                | jq .
+            010-install-libs:
+              command: !Join 
+                - ' '
+                - - mkdir -p /var/log/cloud/aws;
+                  - nohup /config/installCloudLibs.sh
+                  - '&>> /var/log/cloud/aws/install.log < /dev/null &'
+            020-generate-password:
+              command: !Join 
+                - ''
+                - - nohup /config/waitThenRun.sh
+                  - ' f5-rest-node /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/runScript.js'
+                  - ' --signal PASSWORD_CREATED'
+                  - ' --file f5-rest-node'
+                  - ' --cl-args ''/config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/generatePassword --file /config/cloud/aws/.adminPassword --encrypt'''
+                  - ' --log-level silly'
+                  - ' -o /var/log/cloud/aws/generatePassword.log'
+                  - ' &>> /var/log/cloud/aws/install.log < /dev/null'
+                  - ' &'
+            030-create-admin-user:
+              command: !Join 
+                - ''
+                - - nohup /config/waitThenRun.sh
+                  - ' f5-rest-node /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/runScript.js'
+                  - ' --wait-for PASSWORD_CREATED'
+                  - ' --signal ADMIN_CREATED'
+                  - ' --file /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/createUser.sh'
+                  - ' --cl-args ''--user admin'
+                  - ' --password-file /config/cloud/aws/.adminPassword'
+                  - ' --password-encrypted'
+                  - ''''
+                  - ' --log-level silly'
+                  - ' -o /var/log/cloud/aws/createUser.log'
+                  - ' &>> /var/log/cloud/aws/install.log < /dev/null'
+                  - ' &'
+            040-network-config:
+              command: !If
+                - cfgnet
+                - !Join 
+                    - ''
+                    - - >-
+                        GATEWAY_MAC=`ifconfig eth1 | egrep ether | awk '{print
+                        tolower($2)}'`; 
+                      - >-
+                        GATEWAY_CIDR_BLOCK=`/usr/bin/curl -s -f --retry 20
+                        http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC}/subnet-ipv4-cidr-block`; 
+                      - 'GATEWAY_NET=${GATEWAY_CIDR_BLOCK%/*}; '
+                      - 'GATEWAY_PREFIX=${GATEWAY_CIDR_BLOCK#*/}; '
+                      - >-
+                        GATEWAY=`echo ${GATEWAY_NET} | awk -F. '{ print
+                        $1"."$2"."$3"."$4+1 }'`; 
+                      - >
+                        GATEWAY_MAC2=`ifconfig eth2 | egrep ether | awk '{print
+                        tolower($2)}'`
+                      - >-
+                        GATEWAY_CIDR_BLOCK2=`/usr/bin/curl -s -f --retry 20
+                        http://169.254.169.254/latest/meta-data/network/interfaces/macs/${GATEWAY_MAC2}/subnet-ipv4-cidr-block`; 
+                      - 'GATEWAY_PREFIX2=${GATEWAY_CIDR_BLOCK2#*/}; '
+                      - 'nohup /config/waitThenRun.sh '
+                      - >-
+                        f5-rest-node
+                        /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/network.js 
+                      - '--host localhost '
+                      - '--user admin '
+                      - '--password-url file:///config/cloud/aws/.adminPassword '
+                      - '--password-encrypted '
+                      - '-o /var/log/cloud/aws/network.log '
+                      - '--log-level silly '
+                      - '--wait-for ADMIN_CREATED '
+                      - '--signal NETWORK_CONFIG_DONE '
+                      - '--vlan name:client_vlan,nic:1.1 '
+                      - '--default-gw ${GATEWAY} '
+                      - '--self-ip name:client_selfIP,address:'
+                      - !GetAtt 
+                        - Bigip1subnet1Az1Interface
+                        - PrimaryPrivateIpAddress
+                      - '/${GATEWAY_PREFIX},vlan:client_vlan '
+                      - '--vlan name:server_vlan,nic:1.2 '
+                      - '--self-ip name:server_selfIP,address:'
+                      - !GetAtt 
+                        - Bigip1InternalInterface
+                        - PrimaryPrivateIpAddress
+                      - '/${GATEWAY_PREFIX2},vlan:server_vlan '
+                      - '&>> /var/log/cloud/aws/install.log < /dev/null &'
+                - !Join 
+                    - ' '
+                    - - 'nohup /config/waitThenRun.sh '
+                      - >-                    
+                        f5-rest-node
+                        /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/network.js 
+                      - '--host localhost '
+                      - '--user admin '
+                      - '--password-url file:///config/cloud/aws/.adminPassword '
+                      - '--password-encrypted '
+                      - '-o /var/log/cloud/aws/network.log '
+                      - '--log-level silly '
+                      - '--wait-for ADMIN_CREATED '
+                      - '--signal NETWORK_CONFIG_DONE '   
+#                      - '--vlan name:client_vlan,nic:1.1 '
+#                      - '--vlan name:server_vlan,nic:1.2 '
+                      - '&>> /var/log/cloud/aws/install.log < /dev/null &'                      
+            050-onboard-BIG-IP:
+              command: !If 
+                - optin
+                - !Join 
+                  - ' '
+                  - - REGION="
+                    - !Ref 'AWS::Region'
+                    - '";'
+                    - DEPLOYMENTID=`echo "
+                    - !Ref 'AWS::StackId'
+                    - '"|sha512sum|cut -d " " -f 1`;'
+                    - CUSTOMERID=`echo "
+                    - !Ref 'AWS::AccountId'
+                    - '"|sha512sum|cut -d " " -f 1`;'
+                    - NAME_SERVER=`/config/cloud/aws/getNameServer.sh eth1`;
+                    - nohup /config/waitThenRun.sh
+                    - >-
+                      f5-rest-node
+                      /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/onboard.js
+                    - >-
+                      --install-ilx-package
+                      file:///var/config/rest/downloads/f5-appsvcs-3.25.0-3.noarch.rpm
+                    - '--wait-for NETWORK_CONFIG_DONE'
+                    - '--signal ONBOARD_DONE'
+                    - '-o /var/log/cloud/aws/onboard.log'
+                    - '--log-level silly'
+                    - '--no-reboot'
+                    - '--host localhost'
+                    - '--user admin'
+                    - '--password-url file:///config/cloud/aws/.adminPassword'
+                    - '--password-encrypted'
+                    - >-
+                      --hostname `/usr/bin/curl -s -f --retry 20
+                      http://169.254.169.254/latest/meta-data/hostname`
+                    - '--ntp '
+                    - !Ref ntpServer
+                    - '--tz '
+                    - !Ref timezone
+                    - '--dns ${NAME_SERVER}'
+                    - '--modules '
+                    - !Ref bigIpModules
+                    - >-
+                      --metrics
+                      "cloudName:aws,region:${REGION},bigIpVersion:15.1.2.1-0.0.10,customerId:${CUSTOMERID},deploymentId:${DEPLOYMENTID},templateName:f5-full-stack-payg-3nic-bigip.template,templateVersion:5.11.0,licenseType:hourly"
+                    - '-d tm.tcpudptxchecksum:software-only '
+                    - '--ping'
+                    - '&>> /var/log/cloud/aws/install.log < /dev/null &'
+                - !Join 
+                  - ' '
+                  - - NAME_SERVER=`/config/cloud/aws/getNameServer.sh eth1`;
+                    - nohup /config/waitThenRun.sh
+                    - >-
+                      f5-rest-node
+                      /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/onboard.js
+                    - >-
+                      --install-ilx-package
+                      file:///var/config/rest/downloads/f5-appsvcs-3.25.0-3.noarch.rpm
+                    - '--wait-for NETWORK_CONFIG_DONE'
+                    - '--signal ONBOARD_DONE'
+                    - '-o /var/log/cloud/aws/onboard.log'
+                    - '--log-level silly'
+                    - '--no-reboot'
+                    - '--host localhost'
+                    - '--user admin'
+                    - '--password-url file:///config/cloud/aws/.adminPassword'
+                    - '--password-encrypted'
+                    - >-
+                      --hostname `/usr/bin/curl -s -f --retry 20
+                      http://169.254.169.254/latest/meta-data/hostname`
+                    - '--ntp '
+                    - !Ref ntpServer
+                    - '--tz '
+                    - !Ref timezone
+                    - '--dns ${NAME_SERVER}'
+                    - '--modules '
+                    - !Ref bigIpModules
+                    - '-d tm.tcpudptxchecksum:software-only '
+                    - '--ping'
+                    - '&>> /var/log/cloud/aws/install.log < /dev/null &'
+            055-custom-config:
+              command: !Join 
+                - ' '
+                - - nohup /config/waitThenRun.sh
+                  - >-
+                    f5-rest-node
+                    /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/runScript.js
+                  - '--file /config/cloud/aws/custom-config.sh'
+                  - '--cwd /config/cloud/aws'
+                  - '-o /var/log/cloud/aws/custom-config.log'
+                  - '--log-level silly'
+                  - '--wait-for ONBOARD_DONE'
+                  - '--signal CUSTOM_CONFIG_DONE'
+                  - '&>> /var/log/cloud/aws/install.log < /dev/null &'
+            060-cluster:
+              command: !Join 
+                - ' '
+                - []
+            065-cfe:
+              command: !Join 
+                - ' '
+                - []
+            070-rm-password:
+              command: !Join 
+                - ' '
+                - - nohup /config/waitThenRun.sh
+                  - >-
+                    f5-rest-node
+                    /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/runScript.js
+                  - '--file /config/cloud/aws/rm-password.sh'
+                  - '-o /var/log/cloud/aws/rm-password.log'
+                  - '--log-level silly'
+                  - '--wait-for CUSTOM_CONFIG_DONE'
+                  - '--signal PASSWORD_REMOVED'
+                  - '&>> /var/log/cloud/aws/install.log < /dev/null &'
+          files:
+            /config/cloud/aws/custom-config.sh:
+              content: !Join 
+                - ''
+                - - |
+                    #!/bin/bash
+                  - |
+                    PROGNAME=$(basename $0)
+                  - |
+                    function error_exit {
+                  - |
+                    echo "${PROGNAME}: ${1:-\"Unknown Error\"}" 1>&2
+                  - |
+                    exit 1
+                  - |
+                    }
+                  - |
+                    declare -a tmsh=()
+                  - |
+                    echo 'starting custom-config.sh'
+                  - |
+                    source /config/cloud/aws/onboard_config_vars
+                  - |
+                    if [[ $allowPhoneHome == "No" ]]; then
+                  - |2
+                        tmsh+=(
+                  - |2
+                        "tmsh modify sys software update auto-phonehome disabled")
+                  - |
+                    fi
+                  - |
+                    tmsh+=(
+                  - >
+                    "tmsh mod sys global-settings gui-setup disabled"
+                  - >
+                  - |
+                    "tmsh save /sys config")
+                  - |
+                    for CMD in "${tmsh[@]}"
+                  - |
+                    do
+                  - |2
+                      "/config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/waitForMcp.sh"
+                  - |2
+                        if $CMD;then
+                  - |2
+                            echo "command $CMD successfully executed."
+                  - |2
+                        else
+                  - |2
+                            error_exit "$LINENO: An error has occurred while executing $CMD. Aborting!"
+                  - |2
+                        fi
+                  - |
+                    done
+                  - |
+                    date
+                  - |
+                    ### START CUSTOM CONFIGURATION
+                  - |
+                    deployed="no"
+                  - >
+                    url_regex="(http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+                  - |
+                    file_loc="/config/cloud/custom_config"
+                  - |
+                    if [[ $declarationUrl =~ $url_regex ]]; then
+                  - |2
+                      response_code=$(/usr/bin/curl -sk -w "%{http_code}" $declarationUrl -o $file_loc)
+                  - |2
+                      if [[ $response_code == 200 ]]; then
+                  - |2
+                        echo "Custom config download complete; checking for valid JSON."
+                  - |2
+                        cat $file_loc | jq .class
+                  - |2
+                    # DEBUG
+                  - |2                    
+                        echo "Result of jq is $?"
+                  - |2
+                         if [[ $? == 0 ]]; then
+                  - |2
+                          response_code=$(/usr/bin/curl -skvvu ${adminUsername}:$passwd -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Expect:" https://localhost:${managementGuiPort}/mgmt/shared/appsvcs/declare -d @$file_loc -o /dev/null)
+                  - |2
+                          if [[ $response_code == 200 || $response_code == 502 ]]; then
+                  - |2
+                            echo "Deployment of custom application succeeded."
+                  - |2
+                            deployed="yes"
+                  - |2
+                          else
+                  - |2
+                             echo "Failed to deploy custom application; continuing..."
+                  - |2
+                          fi
+                  - |2
+                        else
+                  - |2
+                          echo "Custom config was not valid JSON, continuing..."
+                  - |2
+                        fi
+                  - |2
+                      else
+                  - |2
+                        echo "Failed to download custom config; continuing..."
+                  - |2
+                      fi
+                  - |
+                    else
+                  - |2
+                      echo "Custom config was not a URL, continuing..."
+                  - |
+                    fi
+                  - '### END CUSTOM CONFIGURATION'
+              group: root
+              mode: '000755'
+              owner: root
+            /config/cloud/aws/getNameServer.sh:
+              content: !Join 
+                - |+
+
+                - - INTERFACE=$1
+                  - >-
+                    INTERFACE_MAC=`ifconfig ${INTERFACE} | egrep ether | awk
+                    '{print tolower($2)}'`
+                  - >-
+                    VPC_CIDR_BLOCK=`/usr/bin/curl -s -f --retry 20
+                    http://169.254.169.254/latest/meta-data/network/interfaces/macs/${INTERFACE_MAC}/vpc-ipv4-cidr-block`
+                  - 'VPC_NET=${VPC_CIDR_BLOCK%/*}'
+                  - >-
+                    NAME_SERVER=`echo ${VPC_NET} | awk -F. '{ printf
+                    "%d.%d.%d.%d", $1, $2, $3, $4+2 }'`
+                  - echo $NAME_SERVER
+              group: root
+              mode: '000755'
+              owner: root
+            /config/cloud/aws/onboard_config_vars:
+              content: !Join 
+                - ''
+                - - ''
+                  - |
+                    #!/bin/bash
+                  - |
+                    # Generated from 5.11.0
+                  - >
+                    hostname=`/usr/bin/curl
+                    http://169.254.169.254/latest/meta-data/hostname`
+                  - region='
+                  - !Ref 'AWS::Region'
+                  - |
+                    '
+                  - |
+                    adminUsername='admin'
+                  - timezone='
+                  - !Ref timezone
+                  - |
+                    '
+                  - ntpServer='
+                  - !Ref ntpServer
+                  - |
+                    '
+                  - declarationUrl='
+                  - !Ref declarationUrl
+                  - |
+                    '
+                  - allowPhoneHome='
+                  - !Ref allowPhoneHome
+                  - |
+                    '
+                  - >
+                    passwd=$(f5-rest-node
+                    /config/cloud/aws/node_modules/@f5devcentral/f5-cloud-libs/scripts/decryptDataFromFile.js
+                    --data-file /config/cloud/aws/.adminPassword)
+                  - |
+                    managementGuiPort='443'
+              group: root
+              mode: '000755'
+              owner: root
+            /config/cloud/aws/rm-password.sh:
+              content: !Join 
+                - ''
+                - - |
+                    #!/bin/bash
+                  - |
+                    PROGNAME=$(basename $0)
+                  - |
+                    function error_exit {
+                  - |
+                    echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
+                  - |
+                    exit 1
+                  - |
+                    }
+                  - |
+                    date
+                  - |
+                    echo 'starting rm-password.sh'
+                  - |
+                    declare -a tmsh=()
+                  - |
+                    tmsh+=("rm /config/cloud/aws/.adminPassword")
+                  - |
+                    for CMD in "${tmsh[@]}"
+                  - |
+                    do
+                  - |2
+                      if $CMD;then
+                  - |2
+                          echo "command $CMD successfully executed."
+                  - |2
+                      else
+                  - |2
+                          error_exit "$LINENO: An error has occurred while executing $CMD. Aborting!"
+                  - |2
+                      fi
+                  - |
+                    done
+                  - |
+                    date
+              group: root
+              mode: '000755'
+              owner: root
+            /config/cloud/f5-cloud-libs-aws.tar.gz:
+              group: root
+              mode: '000755'
+              owner: root
+              source: >-
+                http://cdn.f5.com/product/cloudsolutions/f5-cloud-libs-aws/v2.9.1/f5-cloud-libs-aws.tar.gz
+            /config/cloud/f5-cloud-libs.tar.gz:
+              group: root
+              mode: '000755'
+              owner: root
+              source: >-
+                http://cdn.f5.com/product/cloudsolutions/f5-cloud-libs/v4.24.0/f5-cloud-libs.tar.gz
+            /config/installCloudLibs.sh:
+              content: !Join 
+                - |+
+
+                - - '#!/bin/bash'
+                  - echo about to execute
+                  - checks=0
+                  - 'while [ $checks -lt 120 ]; do echo checking mcpd'
+                  - '    tmsh -a show sys mcp-state field-fmt | grep -q running'
+                  - '    if [ $? == 0 ]; then'
+                  - '        echo mcpd ready'
+                  - '        break'
+                  - '    fi'
+                  - '    echo mcpd not ready yet'
+                  - '    let checks=checks+1'
+                  - '    sleep 10'
+                  - done
+                  - echo loading verifyHash script
+                  - >-
+                    if ! tmsh load sys config merge file /config/verifyHash;
+                    then
+                  - '    echo cannot validate signature of /config/verifyHash'
+                  - '    exit'
+                  - fi
+                  - echo loaded verifyHash
+                  - >-
+                    declare -a
+                    filesToVerify=("/config/cloud/f5-cloud-libs.tar.gz"
+                    "/config/cloud/f5-cloud-libs-aws.tar.gz"
+                    "/var/config/rest/downloads/f5-appsvcs-3.25.0-3.noarch.rpm"
+                    )
+                  - 'for fileToVerify in "${filesToVerify[@]}"'
+                  - do
+                  - '    echo verifying "$fileToVerify"'
+                  - '    if ! tmsh run cli script verifyHash "$fileToVerify"; then'
+                  - '        echo "$fileToVerify" is not valid'
+                  - '        exit 1'
+                  - '    fi'
+                  - '    echo verified "$fileToVerify"'
+                  - done
+                  - mkdir -p /config/cloud/aws/node_modules/@f5devcentral
+                  - echo expanding f5-cloud-libs.tar.gz
+                  - >-
+                    tar xvfz /config/cloud/f5-cloud-libs.tar.gz -C
+                    /config/cloud/aws/node_modules/@f5devcentral
+                  - echo installing dependencies
+                  - >-
+                    tar xvfz /config/cloud/f5-cloud-libs-aws.tar.gz -C
+                    /config/cloud/aws/node_modules/@f5devcentral
+                  - echo cloud libs install complete
+                  - touch /config/cloud/cloudLibsReady
+              group: root
+              mode: '000755'
+              owner: root
+            /config/verifyHash:
+              content: |
+                cli script /Common/verifyHash {
+                proc script::run {} {
+                        if {[catch {
+                            set hashes(f5-cloud-libs.tar.gz) de6195a0a7fa18eec5c930ca123fcf3ccdbc380fba8999350dad8de0499c3d5b42c2b9d90a5d4d19734467fd9c02c0b747db08aa41d9a9336d9d63508efde9df
+                            set hashes(f5-cloud-libs-aws.tar.gz) 24d0dbc3a2ec6a420da341998dae4cf64f9ba86ec8afded7da67031aa897b2a28ef1c77a2ab1ad270527bd6a15aad19642b0c97ccb9a48e58e7b35a1e920ca54
+                            set hashes(f5-cloud-libs-azure.tar.gz) 477a6115490a31130c1ef145072fe38a826762d0d60485c122a323035223fd512ec05633c100a40df2c23e73e3511ff01ee811e49a3850f9cfabd62ca5519aa0
+                            set hashes(f5-cloud-libs-gce.tar.gz) 460f4b263abe8978f20c86e23a2a6a922a6db33ad8fe68e3c1d5dfbed1a89512b9a441ce485cd4b20a9d200dfb962ae08a2c0d3df87d7fb0c63d29fd046742e2
+                            set hashes(f5-cloud-libs-openstack.tar.gz) 5c83fe6a93a6fceb5a2e8437b5ed8cc9faf4c1621bfc9e6a0779f6c2137b45eab8ae0e7ed745c8cf821b9371245ca29749ca0b7e5663949d77496b8728f4b0f9
+                            set hashes(f5-cloud-libs-consul.tar.gz) a32aab397073df92cbbba5067e5823e9b5fafca862a258b60b6b40aa0975c3989d1e110f706177b2ffbe4dde65305a260a5856594ce7ad4ef0c47b694ae4a513
+                            set hashes(asm-policy-linux.tar.gz) 63b5c2a51ca09c43bd89af3773bbab87c71a6e7f6ad9410b229b4e0a1c483d46f1a9fff39d9944041b02ee9260724027414de592e99f4c2475415323e18a72e0
+                            set hashes(f5.http.v1.2.0rc4.tmpl) 47c19a83ebfc7bd1e9e9c35f3424945ef8694aa437eedd17b6a387788d4db1396fefe445199b497064d76967b0d50238154190ca0bd73941298fc257df4dc034
+                            set hashes(f5.http.v1.2.0rc6.tmpl) 811b14bffaab5ed0365f0106bb5ce5e4ec22385655ea3ac04de2a39bd9944f51e3714619dae7ca43662c956b5212228858f0592672a2579d4a87769186e2cbfe
+                            set hashes(f5.http.v1.2.0rc7.tmpl) 21f413342e9a7a281a0f0e1301e745aa86af21a697d2e6fdc21dd279734936631e92f34bf1c2d2504c201f56ccd75c5c13baa2fe7653213689ec3c9e27dff77d
+                            set hashes(f5.aws_advanced_ha.v1.3.0rc1.tmpl) 9e55149c010c1d395abdae3c3d2cb83ec13d31ed39424695e88680cf3ed5a013d626b326711d3d40ef2df46b72d414b4cb8e4f445ea0738dcbd25c4c843ac39d
+                            set hashes(f5.aws_advanced_ha.v1.4.0rc1.tmpl) de068455257412a949f1eadccaee8506347e04fd69bfb645001b76f200127668e4a06be2bbb94e10fefc215cfc3665b07945e6d733cbe1a4fa1b88e881590396
+                            set hashes(f5.aws_advanced_ha.v1.4.0rc2.tmpl) 6ab0bffc426df7d31913f9a474b1a07860435e366b07d77b32064acfb2952c1f207beaed77013a15e44d80d74f3253e7cf9fbbe12a90ec7128de6facd097d68f
+                            set hashes(f5.aws_advanced_ha.v1.4.0rc3.tmpl) 2f2339b4bc3a23c9cfd42aae2a6de39ba0658366f25985de2ea53410a745f0f18eedc491b20f4a8dba8db48970096e2efdca7b8efffa1a83a78e5aadf218b134
+                            set hashes(f5.aws_advanced_ha.v1.4.0rc4.tmpl) 2418ac8b1f1884c5c096cbac6a94d4059aaaf05927a6a4508fd1f25b8cc6077498839fbdda8176d2cf2d274a27e6a1dae2a1e3a0a9991bc65fc74fc0d02ce963
+                            set hashes(f5.aws_advanced_ha.v1.4.0rc5.tmpl) 5e582187ae1a6323e095d41eddd41151d6bd38eb83c634410d4527a3d0e246a8fc62685ab0849de2ade62b0275f51264d2deaccbc16b773417f847a4a1ea9bc4
+                            set hashes(asm-policy.tar.gz) 2d39ec60d006d05d8a1567a1d8aae722419e8b062ad77d6d9a31652971e5e67bc4043d81671ba2a8b12dd229ea46d205144f75374ed4cae58cefa8f9ab6533e6
+                            set hashes(deploy_waf.sh) 1a3a3c6274ab08a7dc2cb73aedc8d2b2a23cd9e0eb06a2e1534b3632f250f1d897056f219d5b35d3eed1207026e89989f754840fd92969c515ae4d829214fb74
+                            set hashes(f5.policy_creator.tmpl) 06539e08d115efafe55aa507ecb4e443e83bdb1f5825a9514954ef6ca56d240ed00c7b5d67bd8f67b815ee9dd46451984701d058c89dae2434c89715d375a620
+                            set hashes(f5.service_discovery.tmpl) 4811a95372d1dbdbb4f62f8bcc48d4bc919fa492cda012c81e3a2fe63d7966cc36ba8677ed049a814a930473234f300d3f8bced2b0db63176d52ac99640ce81b
+                            set hashes(f5.cloud_logger.v1.0.0.tmpl) 64a0ed3b5e32a037ba4e71d460385fe8b5e1aecc27dc0e8514b511863952e419a89f4a2a43326abb543bba9bc34376afa114ceda950d2c3bd08dab735ff5ad20
+                            set hashes(f5-appsvcs-3.5.1-5.noarch.rpm) ba71c6e1c52d0c7077cdb25a58709b8fb7c37b34418a8338bbf67668339676d208c1a4fef4e5470c152aac84020b4ccb8074ce387de24be339711256c0fa78c8
+                            set hashes(f5-appsvcs-3.18.0-4.noarch.rpm) e72ee8005a27070ac399ab097e8aa507a72aae4721d7491589cfeb821db3ef86cbc979e796ab319ec727bb51400ccda813c4b9eb4a6b3d1220a396b582f8f400
+                            set hashes(f5-appsvcs-3.20.0-3.noarch.rpm) d4bba8892a2068bb53f88c6090dc65f17707abca35a7ed2fff39980057fe7f7a2ebf710ab2284a1d83d70b7746beabad9df603017c0fd8728f7457661c95ac8d
+                            set hashes(f5-appsvcs-3.25.0-3.noarch.rpm) 26f19bdaaa81cbe0421b3e08c09987f9dd0c54b05a626d6a21a836b34248d2d9d83095f0daad8e7a4a068e9ef99b89fbcd246ae8b617ac2b2456599157d0e8b3
+                            set hashes(f5-cloud-failover-1.1.0-0.noarch.rpm) 15a440c299f9e4af86a3d0f5b0d75b0054385b95e47c3ef116d2e0bfb0041a26dcbf549028e2a26d2c718ec61446bd657be38fbbcd9db781efe5414c174ac68c
+                            set hashes(f5-cloud-failover-1.3.0-0.noarch.rpm) 19681eb33d9f910c913f8180199485eb653b4b5ebeaae0b90a6ce8341d7a22fed8d21815b5ba148c468852d20cc26fad4c4242e50ecc184f1f8770dacced6f6a
+                            set hashes(f5-cloud-failover-1.4.0-0.noarch.rpm) 49e9108a070e0c8713aeb7b330662358542e61b7c53a9d45108d37a9bf5246f9e4aaae10cc61064801dcccd20bfd5108347b0f694510e7ece07f96c45ba683b0
+                            set hashes(f5-cloud-failover-1.5.0-0.noarch.rpm) 33a7e2d047106bcce681757a65240bfacedd48e13567e05fdb23a4b269d266aa5001f81158c3964dc297f0428db31c9df428002898d190285b349c59422a573b
+                            set hashes(f5-cloud-failover-1.6.1-1.noarch.rpm) c1b842da21b8d1ba21b6eb63c8598a9ea9986d5daddc21e4d280e1d6b09d3db1de8ac7de5c84edf07b43e4af03daf8fe747a4048f6573d955206352cde2cec65
+                            set hashes(f5-cloud-failover-1.7.1-1.noarch.rpm) 14ff0cd2bb49780cc0ae3021c4fc8fcc096e3fce2258096a4aa026d6d37de728ca7345bfe3a79031e336e74d25a2b40ff28324c2c752bf0ee71b7fc89b6fc8fe
+
+                            set file_path [lindex $tmsh::argv 1]
+                            set file_name [file tail $file_path]
+
+                            if {![info exists hashes($file_name)]} {
+                                tmsh::log err "No hash found for $file_name"
+                                exit 1
+                            }
+
+                            set expected_hash $hashes($file_name)
+                            set computed_hash [lindex [exec /usr/bin/openssl dgst -r -sha512 $file_path] 0]
+                            if { $expected_hash eq $computed_hash } {
+                                exit 0
+                            }
+                            tmsh::log err "Hash does not match for $file_path"
+                            exit 1
+                        }]} {
+                            tmsh::log err {Unexpected error in verifyHash}
+                            exit 1
+                        }
+                    }
+                    script-signature HpiylfDkokUkhoAlJidojlgFGeSVuzopshSCi840dN47e5fv/aYbaqWX4K7byVaPrW5wRT2ABmKkGnxS/bhrKpQQm2JQtveUk0gnFi4utPhQmTbFPJJSeQG/DYyRa/VfimXyBvILJ9dmKVgvRtCOtiZ7aRnWLquQLY0rYuS7BzddGrw5lVpAxfwpLyp0TaahPAQc06Qb64d7PSM77d4s/iQ1AGJFmMbCQJGHoKwzWREaFrFii8e4aoyZ3dmRFTIXknKJ1mVAnSaQTJrhxh35Y8OBQWGNiSNJLMpgbKfFCr6ErnK2WryhrIumhsB5CgnGzItt8ReppWbcLnY7O14dcg==
+                    signing-key /Common/f5-irule
+                }
+              group: root
+              mode: '000755'
+              owner: root
+            /config/waitThenRun.sh:
+              content: !Join 
+                - |+
+
+                - - '#!/bin/bash'
+                  - >-
+                    while true; do echo "waiting for cloud libs install to
+                    complete"
+                  - '    if [ -f /config/cloud/cloudLibsReady ]; then'
+                  - '        break'
+                  - '    else'
+                  - '        sleep 10'
+                  - '    fi'
+                  - done
+                  - '"$@"'
+              group: root
+              mode: '000755'
+              owner: root
+            /var/config/rest/downloads/f5-appsvcs-3.25.0-3.noarch.rpm:
+              group: root
+              mode: '000755'
+              owner: root
+              source: >-
+                http://cdn.f5.com/product/cloudsolutions/f5-appsvcs-extension/v3.25.0/f5-appsvcs-3.25.0-3.noarch.rpm
+    Properties:
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            DeleteOnTermination: 'true'
+            VolumeSize: '100'
+            VolumeType: gp2
+        - DeviceName: /dev/xvdb
+          NoDevice: {}
+      IamInstanceProfile: !Ref bigipServiceDiscoveryProfile
+      ImageId: !If 
+        - noCustomImageId
+        - !FindInMap 
+          - BigipRegionMap
+          - !Ref 'AWS::Region'
+          - !Ref imageName
+        - !Ref customImageId
+      InstanceType: !Ref instanceType
+      KeyName: !Ref sshKey
+      NetworkInterfaces:
+        - Description: Management Interface
+          DeviceIndex: '0'
+          NetworkInterfaceId: !Ref Bigip1ManagementInterface
+        - Description: Public or External Interface
+          DeviceIndex: '1'
+          NetworkInterfaceId: !Ref Bigip1subnet1Az1Interface
+        - Description: Private or Internal Interface
+          DeviceIndex: '2'
+          NetworkInterfaceId: !Ref Bigip1InternalInterface
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Big-IP: '
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      UserData: !Base64 
+        'Fn::Join':
+          - ''
+          - - |
+              #!/bin/bash
+            - '/opt/aws/apitools/cfn-init/bin/cfn-init -v -s '
+            - !Ref 'AWS::StackId'
+            - ' -r '
+            - Bigip1Instance
+            - ' --region '
+            - !Ref 'AWS::Region'
+            - |+
+
+    Type: 'AWS::EC2::Instance'
+  Bigip1InternalInterface:
+    Properties:
+      Description: Internal Interface for the BIG-IP
+      GroupSet:
+        - !Ref bigipInternalSecurityGroup
+      SubnetId: !Ref subnet2Az1
+      PrivateIpAddresses:
+        - PrivateIpAddress: 10.1.20.245
+          Primary: 'true'
+        - PrivateIpAddress: 10.1.20.249
+          Primary: 'false'
+    Type: 'AWS::EC2::NetworkInterface'
+  Bigip1ManagementEipAddress:
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+    Type: 'AWS::EC2::EIP'
+  Bigip1ManagementEipAssociation:
+    DependsOn: AttachGateway
+    Properties:
+      AllocationId: !GetAtt 
+        - Bigip1ManagementEipAddress
+        - AllocationId
+      NetworkInterfaceId: !Ref Bigip1ManagementInterface
+    Type: 'AWS::EC2::EIPAssociation'
+  Bigip1ManagementInterface:
+    Properties:
+      Description: Management Interface for the BIG-IP
+      GroupSet:
+        - !Ref bigipManagementSecurityGroup
+      SubnetId: !Ref managementSubnetAz1
+      PrivateIpAddress: 10.1.1.4
+    Type: 'AWS::EC2::NetworkInterface'
+  Bigip1VipEipTo100:
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+    Type: 'AWS::EC2::EIP'
+  Bigip1VipEip100Association:
+    DependsOn: AttachGateway
+    Properties:
+      AllocationId: !GetAtt 
+        - Bigip1VipEipTo100
+        - AllocationId
+      NetworkInterfaceId: !Ref Bigip1subnet1Az1Interface
+      PrivateIpAddress: !Select
+        - '0'
+        - !GetAtt 
+          - Bigip1subnet1Az1Interface
+          - SecondaryPrivateIpAddresses
+    Type: 'AWS::EC2::EIPAssociation'
+  Bigip1VipEipTo105:
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+    Type: 'AWS::EC2::EIP'
+  Bigip1VipEip105Association:
+    DependsOn: AttachGateway
+    Properties:
+      AllocationId: !GetAtt 
+        - Bigip1VipEipTo105
+        - AllocationId
+      NetworkInterfaceId: !Ref Bigip1subnet1Az1Interface
+      PrivateIpAddress: !Select
+        - '1'
+        - !GetAtt 
+          - Bigip1subnet1Az1Interface
+          - SecondaryPrivateIpAddresses
+    Type: 'AWS::EC2::EIPAssociation'
+  Bigip1subnet1Az1Interface:
+    Properties:
+      Description: Public External Interface for the BIG-IP
+      GroupSet:
+        - !Ref bigipExternalSecurityGroup
+      # SecondaryPrivateIpAddressCount: '1'
+      SubnetId: !Ref subnet1Az1
+      PrivateIpAddresses:
+        - PrivateIpAddress: 10.1.10.245
+          Primary: 'true'
+        - PrivateIpAddress: 10.1.10.100
+          Primary: 'false'
+        - PrivateIpAddress: 10.1.10.105
+          Primary: 'false'          
+    Type: 'AWS::EC2::NetworkInterface'
+  Bigip1subnet1Az1SelfEipAddress:
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+    Type: 'AWS::EC2::EIP'
+  Bigip1subnet1Az1SelfEipAssociation:
+    DependsOn: AttachGateway
+    Properties:
+      AllocationId: !GetAtt 
+        - Bigip1subnet1Az1SelfEipAddress
+        - AllocationId
+      NetworkInterfaceId: !Ref Bigip1subnet1Az1Interface
+      PrivateIpAddress: !GetAtt 
+        - Bigip1subnet1Az1Interface
+        - PrimaryPrivateIpAddress
+    Type: 'AWS::EC2::EIPAssociation'
+  ExternalDefaultRoute:
+    DependsOn: AttachGateway
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref ExternalRouteTable
+    Type: 'AWS::EC2::Route'
+  ExternalRouteTable:
+    Properties:
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - External Route Table
+              - !Ref 'AWS::StackName'
+        - Key: Network
+          Value: External
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::RouteTable'
+  InternalDefaultRoute:
+    DependsOn: AttachGateway
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref InternalRouteTable
+    Type: 'AWS::EC2::Route'
+  InternalRouteTable:
+    Properties:
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Internal Route Table:'
+              - !Ref 'AWS::StackName'
+        - Key: Network
+          Value: Internal
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::RouteTable'
+  InternetGateway:
+    Properties:
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'InternetGateway: '
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+    Type: 'AWS::EC2::InternetGateway'
+  ManagementDefaultRoute:
+    DependsOn: AttachGateway
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref ManagementRouteTable
+    Type: 'AWS::EC2::Route'
+  ManagementRouteTable:
+    Properties:
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - Management Route Table
+              - !Ref 'AWS::StackName'
+        - Key: Network
+          Value: Mgmt
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::RouteTable'
+  Vpc:
+    Properties:
+      CidrBlock: 10.1.0.0/16
+      EnableDnsHostnames: 'true'
+      EnableDnsSupport: 'true'
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Vpc: '
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+    Type: 'AWS::EC2::VPC'
+  Webserver:
+    Properties:
+      ImageId: !FindInMap 
+        - WebserverRegionMap
+        - !Ref 'AWS::Region'
+        - AMI
+      InstanceType: !Ref applicationInstanceType
+      KeyName: !Ref sshKey
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: 'true'
+          Description: !Join 
+            - ''
+            - - !Ref 'AWS::StackName'
+              - ' Webserver Network Interface'
+          DeviceIndex: '0'
+          GroupSet:
+            - !Ref WebserverSecurityGroup
+          SubnetId: !Ref subnet2Az1
+          PrivateIpAddresses:
+          - PrivateIpAddress: 10.1.20.100
+            Primary: 'true'
+          - PrivateIpAddress: 10.1.20.11
+            Primary: 'false'
+          - PrivateIpAddress: 10.1.20.12
+            Primary: 'false'
+          - PrivateIpAddress: 10.1.20.13
+            Primary: 'false'
+          - PrivateIpAddress: 10.1.20.14
+            Primary: 'false'
+          - PrivateIpAddress: 10.1.20.20
+            Primary: 'false'
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Webserver:'
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      UserData: !Base64 
+        'Fn::Join':
+          - |+       
+ 
+          - - '#!/bin/bash'
+            - 'echo Attach secondary IPs to interface eth0'
+            - 'cd /home/ubuntu'
+            - 'sudo git clone https://github.com/leifbr/partnerlabs.git'
+            - 'sudo cp /home/ubuntu/partnerlabs/awslab/60-netcfg.yaml /etc/netplan/'
+            - 'sudo netplan apply'
+            - 'sleep 20'
+            - 'echo install docker'
+            - 'sudo apt-get update -y'
+            - 'sudo apt-get install docker.io -y'
+            - 'sudo systemctl start docker'
+            - 'sudo systemctl enable docker'
+            - 'echo Start up containerize web services'
+            - 'sudo docker run -itd --restart unless-stopped --name partnerlabs -p 10.1.20.100:80:80 leifbr/partnerlabs'
+            - 'sudo docker run -itd --restart unless-stopped --name f5demo1 -p 10.1.20.11:80:80 chen23/f5-demo-php'
+            - 'sudo docker run -itd --restart unless-stopped --name f5demo2 -p 10.1.20.12:80:80 chen23/f5-demo-php'
+            - 'sudo docker run -itd --restart unless-stopped --name f5demo3 -p 10.1.20.13:80:80 chen23/f5-demo-php'
+            - 'sudo docker run -itd --restart unless-stopped --name f5demo4 -p 10.1.20.14:80:80 chen23/f5-demo-php'
+            - 'sudo docker run -itd --restart unless-stopped --name hack20 -p 10.1.20.20:80:80 mutzel/all-in-one-hackazon:postinstall ./start.sh > start.log'
+            - 'sudo docker run -itd --restart unless-stopped --name juice30 -p 10.1.20.20:3000:3000 bkimminich/juice-shop'
+    Type: 'AWS::EC2::Instance'
+  WebserverSecurityGroup:
+    Properties:
+      GroupDescription: Enable Access to Webserver
+      SecurityGroupIngress:
+        - CidrIp: '10.1.20.0/24'
+          IpProtocol: '-1'
+        - CidrIp: !Ref restrictedSrcAddress
+          FromPort: '22'
+          IpProtocol: tcp
+          ToPort: '22'
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '80'
+          IpProtocol: tcp
+          ToPort: '80'
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '80'
+          IpProtocol: tcp
+          ToPort: '3000'
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '8081'
+          IpProtocol: tcp
+          ToPort: '8083'
+        - CidrIp: !Ref restrictedSrcAddress
+          FromPort: '443'
+          IpProtocol: tcp
+          ToPort: '443'
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Webserver Security Group:'
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::SecurityGroup'
+  bigipExternalSecurityGroup:
+    Properties:
+      GroupDescription: Public or external interface rules
+      SecurityGroupIngress:
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '22'
+          IpProtocol: tcp
+          ToPort: '22'
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '80'
+          IpProtocol: tcp
+          ToPort: '80'
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '8080'
+          IpProtocol: tcp
+          ToPort: '8081'
+        - CidrIp: !Ref restrictedSrcAddressApp
+          FromPort: '443'
+          IpProtocol: tcp
+          ToPort: '443'
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Bigip External Security Group:'
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::SecurityGroup'
+  bigipInternalSecurityGroup:
+    Properties:
+      GroupDescription: Allow All from Intra-VPC only
+      SecurityGroupIngress:
+        - CidrIp: '10.1.20.0/24'
+          IpProtocol: '-1'
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Bigip Internal Security Group:'
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::SecurityGroup'
+  bigipManagementSecurityGroup:
+    Properties:
+      GroupDescription: BIG-IP management interface policy
+      SecurityGroupIngress:
+        - CidrIp: !Ref restrictedSrcAddress
+          FromPort: '22'
+          IpProtocol: tcp
+          ToPort: '22'
+        - CidrIp: !Ref restrictedSrcAddress
+          FromPort: '443'
+          IpProtocol: tcp
+          ToPort: '443'
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Bigip Management Security Group:'
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::SecurityGroup'
+  bigipServiceDiscoveryAccessRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+        Version: 2012-10-17
+      Path: /
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - 'ec2:DescribeInstances'
+                  - 'ec2:DescribeInstanceStatus'
+                  - 'ec2:DescribeAddresses'
+                  - 'ec2:AssociateAddress'
+                  - 'ec2:DisassociateAddress'
+                  - 'ec2:DescribeNetworkInterfaces'
+                  - 'ec2:DescribeNetworkInterfaceAttribute'
+                  - 'ec2:DescribeRouteTables'
+                  - 'ec2:ReplaceRoute'
+                  - 'ec2:assignprivateipaddresses'
+                  - 'sts:AssumeRole'
+                Effect: Allow
+                Resource:
+                  - '*'
+            Version: 2012-10-17
+          PolicyName: BigipServiceDiscoveryPolicy
+    Type: 'AWS::IAM::Role'
+  bigipServiceDiscoveryProfile:
+    Properties:
+      Path: /
+      Roles:
+        - !Ref bigipServiceDiscoveryAccessRole
+    Type: 'AWS::IAM::InstanceProfile'
+  managementSubnetAz1:
+    Properties:
+      AvailabilityZone: !Ref availabilityZone1
+      CidrBlock: 10.1.1.0/24
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - Az
+              - '1'
+              - ' Management Subnet:'
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::Subnet'
+  subnet1Az1:
+    Properties:
+      AvailabilityZone: !Ref availabilityZone1
+      CidrBlock: 10.1.10.0/24
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - Az
+              - '1'
+              - ' External Subnet:'
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::Subnet'
+  subnet2Az1:
+    Properties:
+      AvailabilityZone: !Ref availabilityZone1
+      CidrBlock: 10.1.20.0/24
+      Tags:
+        - Key: Application
+          Value: !Ref application
+        - Key: Costcenter
+          Value: !Ref costcenter
+        - Key: Environment
+          Value: !Ref environment
+        - Key: Group
+          Value: !Ref group
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - Az
+              - '1'
+              - ' Internal Subnet:'
+              - !Ref 'AWS::StackName'
+        - Key: Owner
+          Value: !Ref owner
+      VpcId: !Ref Vpc
+    Type: 'AWS::EC2::Subnet'
