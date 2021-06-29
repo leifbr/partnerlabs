@@ -1,6 +1,10 @@
 Lab 7: Device Service Clusters (DSC) 
 ====================================
 
+.. important::
+
+   To save costs this lab is NOT available in the AWS lab environment.  It may be added in the future.
+   
 To familiarize you with the concept of Device and Traffic Groups as well
 as the building of Active-Standby, Active-Active BIG-IP pairs. While
 there is a wizard, for this lab configuration will be done manually. The
