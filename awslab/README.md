@@ -116,3 +116,8 @@ If you do decide to delete the stack consider the following:
 **IMPORTANT**
 When using a **BYOL** or an **evaluation key** remember to **REVOKE** your license prior to deleting the stack.  The license can then be re-used to license the next stack you build.
 
+Basic Network Diagram
+=====================
+   
+A basic diagram of the network is provide here, there is NO second BIG-IP at this time.
+<br> ![visio diagram](images/vLabNG_Diagram_v1.png)<br>
