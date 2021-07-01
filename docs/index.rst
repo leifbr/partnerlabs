@@ -49,10 +49,3 @@ These labs are designed to familiarize engineers with F5 solutions and in some c
    :glob:
 
    class17/class17
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Agility 2021 - Sirius Lab:
-   :glob:
-
-   class18/class18
