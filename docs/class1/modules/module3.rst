@@ -22,10 +22,10 @@ Prerequisites
    The43 is a **FREE TRIAL** once you subscribe for a BIG-IP from the AWS website:
    *Try one unit of this product for 30 days. There will be no software charges for that unit, but AWS infrastructure charges still apply. Free Trials will automatically convert to a paid subscription upon expiration and you will be charged for additional usage above the free units provided.*  Once the free trial is up there is a hourly license charge for the BIG-IP instance you use, with the exception of the BYOL. Of course all instances incur EC2 costs.
 
-   #. F5 BIG-IP Virtual Edition - GOOD (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-lphsy6izllsmq?ref_=beagle&applicationId=AWS-Marketplace-Console (0.43/hr estimated EC2 and Licensing)
-   #. F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (1.77/hr estimated EC2 and Licensing)
-   #. F5 Per-App-VE Advanced WAF with LTM, IPI, TC (PAYG, 25Mbps) https://aws.amazon.com/marketplace/pp/prodview-7ykhgfdcrjazq?ref_=beagle&applicationId=AWS-Marketplace-Console (0.47/hr estimated EC2 and Licensing)
-   #. F5 BIG-IP VE - ALL (BYOL, 2 Boot Locations) - https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti?ref_=beagle&applicationId=AWS-Marketplace-Console (0.40/hr estimate for EC2 charges, no licensing charges, can be used with evaluation keys)
+   #. F5 BIG-IP Virtual Edition - GOOD (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-lphsy6izllsmq (0.43/hr estimated EC2 and Licensing)
+   #. F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti (1.77/hr estimated EC2 and Licensing)
+   #. F5 Per-App-VE Advanced WAF with LTM, IPI, TC (PAYG, 25Mbps) https://aws.amazon.com/marketplace/pp/prodview-7ykhgfdcrjazq (0.47/hr estimated EC2 and Licensing)
+   #. F5 BIG-IP VE - ALL (BYOL, 2 Boot Locations) - https://aws.amazon.com/marketplace/pp/prodview-73utu5c5sfyyc (0.40/hr estimate for EC2 charges, no licensing charges, can be used with evaluation keys)
    
 
 Creating the stack
