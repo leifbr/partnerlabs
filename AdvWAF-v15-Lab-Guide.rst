@@ -4,7 +4,7 @@ Lab Guide
 
 Participant Hands-on Lab Guide
 
-.. image:: /_static/advwaf/image1.png
+.. image:: media/image1.png
    :width: 1.93667in
    :height: 0.61667in
 
@@ -98,7 +98,7 @@ Lab Network Overview
 Each student will have a BIG-IP VE environment with IP addressing as
 below:
 
-.. image:: /_static/advwaf/image2.jpg
+.. image:: media/image2.jpg
    :width: 6.5974in
    :height: 6.73203in
 
@@ -113,7 +113,7 @@ b. Look for the **xubuntu-jumpbox-vxx**. You will use the xubuntu
 
 ..
 
-   .. image:: /_static/advwaf/image3.png
+   .. image:: media/image3.png
       :width: 3.775in
       :height: 2.87104in
 
@@ -123,7 +123,7 @@ c. You can click on **RDP** to RDP to the Xubuntu jumpbox or you can
 
 ..
 
-   .. image:: /_static/advwaf/image4.png
+   .. image:: media/image4.png
       :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML230ba94c.PNG
       :width: 3.36587in
       :height: 3.04167in
@@ -213,7 +213,7 @@ plug a few holes.
 
 ..
 
-   .. image:: /_static/advwaf/image5.png
+   .. image:: media/image5.png
       :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTMLe2109f4e.PNG
       :width: 4.30972in
       :height: 1.85694in
@@ -237,7 +237,7 @@ Creating Application Security Policy
 3. Click the **Create..** button. As you can see, security policy setup
    is done on a single page.
 
-.. image:: /_static/advwaf/image6.png
+.. image:: media/image6.png
    :width: 4.29691in
    :height: 3.09898in
 
@@ -283,7 +283,7 @@ to fast, so the policy will build quickly.
 When you are done your **Advance** configuration items should look
 something like this:
 
-.. image:: /_static/advwaf/image7.png
+.. image:: media/image7.png
    :width: 5.7865in
    :height: 3.57294in
 
@@ -291,7 +291,7 @@ something like this:
    left. It may take a few minutes. Notice you have a number of new
    things you can do with your security policy.
 
-.. image:: /_static/advwaf/image9.png
+.. image:: media/image9.png
    :width: 5.849in
    :height: 2.95315in
 
@@ -307,7 +307,7 @@ Enable Application Security Logging
    Requests.** Click **Finished.** Be aware logging all responses will
    put additional load on the BIG-IP.
 
-.. image:: /_static/advwaf/image10.png
+.. image:: media/image10.png
    :width: 3.92394in
    :height: 2.87662in
 
@@ -320,7 +320,7 @@ Enable Application Security Logging
 Note that the Application Security Policy has already been applied per
 the wizard.
 
-   .. image:: /_static/advwaf/image11.png
+   .. image:: media/image11.png
       :width: 4.33371in
       :height: 3.60031in
 
@@ -337,7 +337,7 @@ the wizard.
 
 ..
 
-   .. image:: /_static/advwaf/image12.png
+   .. image:: media/image12.png
       :width: 3.34665in
       :height: 2.48958in
 
@@ -352,7 +352,7 @@ c. In the Configuration Utility, open the **Security > Application
 
 ..
 
-   .. image:: /_static/advwaf/image13.png
+   .. image:: media/image13.png
       :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML10ae9682.PNG
       :width: 4.87098in
       :height: 3.65104in
@@ -369,7 +369,7 @@ e. Return to the **Security > Application Security > Policy > Audit >
 
 ..
 
-   .. image:: /_static/advwaf/image14.png
+   .. image:: media/image14.png
       :width: 4.41667in
       :height: 1.25454in
 
@@ -381,11 +381,11 @@ f. The login form has now been “learned” by the Policy Builder and added
    change a lot and has consolidated a lot of information, such as the
    learned entities. Review this page.
 
-.. image:: /_static/advwaf/image15.png
+.. image:: media/image15.png
    :width: 4.26042in
    :height: 2.23795in
 
-.. image:: /_static/advwaf/image16.png
+.. image:: media/image16.png
    :width: 3.83336in
    :height: 2.03127in
 
@@ -406,7 +406,7 @@ f. The login form has now been “learned” by the Policy Builder and added
 
 ..
 
-   .. image:: /_static/advwaf/image17.png
+   .. image:: media/image17.png
       :width: 6.4218in
       :height: 4.33368in
 
@@ -416,7 +416,7 @@ f. The login form has now been “learned” by the Policy Builder and added
    Learning and Blocking Settings**. Make sure the **Advanced** view
    option is selected.
 
-.. image:: /_static/advwaf/image18.png
+.. image:: media/image18.png
    :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML10cdb3f6.PNG
    :width: 6.5in
    :height: 2.46025in
@@ -432,12 +432,12 @@ description of the configuration item.
       IP Addresses** link and remove the 10.1.10.0/24 entry from the
       **IP Address Exceptions List.**
 
-.. image:: /_static/advwaf/image19.png
+.. image:: media/image19.png
    :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML10d0b0ab.PNG
    :width: 6.5in
    :height: 3.39719in
 
-.. image:: /_static/advwaf/image20.png
+.. image:: media/image20.png
    :width: 5.85942in
    :height: 1.22918in
 
@@ -463,7 +463,7 @@ Understanding Staging
 If you look at the OWASP ZAP session you opened earlier you will see the
 ZAP detected a potential SQL Injection vulnerability.
 
-.. image:: /_static/advwaf/image21.png
+.. image:: media/image21.png
    :width: 6.36424in
    :height: 1.44895in
 
@@ -483,7 +483,7 @@ Perform a SQL Injection
 
 ..
 
-   .. image:: /_static/advwaf/image22.png
+   .. image:: media/image22.png
       :width: 2.40178in
       :height: 1.7947in
 
@@ -500,7 +500,7 @@ Perform a SQL Injection
 
 ..
 
-   .. image:: /_static/advwaf/image23.png
+   .. image:: media/image23.png
       :width: 6.5in
       :height: 0.82083in
 
@@ -508,7 +508,7 @@ Perform a SQL Injection
    match this request and we can see these attack signatures are
    currently in staging.
 
-   .. image:: /_static/advwaf/image24.png
+   .. image:: media/image24.png
       :width: 6.5in
       :height: 3.56528in
 
@@ -522,7 +522,7 @@ Perform a SQL Injection
 
 ..
 
-   .. image:: /_static/advwaf/image25.png
+   .. image:: media/image25.png
       :width: 5.19905in
       :height: 3.27776in
 
@@ -564,7 +564,7 @@ window.**
    Request**. You will notice the BIG-IP normalized the request to match
    against the signatures.
 
-   .. image:: /_static/advwaf/image26.png
+   .. image:: media/image26.png
       :width: 6.5in
       :height: 3.57431in
 
@@ -579,7 +579,7 @@ Signature Staging
    Signatures** section\ **.** Uncheck **Enable Signature Staging** and
    click **Save** and **Apply Policy.**
 
-.. image:: /_static/advwaf/image27.png
+.. image:: media/image27.png
    :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML5254511.PNG
    :width: 4.65052in
    :height: 4.38021in
@@ -593,14 +593,14 @@ Signature Staging
    Security->Parameters->Parameters List.** You will see that the
    username parameter is in staging and also has learning suggestions:
 
-.. image:: /_static/advwaf/image28.png
+.. image:: media/image28.png
    :width: 4.28649in
    :height: 1.31251in
 
 3. Click on **username** and uncheck the box for **Perform Staging** and
    click **Update**, then **Apply Policy**.
 
-.. image:: /_static/advwaf/image29.png
+.. image:: media/image29.png
    :width: 3.80211in
    :height: 2.4896in
 
@@ -608,7 +608,7 @@ Signature Staging
 
 ..
 
-   .. image:: /_static/advwaf/image30.png
+   .. image:: media/image30.png
       :width: 5.79245in
       :height: 1.20833in
 
@@ -618,7 +618,7 @@ Signature Staging
    You will see the request now shows up with the **Illegal Requests**
    filter on.
 
-.. image:: /_static/advwaf/image31.png
+.. image:: media/image31.png
    :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML4757d9e.PNG
    :width: 5.84375in
    :height: 2.03335in
@@ -633,7 +633,7 @@ Signature Staging
 
 ..
 
-   .. image:: /_static/advwaf/image32.png
+   .. image:: media/image32.png
       :width: 4.03759in
       :height: 4.35937in
 
@@ -645,7 +645,7 @@ Signature Staging
 
 ..
 
-   .. image:: /_static/advwaf/image33.png
+   .. image:: media/image33.png
       :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML48b3fbf.PNG
       :width: 6.5in
       :height: 2.69651in
@@ -658,7 +658,7 @@ Signature Staging
 
 ..
 
-   .. image:: /_static/advwaf/image34.png
+   .. image:: media/image34.png
       :width: 5.349in
       :height: 3.53128in
 
@@ -667,7 +667,7 @@ Signature Staging
    in staging mode and it you hovered over the icon you can see when
    staging began.
 
-   .. image:: /_static/advwaf/image35.png
+   .. image:: media/image35.png
       :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML494e74e.PNG
       :width: 6.5in
       :height: 1.12882in
@@ -736,7 +736,7 @@ mitigation.
 
 ..
 
-   .. image:: /_static/advwaf/image36.png
+   .. image:: media/image36.png
       :width: 3.71636in
       :height: 2.29145in
 
@@ -791,7 +791,7 @@ capture DoS events.
 
 ..
 
-   .. image:: /_static/advwaf/image37.png
+   .. image:: media/image37.png
       :width: 2.53998in
       :height: 3.10638in
 
@@ -814,7 +814,7 @@ Add the BoT profile to a virtual server
 
 ..
 
-   .. image:: /_static/advwaf/image38.png
+   .. image:: media/image38.png
       :width: 2.69149in
       :height: 2.14821in
 
@@ -836,7 +836,7 @@ curl http://hackazon.f5demo.com
    In the **Security ›› Event Logs : Bot Defense : Requests** you should
    see entries similar to this:
 
-.. image:: /_static/advwaf/image39.png
+.. image:: media/image39.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML1996f7f9.PNG
    :width: 5.01064in
    :height: 2.74204in
@@ -848,7 +848,7 @@ curl http://hackazon.f5demo.com
    it may take a few minutes for the data to show up, but you should see
    something similar to the following:
 
-   .. image:: /_static/advwaf/image40.png
+   .. image:: media/image40.png
       :width: 3.6383in
       :height: 1.97279in
 
@@ -864,7 +864,7 @@ ab -c 10 -n 10 -r http://hackazon.f5demo.com/
 In the DoS event log you can see this BoT was **Denied** (blocked) by
 sending a TCP reset immediately to the client.
 
-.. image:: /_static/advwaf/image41.png
+.. image:: media/image41.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML199e6d75.PNG
    :width: 4.21844in
    :height: 2.30851in
@@ -873,7 +873,7 @@ If you go back to the **Bot Traffic** dashboards you will see the new
 attacks. If you select **View Detected Bots** at the bottom you will get
 a summary of the incidents.
 
-.. image:: /_static/advwaf/image42.png
+.. image:: media/image42.png
    :width: 4.7766in
    :height: 2.3883in
 
@@ -891,7 +891,7 @@ against the Hackazon website.
 
 ..
 
-   .. image:: /_static/advwaf/image43.png
+   .. image:: media/image43.png
       :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTMLaa9baf9.PNG
       :width: 2.84375in
       :height: 1.34702in
@@ -900,14 +900,14 @@ against the Hackazon website.
    bottom ZAP window. You will see ZAP attempting to crawl the web site.
    **T**\ he attack will be short lived.
 
-.. image:: /_static/advwaf/image44.png
+.. image:: media/image44.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML19aa6983.PNG
    :width: 4.25532in
    :height: 1.07879in
 
 Without Bot protection it would have scan the site.
 
-.. image:: /_static/advwaf/image45.png
+.. image:: media/image45.png
    :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTMLaafc85a.PNG
    :width: 4.26538in
    :height: 1.10417in
@@ -923,7 +923,7 @@ will see the BIG-IP challenge the client to prove it’s not a Bot.
 1. Go to Bot Request, find a curl request and look at the **Request**
    section. In it you will find the User-Agent set to curl/7.52.1
 
-.. image:: /_static/advwaf/image46.png
+.. image:: media/image46.png
    :width: 1.53191in
    :height: 0.92059in
 
@@ -945,11 +945,11 @@ signature is allowed, curl cannot meet the javascript challenge
 presented it. Check the BoT Request log for the results showing the Bot
 was challenged and we sent a Captcha.
 
-.. image:: /_static/advwaf/image47.png
+.. image:: media/image47.png
    :width: 3.86461in
    :height: 2.28648in
 
-.. image:: /_static/advwaf/image48.png
+.. image:: media/image48.png
    :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML19ba8c20.PNG
    :width: 4.4136in
    :height: 2.41489in
@@ -957,7 +957,7 @@ was challenged and we sent a Captcha.
 3. On you Bot Traffic dashboard you can see the Browser Masquerading
    category
 
-.. image:: /_static/advwaf/image49.png
+.. image:: media/image49.png
    :width: 3.58511in
    :height: 2.56141in
 
@@ -1047,7 +1047,7 @@ Task 2 – Review Methods for Stealing Credentials
 
 ..
 
-   .. image:: /_static/advwaf/image51.png
+   .. image:: media/image51.png
       :width: 3.37083in
       :height: 1.11944in
 
@@ -1123,7 +1123,7 @@ Task 1 – DataSafe Licensing and Provisioning
    will display as **Licensed**. This is different than **WebSafe**,
    where Fraud Protection Services will show up as N/A.
 
-   .. image:: /_static/advwaf/image57.png
+   .. image:: media/image57.png
       :width: 5.02014in
       :height: 0.30694in
 
@@ -1137,7 +1137,7 @@ Task 1 – DataSafe Licensing and Provisioning
 Fraud Protection Service. DataSafe
                                   
 
-   .. image:: /_static/advwaf/image58.png
+   .. image:: media/image58.png
       :width: 1.86319in
       :height: 1.7875in
 
@@ -1178,7 +1178,7 @@ Task 2 – DataSafe Configuration
 -  For the **password** parameter select the **Encrypt**, **Substitute
       Value**, and **Obfuscate** checkboxes.
 
-.. image:: /_static/advwaf/image62.png
+.. image:: media/image62.png
    :width: 6.05969in
    :height: 0.40426in
 
@@ -1217,7 +1217,7 @@ Task 1 – Review the Protected Hackazon Login Page
 
    What is the **name** value for this field?
 
-.. image:: /_static/advwaf/image65.png
+.. image:: media/image65.png
    :width: 6.15417in
    :height: 0.80417in
 
@@ -1286,39 +1286,39 @@ Task 1 – Review the Protected Hackazon Login Page
 
 These two features together protect sensitive parameters.
 
-.. |image1| image:: /_static/advwaf/image50.png
+.. |image1| image:: media/image50.png
    :width: 2.69583in
    :height: 0.45417in
-.. |image2| image:: /_static/advwaf/image52.jpeg
+.. |image2| image:: media/image52.jpeg
    :width: 3.87222in
    :height: 2.70208in
-.. |image3| image:: /_static/advwaf/image53.png
+.. |image3| image:: media/image53.png
    :width: 6.02083in
    :height: 0.80417in
-.. |image4| image:: /_static/advwaf/image54.png
+.. |image4| image:: media/image54.png
    :width: 5.3875in
    :height: 0.35417in
-.. |image5| image:: /_static/advwaf/image55.png
+.. |image5| image:: media/image55.png
    :width: 2.32917in
    :height: 1.23403in
-.. |image6| image:: /_static/advwaf/image56.png
+.. |image6| image:: media/image56.png
    :width: 4.47847in
    :height: 0.81875in
-.. |image7| image:: /_static/advwaf/image60.png
+.. |image7| image:: media/image60.png
    :width: 1.8625in
    :height: 0.75972in
-.. |image8| image:: /_static/advwaf/image61.jpeg
+.. |image8| image:: media/image61.jpeg
    :width: 5.26528in
    :height: 0.90417in
-.. |image9| image:: /_static/advwaf/image63.png
+.. |image9| image:: media/image63.png
    :width: 2.42917in
    :height: 1.3625in
-.. |image10| image:: /_static/advwaf/image64.jpeg
+.. |image10| image:: media/image64.jpeg
    :width: 3.6375in
    :height: 0.6375in
-.. |image11| image:: /_static/advwaf/image66.png
+.. |image11| image:: media/image66.png
    :width: 2.02083in
    :height: 1.22083in
-.. |image12| image:: /_static/advwaf/image67.png
+.. |image12| image:: media/image67.png
    :width: 2.6875in
    :height: 0.45417in
