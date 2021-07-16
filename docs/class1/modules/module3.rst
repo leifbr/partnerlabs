@@ -1,15 +1,15 @@
 F5 Channel SE - AWS Lab Environment
 ===================================
 **(BETA)**
-This environment is available for use by engineers wishing to build a lab environment in AWS using the provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site or in the partnerlabs container available on https://hub.docker.com/repository/docker/leifbr/partnerlabs.
+This environment is available for use by engineers wishing to build a lab environment in AWS using the provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site, in the partnerlabs container available on https://hub.docker.com/repository/docker/leifbr/partnerlabs or as an open lab environment for your own education.
 
 .. important::
-    **Deploying this cloud formation template WILL INCUR COST.** According to the AWS estimate it should be less than 0.30 USD per hour to run the lab using free trial BIG-IP or a BYOL BIG-IP.  Regardless you run this lab at your own risk. Neither myself or F5 is responsible for any cost you incure. 
+    **Deploying this cloud formation template WILL INCUR COST.** According to the AWS estimate it should be less than 0.50 USD per hour to run the lab using free trial BIG-IP or a BYOL BIG-IP.  Regardless you run this lab at your own risk. Neither myself or F5 is responsible for any cost you incure. 
     **I highly recommended budget reminders.**
 
 Some things to know when using the the **f5-aws-bigip-labs.yml** CFT template.  It is based off the 3nic PAYG learning stack found here: https://github.com/F5Networks/f5-aws-cloudformation/tree/master/experimental/standalone/3nic/learning-stack/payg
 
-A big difference is the IP addressing is standardized (as much as possible) around the F5 Unified Demo Framework (UDF) and WWFR lab environments, so as to keep the lab guides consistent and simplified.  The other difference is that the BIG-IP can be brougt up unconfigured, except for basic set up, with only base networking configured, or, using the AS3 json scripts and basic networking configuration to bring up preconfigure virtual servers and pools for the lab environment.
+A big difference is the IP addressing is standardized (as much as possible) around the F5 Unified Demo Framework (UDF) and WWFR lab environments, to keep the lab guides consistent and simplified.  The other difference is that the BIG-IP can be brougt up unconfigured, except for basic set up, with only base networking configured, or, using the AS3 json scripts and basic networking configuration to bring up preconfigure virtual servers and pools for the lab environment.
 
 I will probably not explain everything you need to know, especially if you haven't used AWS much, but I will give you the basics of using the template.
 
@@ -19,8 +19,8 @@ Prerequisites
 #. Subscribe to the F5 BIG-IP Virtual Edition you will be using:
 
 .. important::
-   The43 is a **FREE TRIAL** once you subscribe for a BIG-IP from the AWS website:
-   *Try one unit of this product for 30 days. There will be no software charges for that unit, but AWS infrastructure charges still apply. Free Trials will automatically convert to a paid subscription upon expiration and you will be charged for additional usage above the free units provided.*  Once the free trial is up there is a hourly license charge for the BIG-IP instance you use, with the exception of the BYOL. Of course all instances incur EC2 costs.
+   There is a **FREE TRIAL** once you subscribe for a BIG-IP from the AWS website:
+   *Try one unit of this product for 30 days. There will be no software charges for that unit, but AWS infrastructure charges still apply. Free Trials will automatically convert to a paid subscription upon expiration and you will be charged for additional usage above the free units provided.*  Once the free trial has expired there is a hourly license charge for the BIG-IP instance you use, with the exception of the BYOL. Of course all instances incur EC2 costs.
 
    #. F5 BIG-IP Virtual Edition - GOOD (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-lphsy6izllsmq (0.43/hr estimated EC2 and Licensing)
    #. F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti (1.77/hr estimated EC2 and Licensing)
@@ -40,11 +40,17 @@ Creating the stack
 #. Most of the template is self explanatory or can be defaulted.
 
    #. Under **Stack name** enter a name for your stack.
-   #. Under **NETWORKING CONFIRGUTION** select an AZ (Availability Zone).
+   #. Under **NETWORKING CONFIGURATION** select an AZ (Availability Zone).
    #. Under **INSTANCE CONFIGURATION**
 
-      #. **BIG-IP Image Name** The default is **GOOD25Mbps** which allows you to learn the basics and is inexpensive. All images selected here are v15.1.2.1
+      #. **BIG-IP Image Name** The default is **GOOD25Mbps** which allows you to learn the basics and is inexpensive, even if the free trial is expired. All images selected here are v15.1.2.1
       #. **Custom Image Id** When you select any BIG-IP image above you will build a BIG-IP using an AMI for BIG-IP v15.1.2.1.  If you would like to work under another version, or if the lab requires another version, you can enter the AMI for that BIG-IP image here and it will override the **BIG-IP Image Name** selection.
+      #. **BYOL License Key** if you have BIG-IP lab, evaluation or production VE license key you can enter it here and the BIG-IP will be licensed.  You can retrieve the license key by **revoking** the license prior to deleting the stack
+
+      .. note::
+         Custom AMI versions 13.x and lower must be licensed manually after the lab comes up.
+         
+
       #. You can default until **SSH Key**.  Select your SSH key pair you want to use. 
 
       .. important::
@@ -55,7 +61,7 @@ Creating the stack
 
       #. If you leave the defaults the BIG-IP will basically be a blank slate.  Yours to configure however you want.
       #. If you select **Yes** under **configBigipNet** the BIG-IP will be configured with the base networking for the labs (vlans, self IPs and default gateway)
-      #. Under **AS3 Declaration URL** you can enter a link to the json that will configure your layer 4-7 services (pools, virtual servers, etc). 
+      #. Under **AS3 Declaration URL** you can enter a link to an AS3 json file that will configure your layer 4-7 services (pools, virtual servers, etc).
       #. **CONSULT YOUR LAB GUIDE TO DETERMINE THE NETWORKING AND L4-7 SERVICES REQUIRED FOR YOUR LAB**
 
       .. important::
