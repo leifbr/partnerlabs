@@ -1,4 +1,4 @@
-Advanced WAF Fundementals - v15.1
+Advanced WAF Fundamentals - v15.1
 
 Lab Guide
 

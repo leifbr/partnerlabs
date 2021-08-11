@@ -6,7 +6,7 @@ Create ASM Policy
 
 Objectives:
 
--  View the v14.x policy building GUI interface
+-  View the v15.x policy building GUI interface
 
 -  Create a security policy using automatic policy building
 
@@ -22,23 +22,24 @@ been run against the website and the results have been saved. Let’s take
 a look at the test to see the results. You will use this information to
 plug a few holes.
 
-1. From the Applications Menu in the upper left-hand corner of the
-   jumpbox go to **OWASP > Proxies > ZAP**.
+1. Using OWASP ZAP
+   1. **UDF** 
+      1. From the Applications Menu in the upper left-hand corner of the jumpbox go to **OWASP > Proxies > ZAP**.
 
-2. Once ZAP is open, click on **Start** when asked Do you want to
-   persist the ZAP session.
+      2. Once ZAP is open, click on **Start** when asked Do you want to persist the ZAP session.
 
-3. Under **File** select **Open Session** and select
-   **hackazon-zap-session.session.**
+      3. Under **File** select **Open Session** and select **hackazon-zap-session.session**.
+   2.  **AWS**
+       1. If you don't already have it, download and install OWASP ZAP from https://www.zaproxy.org. 
 
-4. Once the session is loaded, go to the **Alerts** tab, you will see a
+2. Once the session is loaded, go to the **Alerts** tab, you will see a
    number of vulnerabilities found.
 
 ..
 
    .. image:: /_static/advwaf/image5.png
       :alt: C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTMLe2109f4e.PNG
-      :align: center
+      :align: centerz
       :width: 500
 
 a. We will be focusing on the CrossSite Scripting (XSS) and SQL
