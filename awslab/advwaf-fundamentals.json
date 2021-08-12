@@ -13,7 +13,7 @@
             "Shared": {
                 "class": "Application",
                 "template": "shared",
-                "service": {
+                "hackazon_vs": {
                     "class": "Service_HTTP",
                     "virtualAddresses": [
                         "10.1.10.100"
