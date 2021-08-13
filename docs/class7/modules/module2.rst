@@ -1,6 +1,9 @@
 Exercise 1 – ASM Policy Creation and Logging
 ============================================
 
+.. important::
+   **DO NOT CONFIGURE FROM THE FROM THE SCREENSHOTS AS THEY ARE NOT ALWAYS UPDATED AND MAY CONTAIN INACCURATE INFORMATION**
+
 Create ASM Policy
 -----------------
 

@@ -1,42 +1,23 @@
-Advanced WAF Fundamentals - v15.1
+Setting up and Access the Lab Environment (AWS and UDF)
+=======================================================
 
-Lab Guide
+Basic Lab Environment
+---------------------
 
-Participant Hands-on Lab Guide
-
-.. image:: /_static/advwaf/image1.png
-   :align: center
-   :width: 500
-
-Lab Network Overview
-====================
-
-Each student will have a BIG-IP VE environment with IP addressing as
-below:
-
-.. image:: /_static/advwaf/image2.png
-   :align: center
-   :width: 500
-
-Accessing the lab environment
-=============================
-
-Below you will find lab access base on the lab environment (UDF or AWS) you will be using.
-
-.. important::
-  **DO NOT CONFIGURE FROM THE FROM THE SCREENSHOTS AS THEY ARE NOT ALWAYS UPDATED AND MAY CONTAIN INACCURATE INFORMATION**
-
-Lab Network Diagram
--------------------
+The basic networking and lab enviroment for both AWS and UDF are shown below:
 
 .. image:: /_static/101/vLabNG_Diagram_v1.png
    :height: 7.38005in
    :width: 7.23272in
    :alt: Lab Diagram
 
+**AWS - Accessing and Setting up the Lab Environment**
+------------------------------------------------------
 
-**UDF Lab User Info**
----------------------
+/class1/modules/module3.html
+
+**Accessing and Setting up the UDF Lab Environment**
+----------------------------------------------------
 
 Accessing the Lab Images
 ------------------------
