@@ -20,7 +20,9 @@ Objectives:
 This lab will demonstrate how to create and build a security policy
 using automatic policy building.
 
-Before you begin, the penetration testing tool, OWASP ZAP, has already
+Before you begin, you should have the penetration testing tool, OWASP ZAP.  
+- **AWS** - if you are using the AWS lab environment
+- **UDF** - in the F5 UDF environment OWASP ZAP has already been install on the Jumpbox and 
 been run against the website and the results have been saved. Let’s take
 a look at the test to see the results. You will use this information to
 plug a few holes.
