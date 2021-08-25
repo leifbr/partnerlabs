@@ -80,7 +80,7 @@ Establishing access to the BIG-IP
 #. Once the stack is complete you can set up access to the BIG-IP.
 
    #. Select your stack and select **Output**.
-   #. Find the **Bigip1ManagementEipAddress**. This is the Elastic IP (EIP) you will this to connect to the BIG-IP
+   #. Find the **Bigip1ManagementEipAddress**. This is the Elastic IP (EIP) you will use to connect to the BIG-IP management SSH and TMUI (GUI) components.  Only port 22 (SSH) and 443 (HTTPS) are open.
    #. Using PuTTY or SSH and your keypair, SSH to the BIG-IP.
    #. At the TMSH prompt enter:
 
@@ -88,7 +88,7 @@ Establishing access to the BIG-IP
      
      mod auth user admin password <your password> shell bash
 
-This will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
+This will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges via the TMUI interface.
 
 #. Go to the **Bigip1MgmtUrl** in **Outputs** tab of the stack (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
 
