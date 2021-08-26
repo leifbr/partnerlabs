@@ -158,12 +158,13 @@ the wizard.
    :align: center
    :width: 500
 
+   * Under the **Entity Type** column in the **Parameter** row click on the **Total** number and you will see the parameters you discovered.  Select a parameter and you will see how the parameter is configured. You can see the maximum length that was set after you put in a long username and password.
+  
 .. image:: /_static/advwaf/image16.png
    :align: center
    :width: 500
 
 
-* Under the **Entity Type** column in the **Parameter** row click on the **Total** number and you will see the parameters you discovered.  Select a parameter and you will see how the parameter is configured. You can see the maximum length that was set after you put in a long username and password.
 
 * Open **Security > Event Logs > Application > Requests.** You should see log entries with recent timestamps  Look for the **/user/login** entry with the violation rating. Note the violation and reason **Illegal parameter value length**. That is because the initial length was set to 10 as the BIG-IP was learning. Note the username and password at the bottom of the decoded request. BIG-IP does not reveal sensitive parameters in the log files.
 
@@ -172,16 +173,22 @@ the wizard.
    :align: center
    :width: 500
 
-* A policy change be modified at any time and there are numerous additional settings in the **Advanced** menu. In the Configuration Utility, open the **Security->Application Security->Policy Building > Learning and Blocking Settings**. Make sure the **Advanced** view option is selected.
+* A policy change be modified at any time and there are numerous additional settings. For basic settings go to your policy under **Security > Application Security > Security Policies**, select your policy and in **General Settings** the **Learning and Blocking** section is available.  
+  * For the next exercise you will require the **Enforcement Mode** to be **Blocking**.  Select **Blocking** mode now and select **Save** in the upper right.  *You could also* **Apply Policy** *at this point, but another policy change awaits.* 
 
 .. image:: /_static/advwaf/image18.png
-   :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML10cdb3f6.PNG
+   :alt: General Settings for Learning and Blocking
    :align: center
    :width: 500
 
-Click **Auto-Apply Policy** (the name, not drop-down) to get a description of the configuration item.
+  * For advanced/customized Learning and Blocking settings open  **Security > Application Security > Policy Building > Learning and Blocking Settings**.
 
-* You are now finished building the policy for this exercise. You need to set the **Enforcement Mode** to **Blocking** and you need to remove the client network from the trusted IP addresses so that you can attempt to attack the Auction Website from your client PC. From the **Policy Building Process** section select the **Trusted IP Addresses** link and remove the 10.1.10.0/24 entry from the **IP Address Exceptions List.**
+  .. image:: /_static/advwaf/image18a.png
+  :alt: Advanced settings for Learning and Blocker
+  :align: center
+  :width: 500
+
+* In addition to setting the **Enforcement Mode** to **Blocking** you need to remove the **Trusted IP Addresses** so that you can attempt to attack the Hackazon website from your client PC. Expand the **Policy Building Process** section select the **Trusted IP Addresses** link.  This will take you to **Security > Application Security > IP Addresses > IP Address Exceptions** and remove the entries from the **IP Address Exceptions List.**
 
 .. image:: /_static/advwaf/image19.png
    :alt: C:\Users\leifb\AppData\Local\Temp\SNAGHTML10d0b0ab.PNG
@@ -192,5 +199,4 @@ Click **Auto-Apply Policy** (the name, not drop-down) to get a description of th
    :align: center
    :width: 500
 
-* At the top of the page, click the **Apply Policy** button to apply
-   your changes.
+* At the top of the page, click the **Apply Policy** button to apply your changes.
