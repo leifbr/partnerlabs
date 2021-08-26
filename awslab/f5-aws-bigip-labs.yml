@@ -1621,8 +1621,9 @@ Resources:
             - 'sudo docker run -itd --restart unless-stopped --name f5demo2 -p 10.1.20.12:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo3 -p 10.1.20.13:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo4 -p 10.1.20.14:80:80 chen23/f5-demo-php'
-            - 'sudo docker run -itd --restart unless-stopped --name hack20 -p 10.1.20.20:80:80 mutzel/all-in-one-hackazon:postinstall ./start.sh > start.log'
-            - 'sudo docker run -itd --restart unless-stopped --name juice30 -p 10.1.20.20:3000:3000 bkimminich/juice-shop'
+            - 'sudo docker run -itd --restart unless-stopped --name juice30 -p 10.1.20.20:3000:3000 bkimminich/juice-shop'           
+            - 'sudo docker run -itd --restart unless-stopped --name hack20 -p 10.1.20.20:80:80 leifbr/all-in-one-hackazon:schema2 ./start.sh > start.log'
+
     Type: 'AWS::EC2::Instance'
   WebserverSecurityGroup:
     Properties:
