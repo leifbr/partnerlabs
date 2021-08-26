@@ -1,12 +1,9 @@
-< for future use>
-=================
+Advanced WAF Fundamentals
+=========================
 
 .. toctree::
    :maxdepth: 1
    :glob:
 
    modules/module*
-
-
-
------------
+   

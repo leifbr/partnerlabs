@@ -1,5 +1,7 @@
-F5 Channel SE - AWS Lab Environment
-===================================
+.. _building-the-aws-lab:
+
+Building your own F5 AWS Lab Environment
+========================================
 **(BETA)**
 This environment is available for use by engineers wishing to build a lab environment in AWS using the provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site, in the partnerlabs container available on https://hub.docker.com/repository/docker/leifbr/partnerlabs or as an open lab environment for your own education.
 
@@ -43,14 +45,16 @@ Creating the stack
    #. Under **NETWORKING CONFIGURATION** select an AZ (Availability Zone).
    #. Under **INSTANCE CONFIGURATION**
 
-      #. **BIG-IP Image Name** The default is **GOOD25Mbps** which allows you to learn the basics and is inexpensive, even if the free trial is expired. All images selected here are v15.1.2.1
+      .. important::
+         You must **Subscribe** to the image (see above) prior to creating the stack.
+
+      #. **BIG-IP Image Name** The default is **GOOD25Mbps** which allows you to learn the basics and is inexpensive, even if the free trial is expired. Or, select the image designated by the lab. All images selected here are v15.1.2.1. 
       #. **Custom Image Id** When you select any BIG-IP image above you will build a BIG-IP using an AMI for BIG-IP v15.1.2.1.  If you would like to work under another version, or if the lab requires another version, you can enter the AMI for that BIG-IP image here and it will override the **BIG-IP Image Name** selection.
       #. **BYOL License Key** if you have BIG-IP lab, evaluation or production VE license key you can enter it here and the BIG-IP will be licensed.  You can retrieve the license key by **revoking** the license prior to deleting the stack
 
-      .. note::
-         Custom AMI versions 13.x and lower must be licensed manually after the lab comes up.
+         .. note::
+            Custom AMI versions 13.x and lower must be licensed manually after the lab comes up.
          
-
       #. You can default until **SSH Key**.  Select your SSH key pair you want to use. 
 
       .. important::
@@ -60,9 +64,9 @@ Creating the stack
    #. You can default until **BIG-IP BASE NETWORKING AND VIRTUAL SERVICE CONFIGURATION** here is where you will tell the BIG-IP how you want your lab set up.
 
       #. If you leave the defaults the BIG-IP will basically be a blank slate.  Yours to configure however you want.
-      #. If you select **Yes** under **configBigipNet** the BIG-IP will be configured with the base networking for the labs (vlans, self IPs and default gateway)
-      #. Under **AS3 Declaration URL** you can enter a link to an AS3 json file that will configure your layer 4-7 services (pools, virtual servers, etc).
-      #. **CONSULT YOUR LAB GUIDE TO DETERMINE THE NETWORKING AND L4-7 SERVICES REQUIRED FOR YOUR LAB**
+      #. If you select **Yes** under **configBigipNet** the BIG-IP will be configured with the base networking for the labs (vlans, self IPs and default gateway).  You lab guide may require networking to be preconfigured.
+      #. Under **AS3 Declaration URL** you can enter a link to an AS3 json file that will configure your layer 4-7 services (pools, virtual servers, etc) as designated by the lab guide. Or, you can build your own AS3 json declaration.
+      #. **BE SURE TO CONSULT YOUR LAB GUIDE TO DETERMINE THE NETWORKING AND L4-7 SERVICES REQUIRED FOR YOUR LAB**
 
       .. important::
          If you enter an AS3 URL make sure **configBigipNet** is set to **Yes** or you will end up with no configuration on the BIG-IP.
@@ -76,7 +80,7 @@ Establishing access to the BIG-IP
 #. Once the stack is complete you can set up access to the BIG-IP.
 
    #. Select your stack and select **Output**.
-   #. Find the **Bigip1ManagementEipAddress**. This is the Elastic IP (EIP) you will this to connect to the BIG-IP
+   #. Find the **Bigip1ManagementEipAddress**. This is the Elastic IP (EIP) you will use to connect to the BIG-IP management SSH and TMUI (GUI) components.  Only port 22 (SSH) and 443 (HTTPS) are open.
    #. Using PuTTY or SSH and your keypair, SSH to the BIG-IP.
    #. At the TMSH prompt enter:
 
@@ -84,7 +88,7 @@ Establishing access to the BIG-IP
      
      mod auth user admin password <your password> shell bash
 
-This will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges in the TMUI interface.
+This will set the password for connecting to the TMUI (GUI) interface of the BIG-IP and allow the **admin** user to access the Linux CLI on the BIG-IP. This is the equivalent of giving a user **Advanced shell** privileges via the TMUI interface.
 
 #. Go to the **Bigip1MgmtUrl** in **Outputs** tab of the stack (same as https://<Bigip1ManagementEipAddress>) and log into the TMUI with **admin** and your new password.  Basic set up has already been performed.
 
