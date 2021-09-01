@@ -35,7 +35,7 @@ Task 1 – Review Form Fields with the Developer Tools
 Task 2 – Why Credentials Entered into the Brower are Vunerable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  In your browser window <right-click> and select **Inspect" or enter `<ctrl>+Shift+"i"`.
+- In your browser window <right-click> and select **Inspect" or enter ``<ctrl>+Shift+"i"``
 
 -  On the login page enter your first name as username and **P@ssw0rd!** as password and click **Sign In**.
 
