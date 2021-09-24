@@ -10,9 +10,10 @@ Objectives:
 -  You will then configure Datasafe and test Datasafes ability to obfuscate and encrypt html information as the page is sent and information is typed into the browser.
 
 .. note::
-   In this lab the **hackzon_vs** refers accessing the Hackazon application:
-   For AWS access: **Bigip1VipEipTo100** in the AWS CFT output
-   For UDF access: **hackazon.f5demo.com** or **10.10.1.100**
+
+   - In this lab the **hackzon_vs** refers accessing the Hackazon application:
+   - For AWS access: This is the **Bigip1VipEipTo100** IP in the AWS CFT output
+   - For UDF access: This can be **hackazon.f5demo.com** or **10.10.1.100**
 
 Estimated completion time: 45 minutes
 
@@ -22,34 +23,32 @@ Exercise 1 – Review and Attack the Login Page
 Task 1 – Review Form Fields with the Developer Tools
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  Open your browser and access the Hackazon login 
-   ``http://<hackazon_vs>/user/login``
+-  Open your browser and access the Hackazon login ``http://<hackazon_vs>/user/login``
 
 -  Right-click inside the **Username or Email** field and select **Inspect** or 
    **Inspect Element** (depending on the browser).
 
-   * *Question: What is the* **name** *value for this field?*
+   * *Question: What is the* **required name** *value for this field?*
 
 -  Right-click inside the **Password** field and select **Inspect
    Element**.
 
-   * *Question:* What is the* **name** *value for this field?*
+   * *Question: What is the* **required name** *value for this field?*
 
 These are not uncommon names for these variables.  You can see how easy it would be for malware to find and extract them.
 
 Task 2 - Why Credentials Entered into the Brower are Vunerable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- In your browser window <right-click> and select **Inspect**, **Inspect Element** or enter ``<ctrl>+Shift+"i"`` to open the developer tools.
+- In your browser window ``<right-click>`` and select **Inspect**, **Inspect Element** or enter ``<ctrl>+Shift+"i"`` to open the developer tools.
 
 -  On the login page enter your first name as username and **P@ssw0rd!** as password and click **Sign In**.
 
 -  In the developer tools select the **Network** tab, and clear the any requests/responses already there.
 
--  On the login page (with your first name and **P@ssw0rd!** entered)
-   click **Sign In**.
+-  On the login page enter your first name as the username and a simple password and click **Sign In**.
 
--  In the **Network** tab select the **login** or **/login?return_url=** entry on the left of the **Inspect** pane under **Name**, select **Headers** to the right and scroll down to **Form Data** then examine the **Params** tab.
+-  In the **Network** tab select the **/login?return_url=** entry on the left of the **Inspect** pane under **Name**, select **Headers** to the right and scroll down to **Form Data**.
 
 .. image:: /_static/advwaf/image51.png
    :alt: Developer Tools showing username and password
@@ -60,39 +59,9 @@ Task 2 - Why Credentials Entered into the Brower are Vunerable
 The user’s credentials are visible in clear text. This means that prior to sending the login reponse to the Hackazon application server malware on the user's device could have logged the keystrokes or simply pulled the username and password out of the page or simply by “grabbing” the entire POST request clear text, reardless of HTTPS encryption.
 
 .. important::
-   The username and password **are not secured** until the page is send and hit the TLS session layer where the response is encrypted prior to being sent.
 
+   The username and password **are not secured** until the page is sent and hits the TLS session layer where the response is encrypted prior to being sent.
 
-Task 3 – Perform a Form Field “Web Inject”
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
--  Return to the ``http://<hackazon_vs>/user/login`` page.
-
--  Right-click inside the **Username or Email** field and select **Inspect Element** again.
-
--  Right-click on the highlighted text and select **Edit as HTML**.
-
-.. image:: /_static/advwaf/image52.png
-   :alt: Developer Tools Edit as HTML
-   :align: center
-   :width: 500
-
--  Select all the text in the window and type **Ctrl+C** to copy the text.
-
--  Click after the end of of the orignal string and type **<br>**, and then press the **Enter** key twice.  Type **Ctrl+V** to paste the copied text.
-
--  For the new pasted entry, change the **name**, **id**, and **data-by-field** values to **mobile**, and change the**placeholder** value to **Mobile Phone Number**.
-
-.. image:: /_static/advwaf/image53.png
-   :alt: Editing the HTML
-   :align: center
-   :width: 500
-
--  Click outside of the edit box and examine the Hackazon login page.
-
-This is an example of the type of “web injects” that malware can perform to collect additional information. This same technique could be used to remove text or form fields. Note that this was done on the client side, in the browser, without any requests being sent to the server. The web application and any security infrastructure protecting it would have no idea this is happening in the browser.
-
--  Close your browser.
 
 Exercise 2 – Review and Configure DataSafe Components
 -----------------------------------------------------
@@ -105,47 +74,55 @@ Task 1 – DataSafe Licensing and Provisioning
 **DataSafe** is only available with Advanced WAF (AWAF). 
  
 .. important::
-   As of 1 APR 2020, **Application Security Manager** (ASM) and can be upgraded to  products can be upgrade to **Advanced WAF** (AWAF) for free.  Two requirements must be met.  The TMOS version must be v14.1 or higher and you are required to reactivated the license.
 
-Datasafe must be licensed and provisioned to operate.  Open the provisioning page by going to **System > Resource Provisioning**.  Datasafe is provisioned under **Fraud Protection Service (FPS)** and should be **Licensed**.  If **Fraud Protection Service (FPS)** is not provisioned, provision it now.
+   As of 1 APR 2020, **Application Security Manager** (ASM) was End-of-Sale (EOS).  Customers currently having ASM licenses, whether stand-alone or as part of BEST licensing can upgrade to **Advanced WAF** (AWAF) for free. To ugrade two requirements must be met.  
+   - The TMOS version must be v14.1 or higher, and
+   - The license must be re-activated
 
-When **DataSafe** is licensed, **Fraud Protection Service (FPS)** will display as **Licensed**. This is different than **WebSafe**, where Fraud Protection Services will show up as N/A.  **WebSafe** is now EoS and EoL and is no longer available.
+**DataSafe** was originally part of **Websafe** F5's fraud protection product.  And is provisioned by selecting **Fraud Protection Service (FPS)** on the **Provisioning** page. 
+
+**Datasafe** must be licensed and provisioned to operate.  Open the provisioning page by going to **System > Resource Provisioning**.  Datasafe is provisioned under **Fraud Protection Service (FPS)** and should be **Licensed**.  If **Fraud Protection Service (FPS)** is not provisioned, provision it now.
 
 .. image:: /_static/advwaf/image57.png
    :alt: Provisioning Page
    :align: center
-   :width: 500
+   :width: 600
+.. note::
+
+**WebSafe** is now EoS and EoL and is no longer available.
 
 -  Expand the **Security** menu.  There should be a **Data Protection** option.
-
-.. important::
-   Data Protection did not initially show up on the PerAppWAF VE even thought licensed and provision.  You may only get the FPS option.  If this happens  re-activate the license and that should resolve the issue.
-                                  
+                               
 .. image:: /_static/advwaf/image58.png
    :alt: Data Protection option in TMUI
    :align: center
-   :width: 400             
+   :width: 200            
+
+.. important::
+
+   The **Data Protection** option on the sidebar may show up as **Fraud Protection Service (FPS)** even though licensed and provision.  If you get the FPS option pleaese re-activate the license and that should resolve the issue.
 
 Task 2 – DataSafe Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. important::
+
    In v15.1.2.x there is an error in **Data Protection** TMUI interface **K28459181: Unable to create or update DataSafe profile after upgrade** https://support.f5.com/csp/article/K28459181 and **Data Protection** profiles must be built using TMSH. Upgrading to v15.1.3.x or higher resolves this issue. In this task you will be shown both the TMUI and TMSH instructions for building a DataSafe profile.
 
 .. note::
-   As the TMUI screenshots are shown for configuration, the TMSH boxes will show you the TMSH command being built to build the same profile.  You can choose to build via TMSH or upgrade to v15.1.3.
+
+   As the TMUI screenshots are shown for configuration, the TMSH boxes highlight relevant part the TMSH command used to build the same profile.  You can choose to build via TMSH or TMUI if the BIG-IP is at v15.1.3 or higher.
 
 -  Open the **Security > Data Protection > DataSafe Profiles** page and click **Create**.
 
 .. image:: /_static/advwaf/image60.png
    :alt: Creating a Data Protection profile
    :align: center
-   :width: 500
-
+   :width: 600
 
 -  For **Profile Name** enter **Hackazon-DS** and click **Create**
 
-The highlighted TMSH portion of the command shows you the profile being created and uses the default antifraud profiles as the parent profile, just a creating the profile in the TMUI does.
+The highlighted TMSH portion of the command shows you the profile being created and uses the default antifraud profiles as the parent profile, just as creating the profile in the TMUI does.
 
 .. admonition:: TMSH
 
@@ -178,7 +155,7 @@ Remember from earlier you found that the username and password parameter names a
 
 -  Create a second parameter named **password**, and then click **Create**.
 
--  Scroll to the right to view all the parameter options.
+-  Now you can scroll to the right to view all the parameter options.
 
 -  For the **username** parameter select the **Obfuscation** checkbox.
 
@@ -231,22 +208,24 @@ Exercise 3 – Testing DataSafe Protection
 Task 1 – Review the Protected Hackazon Login Page
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  Open a **private** browser window and access the Hackazon login page
-   -  AWS: http://<Bigip1VipEipTo100>/user/login
-   -  UDF: http://hackazon.f5demo.com/user/login.
+-  Open a **private** browser window and access the Hackazon login page ``http://<hackazon_vs>/user/login``
 
 -  Right-click inside the **Password** field and select **Inspect Element** or **Inspect**.
 
    *Question:* What is the **required-name** value for this field?
+
+You can see and example of obfuscation and decoy inputs in the image below.
 
 .. image:: /_static/advwaf/image65.png
    :alt: Example of parameter obfuscation and decoy inputs
    :align: center
    :width: 500
 
-   **Obfuscation** - Notice that the name of the password field (outlined in red) is now a long cryptic name and is changing about every 10 seconds. The same is true of the username field.
+**Obfuscation** - Notice that the name of the password field (outlined in red) is now a long cryptic name and is changing about every 10 seconds. The same is true of the username field.
 
-   **Add Decoy Inputs** – Notice that there are other random inputs being added (outlined in green). The number and order of these inputs is changing frequently.
+**Add Decoy Inputs** – Notice that there are other random inputs being added (outlined in green). The number and order of these inputs is changing frequently.
+
+Now let's look at how sensitive parameters are further protected.
 
 -  In the developer tools window select the **Network** tab, then click the clear icon to delete any current requests.
 
@@ -260,9 +239,9 @@ Task 1 – Review the Protected Hackazon Login Page
 
 *Question:* Do you see the username you submitted?
 
-As you can see the username parameter (outlined in green) was obfucated, but not encrypted per the configuration.  On the other hand the password parameter (outlined in red) is encrypted.  In fact, each keystroke in the password field was encrypted as the password was typed in, defeating malware keyloggers as well as malware scraping the POST prior to it being encrypted.
+In the example below you can see the username parameter (outlined in green) was obfucated, but not encrypted per the configuration.  On the other hand the password parameter (outlined in red) is both obfucated and encrypted.  In fact, each keystroke in the password field was encrypted as the password was typed in, defeating malware keyloggers as well as malware intercepting the POST prior to it being encrypted.
 
-.. image:: /_static/advwaf/image66.png
+.. image:: /_static/advwaf/image67.png
    :alt: Example of parameter obfuscation and decoy inputs
    :align: center
    :width: 500
