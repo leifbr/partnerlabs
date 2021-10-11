@@ -7,7 +7,7 @@ our lecture portion, BIG-IPs may be put in-line or one-armed depending
 on your customer’s requirements and topology.
 
 Log on to the BIG-IP TMUI (GUI) Interface:
-  - **UDF** - Under Components, select the Access drop-down and then TMUI
+  - **UDF** - Under Components, select the **Access** drop-down and then **TMUI**
   - **AWS** - Go to https://<Bigip1ManagementEipAddress>
 
 Creating VLANs
@@ -82,7 +82,10 @@ a. Create a new self IP, for the **server_vlan** and **client_vlan**
 | Port Lockdown | Allow None    | Allow None    |
 +---------------+---------------+---------------+
 
-- The default ** Port Lockdown** setting of **Allow None** means the Self IP only responds to ICMP requests.
+.. caution::
+   A common mistake is to forgot to change the VLAN/Tunnel selection to the appropriate VLAN.  Make sure your self IPs are in the appropriate VLAN. 
+
+- The default **Port Lockdown** setting of **Allow None** means the Self IP only responds to ICMP requests.
 - The **Allow Defaults** selection opens the following on the self IP of the VLAN.
    - TCP: ssh, domain, snmp, https
    - TCP: 4353, 6699 (for F5 protocols, such as HA and iQuery)
@@ -127,9 +130,9 @@ b. Under **Properties**
 
    b. Use SSH or WebShell (UDF Only) to access your BIG-IP.
 
-      ii.  Ping your default gateway, 10.1.10.1
+      i.  Ping your default gateway, 10.1.10.1
 
-      iii. Ping a web server at 10.1.20.11.
+      ii. Ping a web server at 10.1.20.11.
 
 Creating Pools
 --------------

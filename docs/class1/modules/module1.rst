@@ -1,4 +1,4 @@
-.. _accessing_udfi:
+.. _accessing-udf-lab:
 
 Access the F5 Unified Demo Enviroment
 =====================================

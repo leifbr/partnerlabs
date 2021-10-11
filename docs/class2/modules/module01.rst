@@ -43,8 +43,10 @@ Accessing the Lab Images
 |                  |  10.1.1.7   | webmin     | f5student  | f5UDFrocks!  |
 +------------------+-------------+------------+------------+--------------+
 
-Accessing the Ubuntu Jumpbox
-----------------------------
+UDF Lab Environment
+-------------------
+
+Full instuctions on access the UDF environment can be found here: :ref:`accessing-udf-lab`
 
 In the **Deployments** tab and select the **Access** drop down menu and
 under **ubu-Jumpbox** select **XRDP** and the screen size similiar to the image below. Log on with
@@ -54,6 +56,11 @@ the credentials in the table above.
 
 **AWS Lab User Info**
 ---------------------
+
+Full instructions on building the AWS lab environment can be found here: :ref:`building-the-aws-lab`
+
+.. note::
+   When building the AWS environment for the LTM Fundementals lab leave provisioning at the default **ltm:nominal** and under the **BIG-IP BASE NETWORKING AND VIRTUAL SERVICE CONFIGURATION** section leave everthing at the defaults.
 
 Accessing the images
 --------------------
