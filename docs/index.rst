@@ -13,7 +13,7 @@ These labs are designed to familiarize engineers with F5 solutions and in some c
 
 .. toctree::
    :maxdepth: 1
-   :caption: Setting up and/or accessing your lab environment (UDF, WWFR vLab and AWS CFT):
+   :caption: Setting up and/or accessing your lab environment (UDF, WWFR vLab and DYI F5-AWS Lab):
    :glob:
 
    class1/class1
@@ -27,21 +27,21 @@ These labs are designed to familiarize engineers with F5 solutions and in some c
 
 .. toctree::
    :maxdepth: 1
-   :caption: Unofficial - 201 Certification Lab (Under Renovation):
+   :caption: Unofficial - 201 Certification Lab:
    :glob:
 
    class4/class4
    
 .. toctree::
    :maxdepth: 1
-   :caption: Advance WAF Fundamentals (Under Renovation):
+   :caption: Advance WAF Fundamentals:
    :glob:
 
    class7/class7
 
 .. toctree::
    :maxdepth: 1
-   :caption: Unofficial - 301A Certification Lab for V11.4:
+   :caption: Unofficial - 301A Certification Lab for V11.4 (not adapted for DYI F5-AWS Lab):
    :glob:
 
    class8/class8

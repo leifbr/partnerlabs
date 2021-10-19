@@ -7,9 +7,9 @@ Basic Lab Environment
 The basic networking and lab enviroment for both AWS and UDF are shown below:
 
 .. image:: /_static/101/vLabNG_Diagram_v1.png
-   :height: 7.38005in
-   :width: 7.23272in
    :alt: Lab Diagram
+   :align: center
+   :width: 500
 
 **AWS - Accessing and Setting up the Lab Environment**
 ------------------------------------------------------
@@ -21,16 +21,15 @@ Instructions on how to build the F5-AWS lab environment can be found here:  :ref
 
 Once you load your AWS CFT template **f5-aws-bigip-labs.yml** and begin configuring you stack you will need to put specific criteria into the following fields so the lab will be read upon creation.
 
-1. In **INSTANCE CONFIGURATION** select **PerAppVeAwaf25Mbps**, which is less than 50 cents/hour, even if your free trial is expired.  Alternately, you can use the **BYOL** open if you have **BEST** licensing.
+- In **INSTANCE CONFIGURATION** select **PerAppVeAwaf25Mbps**, which is less than 50 cents/hour, even if your free trial is expired.  Alternately, you can use the **BYOL** open if you have **BEST** licensing.
 
 .. important::
    You must **Subscribe** to the image (see above) prior to creating the stack.
 
-2. In **BIG-IP Modules** you want to provision WAF (ASM/ADVWAF) and FPS (Datasafe) on the BIG-IP for the labs.  Enter **ltm:nominal,asm:nominal,fps:nominal**
-3. Under **BIG-IP BASE NETWORKING AND VIRTUAL SERVICE CONFIGURATION**
-   
-   a. For **configBigipNet** select **Yes**. This will build the base networking on the BIG-IP
-   b. For **AS3 Declaration URL** enter a URL pointing to the **advwaf-fundamentals.json** which will build the Hackazon virtual server and pool.  The easy way you can do this is by copying and pasting the following link: https://raw.githubusercontent.com/leifbr/partnerlabs/master/awslab/advwaf-fundamentals.json This link is obtained by going to https://github.com/leifbr/partnerlabs/blob/master/awslab/advwaf-fundamentals.json and selecting the **Raw** button.
+- In **BIG-IP Modules** you want to provision WAF (ASM/ADVWAF) and FPS (Datasafe) on the BIG-IP for the labs.  Enter **ltm:nominal,asm:nominal,fps:nominal**
+- Under **BIG-IP BASE NETWORKING AND VIRTUAL SERVICE CONFIGURATION** 
+   - For **configBigipNet** select **Yes**. This will build the base networking on the BIG-IP
+   - For **AS3 Declaration URL** enter a URL pointing to the **advwaf-fundamentals.json** which will build the Hackazon virtual server and pool.  The easy way you can do this is by copying and pasting the following link: https://raw.githubusercontent.com/leifbr/partnerlabs/master/awslab/advwaf-fundamentals.json This link is obtained by going to https://github.com/leifbr/partnerlabs/blob/master/awslab/advwaf-fundamentals.json and selecting the **Raw** button.
 
 From here you can just complete the template per the :ref:`building-the-aws-lab` instructions.
 
@@ -92,56 +91,61 @@ Accessing the Ubuntu Jumpbox
 ----------------------------
 
 In the **Deployments** tab and select the **Access** drop down menu and
-under **ubu-Jumpbox** select **XRDP** and the screen size similiar to the image below. Log on with
+under **ubu-Jumpbox** select **XRDP** and the screen size. Log on with
 the credentials in the table above.
 
-.. image:: /_static/101/image9.png
+Now you will use BIG-IP declarative REST APIs to configure the BIG-IP prior to performing the labs.
+  
+- Open **Postman** on the UDF Jumpbox by clicking on the Postman icon in the launch panel at the botton of the screen.
+.. image:: /_static/advwaf/image3.png
+   :alt: Postman on the Launch panel
+   :align: center
+   :width: 500
 
+Postman is an API platform for building and using APIs. Postman simplifies each step of the API lifecycle and streamlines collaboration so you can create better APIs—faster.  See Postman at https://postman.com 
 
-1. Open the Chrome browser and log into the BIG-IP GUI to verify the
-   BIG-IP is up.
+- Select the **Advance WAF Fundamentals** collection on the side-bar.
+.. image:: /_static/advwaf/image3a.png
+   :alt: Postman
+   :align: center
+   :width: 500
 
-   a. Go to **https://10.1.1.245**
+You are going to use F5 declarative automation and orchestration tools to provision, network and configure the BIG-IP prior to beginning the Advance WAF lab by running a collection of JSON scripts against the BIG-IP REST API. 
 
-      i.  User: **admin**
+.. image:: /_static/advwaf/image3b.png
+   :alt: Advance WAF Fundamentals Postman collection
+   :align: center
+   :width: 500
 
-      ii. Password: **admin**
+**Task 1 - Base Network and Provision DO** uses Declarative Onboarding for base configuration and L1-3 networking configuration: https://clouddocs.f5.com/products/extensions/f5-declarative-onboarding/latest/.
 
-2. Now you will perform an initial configuration via command line.
+**Task 2 - AdvWAF Fundamentals AS3** user Application Services v3 for the L7 configuration, creating the pool and virtual server you will be protecting: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/.
 
-   a. Open a terminal window from the taskbar at the bottom.
+You can review the JSON by selecting a task and the selecting **Body** undet the **Post** command.
 
-      i.   Log in to the BIG-IP using the command: **ssh
-           root@10.1.1.245**
+- Run the collection by select the **View More Actions** icon to the left of the collect and then select **Run collection**.
+.. image:: /_static/advwaf/image3c.png
+   :alt: Run Postman collection
+   :align: center
+   :width: 500
 
-      ii.  The password is **default.**
+- The **Runner** tab will pop up.  Select the **Run Advanced WAF Fundamentals** bottom to the right.
+.. image:: /_static/advwaf/image3d.png
+   :alt: Run Postman collections
+   :align: center
+   :width: 500
 
-      iii. At the BIG-IP prompt, enter **tmsh**
+You should see HTTP success statuses (20x) come back for each collection.
 
-           1. This will place you in the BIG-IP command line mode.
+.. image:: /_static/advwaf/image3e.png
+   :alt: Postman
+   :align: center
+   :width: 500
 
-   b. In your browser, open then the **Lab Guides** link on the
-      bookmarks bar in a new tab/window.
+.. important:: 
+   Be patient.  Now is a good time to make a cup of coffee or tea.  It will take several minutes for the BIG-IP to fully configure.
 
-   c. Open the **AdvWAF Base Setup.txt** file and review the commands.
+- Check to ensure the BIG-IP built correct by:
 
-   d. Copy all the commands between **# BEGIN COPY - Lab prep** and **#
-      END COPY - Lab prep**
-
-   e. Paste the commands into the terminal window at the **tmsh**
-      prompt.
-
-   f. **The BIG-IP will take several minutes to come back online.**
-
-      i. Good time for a bathroom break. Smoke ‘em if you got ‘em.
-
-3. Verify the virtual server and web site are up and running.
-
-   a. Go to **Local Traffic >> Network Map**. There should be two
-      virtual servers and all should be available (green).
-
-   b. Open up the Firefox browser. Go to http://hackazon.f5demo.com and
-      https://hackazon.f5demo.com
-
-   c. 
-
+  - Selecting **TMUI** from the **bigip01** access methods (see ::ref:`accessing-udf-lab` ) for more information and checking to make sure the virtual server is availa
+  - From the jumpbox open a browser and go to http://hackazon.f5.com or http://10.1.10.100 

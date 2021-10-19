@@ -1,11 +1,11 @@
 .. _building-the-aws-lab:
 
-Building your own F5 AWS Lab Environment
-========================================
+**DYI F5-AWS Lab** (Do-It-Yourself F5-AWS Lab Environment)
+==========================================================
 **(BETA)**
 This environment is available for use by engineers wishing to build a lab environment in AWS using the provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site, in the partnerlabs container available on https://hub.docker.com/repository/docker/leifbr/partnerlabs or as an open lab environment for your own education.
 
-.. important::
+..  warning::
     **Deploying this cloud formation template WILL INCUR COST.** According to the AWS estimate it should be less than 0.50 USD per hour to run the lab using free trial BIG-IP or a BYOL BIG-IP.  Regardless you run this lab at your own risk. Neither myself or F5 is responsible for any cost you incure. 
     **I highly recommended budget reminders.**
 
