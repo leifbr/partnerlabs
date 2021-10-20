@@ -6,12 +6,16 @@ These lab environments are:
 
 * The **Unified Demo Framework (UDF)** F5's official lab and demo environment
    * This environment requires you work with you F5 field or channel engineer to obtain access.
+   * :ref:`accessing-udf-lab`
 * The **World-Wide Field Readiness (WWFR)** vLab found on https://downloads.f5.com 
-   * This lab can run in your own environment, but requires VMWare ESX or Workstation.
-* The **AWS F5 Lab CFT** (Cloud Formation Template) is an **unofficial** **pay-as-you-go** environment.
+   * This lab can run in your own environment, but requires VMWare ESX or Workstation. 
+   * :ref:`accessing-wwfr-lab`
+* The **DYI F5-AWS Lab** Created AWS using a CFT (Cloud Formation Template) is an **unofficial** **pay-as-you-go** environment.
    * This lab runs in AWS at a very nominal cost and can be easy set up and torn down as desired.
+   * :ref:`building-the-aws-lab`
 
-All labs use the same backend servers and IP addressing scheme.  Any exceptions will be noted in the environment set up guide or the various lab guides.
+.. note::
+   All labs use the same backend servers and IP addressing scheme.  Any custom build instructions or exceptions will be noted in the access section of the various lab guides.
 
 .. toctree::
    :maxdepth: 1
