@@ -29,6 +29,7 @@ Lab Network Diagram
 This is a basic diagram for the IP addressing scheme and back end web services provided in all the labs.
 
 .. image:: /_static/_intro/vLabNG_Diagram_v1.png
-   :width: 3.62in
-   :height: 3.70in
+   :alt: Visio Diagram of Lab
+   :width: 700
+   :align: center
    
