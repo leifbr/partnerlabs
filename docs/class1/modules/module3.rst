@@ -2,18 +2,18 @@
 
 **DYI F5-AWS Lab** (Do-It-Yourself F5-AWS Lab Environment)
 ==========================================================
-**(BETA)**
-This environment is available for use by engineers wishing to build a lab environment in AWS using the provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site, in the partnerlabs container available on https://hub.docker.com/repository/docker/leifbr/partnerlabs or as an open lab environment for your own education.
+This environment is available for use by engineers wishing to build a F5 lab environment in AWS using a provided AWS Cloud Formation Template (CFT) that is compatible with the labs available on this site.  This lab guide is containerized and available on https://hub.docker.com/repository/docker/leifbr/partnerlabs or as an open lab environment for your own education.
 
 ..  warning::
-    **Deploying this cloud formation template WILL INCUR COST.** According to the AWS estimate it should be less than 0.50 USD per hour to run the lab using free trial BIG-IP or a BYOL BIG-IP.  Regardless you run this lab at your own risk. Neither myself or F5 is responsible for any cost you incure. 
-    **I highly recommended budget reminders.**
+    **Deploying this cloud formation template WILL INCUR COST.** According to the AWS estimate and billing from my own personal AWS account the average cost shold be around 0.50 USD per hour to run the lab using a BIG-IP VE Good edition, a Per-App-VE Advanced WAF or a BYOL BIG-IP.  *You run this lab at your own risk. Neither myself or F5 is responsible for any cost you incur.* **I highly recommended budget reminders**. 
+
+Warning aside, we are all engineers and know how to take care of our lab environments.  The **DYI F5-AWS Lab** is easily terminated and cleaned up by simply hitting the delete stack button.  This will clean up everything the CFT created.
 
 Some things to know when using the the **f5-aws-bigip-labs.yml** CFT template.  It is based off the 3nic PAYG learning stack found here: https://github.com/F5Networks/f5-aws-cloudformation/tree/master/experimental/standalone/3nic/learning-stack/payg
 
 A big difference is the IP addressing is standardized (as much as possible) around the F5 Unified Demo Framework (UDF) and WWFR lab environments, to keep the lab guides consistent and simplified.  The other difference is that the BIG-IP can be brougt up unconfigured, except for basic set up, with only base networking configured, or, using the AS3 json scripts and basic networking configuration to bring up preconfigure virtual servers and pools for the lab environment.
 
-I will probably not explain everything you need to know, especially if you haven't used AWS much, but I will give you the basics of using the template.
+I will probably not explain everything you need to know, especially if you haven't used AWS much, but I will give you the basics of using the template.  Even if you are unfamiliar with AWS, the CFT makes building and tearing down the lab environment fairly easy.
 
 Prerequisites
 -------------
@@ -25,7 +25,7 @@ Prerequisites
    *Try one unit of this product for 30 days. There will be no software charges for that unit, but AWS infrastructure charges still apply. Free Trials will automatically convert to a paid subscription upon expiration and you will be charged for additional usage above the free units provided.*  Once the free trial has expired there is a hourly license charge for the BIG-IP instance you use, with the exception of the BYOL. Of course all instances incur EC2 costs.
 
    - F5 BIG-IP Virtual Edition - GOOD (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-lphsy6izllsmq (0.43/hr estimated EC2 and Licensing)
-   - F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti **(1.77/hr estimated EC2 and Licensing)**
+   - F5 BIG-IP Virtual Edition - BEST (PAYG, 25Mbps) at https://aws.amazon.com/marketplace/pp/prodview-v2lgyijcawiti **(1.77/hr estimated EC2 and Licensing)** Because of cost I recommend avoiding this one if possible.
    - F5 Per-App-VE Advanced WAF with LTM, IPI, TC (PAYG, 25Mbps) https://aws.amazon.com/marketplace/pp/prodview-7ykhgfdcrjazq (0.47/hr estimated EC2 and Licensing)
    - F5 BIG-IP VE - ALL (BYOL, 2 Boot Locations) - https://aws.amazon.com/marketplace/pp/prodview-73utu5c5sfyyc (0.40/hr estimate for EC2 charges, no licensing charges, can be used with evaluation keys)
   
