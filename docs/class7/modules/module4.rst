@@ -1,7 +1,7 @@
 Exercise 3 - Mitigating BoT Attacks
 ===================================
 
-Mitigating Bots using a Bot profile (v14.1)
+Mitigating Bots using a Bot profile (v15.1)
 -------------------------------------------
 
 Objectives:
@@ -26,33 +26,40 @@ You will need to create a new BoT profile before you can configure your BoT miti
  
 * Go to **Security ›› Bot Defense : Bot Defense Profiles** here you can see a number of pre-defined BoT profiles. You will be creating your own custom bot profile.
 * Select **Create**. Before you configure anything move down the configuration settings on the **Bot Profile Configuration** sidebar and look at some of the options available.
+  
+  * Under **General Settings**
+  * **Profile Name**: app_bot_protection
+  * **Enforcement Mode**: Blocking
+  
+    * For purposes of this lab you will go straight to Blocking mode
+  * **Profile Template**: Balanced
+  
+    * Select the **Learn more** link to see the difference in the default profiles.
+  * **Signature Staging upon Update**: Disabled
+  
+    * You will leave this at the default.  If **Enabled** then when BoT signatures are updated new/modified signatures will go into staging (as discussed is Exercise 2)
+  * **Enforcement Readiness Period**: 0 days
+  
+    * To speed up the process you will change the staging period from 7 to 0 days
+  * **Redirect to Pool**: none  
+  
+    * You have the ability to redirect BoT traffic to a different pool (ie. honey pot)
 
-    * Under **General Settings**
-      * **Profile Name**: app_bot_protection
-      * **Enforcement Mode**: Blocking
-        * For purposes of this lab you will go straight to Blocking mode
-      * **Profile Template**: Balanced
-         * Select the **Learn more** link to see the difference in the default profiles.
-      * **Signature Staging upon Update**: Disabled
-        * You will leave this at the default.  If **Enabled** then when BoT signatures are updated new/modified signatures will go into staging (as discussed is Exercise 2)
-      * **Enforcement Readiness Period**: 0 days
-           * To speed up the process you will change the staging period from 7 to 0 days
-     * **Redirect to Pool**: none  
-       * You have the ability to redirect BoT traffic to a different pool (ie. honey pot)
+.. image:: /_static/advwaf/image36.png
+   :alt: BoT mitigation interface
+   :align: center
+   :width: 500
 
-   .. image:: /_static/advwaf/image36.png
-      :alt: BoT mitigation interface
-      :align: center
-      :width: 500
-
-  The ** Reponse and Blocking Pages** can be left at their defaults.
+The **Reponse and Blocking Pages** can be left at their defaults.
   
 .. note::
-   If you are using UDF lab environment you may see the **Note** below on the BoT profile configuration page. For UDF the BIG-IP may not be configured for DNS.  If DNS is not confguration BoT protection will not be able to determine if benign Bots, such as GoogleBots, are being impersonated. Watching for impersonated BoTs requires DNS reverse lookups.
-   .. /_static/advwaf/image36b.png
-      :alt: DNS Resolver List empty warning
-      :align: center
-      :width: 500
+   
+   If you are using UDF lab environment you may see a **Note** below on the BoT profile configuration page. For UDF the BIG-IP may not be configured for DNS.  If DNS is not confguration BoT protection will not be able to determine if benign Bots, such as GoogleBots, are being impersonated. Watching for impersonated BoTs requires DNS reverse lookups.
+
+.. image:: /_static/advwaf/image36b.png
+   :alt: DNS Resolver List empty warning
+   :align: center
+   :width: 500
 
 * **Mitigation Settings** can also be left at the current defaults and speak for themselves.  Click on one of the dropdowns to see all the mitigation options. If you had left the **Enforcement** **Mode** at **Transparent** the mitigation enforcement cases at the bottom would have defaulted to **Disabled**. Click the question marks for more information on the cases.
 
@@ -74,19 +81,16 @@ Create a BoT Logging profile
 Like with Advance WAF you will create a logging profile to capture BoT and DoS events.  WAF, DoS and BoT events can be captured using the same profile or using multiple profiles.  Using a separate BoT logging profile would allow you to attach BoT defense and logging to virual servers that may not require a WAF policy.
 
 * Go to **Security ›› Event Logs : Logging Profiles** and select **Create**. Name your profile **bot_logger**.
+  
+  * Check **Bot Defense** enable box.
+  * In the **DoS Protection** tab enable the **Local Publisher**.
+  * In the **Bot Defense** tab check **ALL** the boxes.  You want to see everything in this case.
+  * Hit **Create**.
 
-   * Check **Bot Defense** enable box.
-
-      *  In the **DoS Protection** tab enable the **Local Publisher**.
-
-      *  In the **Bot Defense** tab check **ALL** the boxes.  You want to see everything in this case.
-
-      * Hit **Create**.
-
-   .. image:: /_static/advwaf/image37.png
-      :alt: Modifying the Logging profile for BoT Mitigation
-      :align: center
-      :width: 400
+.. image:: /_static/advwaf/image37.png
+   :alt: Modifying the Logging profile for BoT Mitigation
+   :align: center
+   :width: 400
 
 Add the BoT profile to a virtual server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,13 +103,12 @@ The DOS profile has only Bot Signatures enabled.
 
 * Add **bot_logger** to the **Log Profile**.
 
-* For purposes of this lab, **Disable** the **Application Security
-   Policy** and remove **asm_allrequests** from the **Log Profile.**
+* For purposes of this lab, **Disable** the **Application Security Policy** and remove **asm_allrequests** from the **Log Profile.**
 
-   .. image:: /_static/advwaf/image38.png
-      :alt: Modifying the Virtual Server security logging profile
-      :align: center
-      :width: 500
+.. image:: /_static/advwaf/image38.png
+   :alt: Modifying the Virtual Server security logging profile
+   :align: center
+   :width: 500
 
 * Finally, select **Update**.
 
@@ -126,18 +129,19 @@ In the **Security ›› Event Logs : Bot Defense : Requests** you should see en
    :align: center
    :width: 500
 
-   The BoT signature and category are logged and the BoT is allowed because the **Untrusted Bot** category is set to **Alarm** only.
+The BoT signature and category are logged and the BoT is allowed because the **Untrusted Bot** category is set to **Alarm** only.
 
-   In the **Security ›› Event Logs : Bot Defense : Bot Traffic** screen it may take a few minutes for the data to show up, but you should see something similar to the following:
+In the **Security ›› Event Logs : Bot Defense : Bot Traffic** screen it may take a few minutes for the data to show up, but you should see something similar to the following:
 
-   .. image:: /_static/advwaf/image40.png
-      :alt: BoT Traffic Summary page
-      :align: center
-      :width: 500
+.. image:: /_static/advwaf/image40.png
+   :alt: BoT Traffic Summary page
+   :align: center
+   :width: 500
 
 This time we will use the apache bench (ab) BoT from the **DOS Tools (Malicious)** category. The BoT was originally design for benchmark testing but can be used for those nefarious purposes I spoke of earlier.  Requires a Linux/Unix OS with **ab** installed.
 
 .. note::
+
    If if you do not have **ab** feel free to throw other BoT tools at the 
 
 * From a terminal window on the UDF jumpbox or other Linux/Unix OS run the following:
@@ -197,12 +201,11 @@ Now let’s see how BIG-IP challenges Bots that don’t match up to the signatur
    :align: center
    :width: 500
 
-* That makes it kind of easy to detect, but what if we changed the
-   User-Agent to a legitimate browser. Could the BIG-IP still detect it?
+That makes it kind of easy to detect, but what if we changed the User-Agent to a legitimate browser. Could the BIG-IP still detect it?
 
-   *  Run the following command from a terminal window:
+*  Run the following command from a terminal window:
 
-   ``curl -A "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5" http://<hackazon_vs>``
+``curl -A "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5" http://<hackazon_vs>``
 
 The resulting request failed, and you can see the obfuscated code and the BIG-IP block page and support ID at the bottom. Even though the signature is allowed, curl cannot meet the javascript challenge (returning ASM cookie, prefixed by TS, with the javascript results) presented it. Check the BoT Request log for the results showing the Bot was challenged and we sent a Captcha.
 
