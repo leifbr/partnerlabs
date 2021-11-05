@@ -159,15 +159,9 @@ Remember from earlier you found that the username and password parameter names a
 
 -  For the **username** parameter select the **Obfuscation** checkbox.
 
--  For the **password** parameter select the **Encrypt**, **Substitute
-      Value**, and **Obfuscate** checkboxes.
+-  For the **password** parameter select the **Encrypt**, **Substitute Value**, and **Obfuscate** checkboxes.
 
 - Click on **Save**
-
-.. image:: /_static/advwaf/image62.png
-   :alt: Configuring parameters
-   :align: center
-   :width: 500
 
 .. admonition:: TMSH
 
@@ -177,7 +171,7 @@ Remember from earlier you found that the username and password parameter names a
 
 -  Review the explanations for the different features.
 
--  Under **Advanced** select the **Add Decoy Inputs** and **Remove Element IDs** checkboxes, and then click **Create**.
+-  Under **Advanced** select the **Add Decoy Inputs** and **Remove Element IDs** checkboxes, and then click **Create** or **Save**. In v16.x **Add Decoy Inputs** is on the main page and **Remove Element IDs** under **Advanced** 
 
 .. image:: /_static/advwaf/image63.png
    :alt: Application Layer Encryption features
