@@ -28,7 +28,7 @@
                 },
                 "Rapid-deploy-demo_internal": {
                     "class": "WAF_Policy",
-                    "url": "https://raw.githubusercontent.com/leifbr/partnerlabs/master/awslab/Rapid-deploy-demo_internal.json",
+                    "url": "https://raw.githubusercontent.com/leifbr/partnerlabs/master/awslab/rapid-deployment-demo-template.json",
                     "ignoreChanges": true
                     },
                 "hackazon_pool": {

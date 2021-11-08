@@ -1,0 +1,155 @@
+{
+   "policy" : {
+      "applicationLanguage" : "utf-8",
+      "caseInsensitive" : false,
+      "description" : "Rapid Deployment Policy",
+      "enablePassiveMode" : false,
+      "enforcementMode" : "blocking",
+      "fullPath" : "/Common/rapid-deploy-demo",
+      "name" : "rapid-deploy-demo",
+      "policy-builder" : {
+         "autoApply" : {
+            "frequency" : "real-time"
+         },
+         "enableUntrustedTrafficSiteChangeTracking" : true,
+         "learningMode" : "automatic",
+         "trafficTighten" : {
+            "maxModificationSuggestionScore" : 60,
+            "totalRequests" : 10000
+         },
+         "untrustedTrafficLoosen" : {
+            "differentSources" : 10,
+            "minHoursBetweenSamples" : 0.5
+         },
+         "untrustedTrafficSiteChangeTracking" : {
+            "differentSources" : 5,
+            "minMinutesBetweenSamples" : 15
+         }
+      },
+      "protocolIndependent" : false,
+      "server-technologies" : [
+         {
+            "serverTechnologyName" : "Apache/NCSA HTTP Server"
+         },
+         {
+            "serverTechnologyName" : "JavaScript"
+         },
+         {
+            "serverTechnologyName" : "PHP"
+         },
+         {
+            "serverTechnologyName" : "Unix/Linux"
+         }
+      ],
+      "signature-sets" : [
+         {
+            "alarm" : true,
+            "block" : true,
+            "learn" : true,
+            "name" : "Unix/Linux Signatures (High/Medium Accuracy)",
+            "signatureSet" : {
+               "filter" : {
+                  "accuracyFilter" : "ge",
+                  "accuracyValue" : "medium",
+                  "hasCve" : "all",
+                  "lastUpdatedFilter" : "all",
+                  "riskFilter" : "all",
+                  "riskValue" : "all",
+                  "signatureType" : "all",
+                  "tagFilter" : "all",
+                  "userDefinedFilter" : "all"
+               },
+               "systems" : [
+                  {
+                     "name" : "Unix/Linux"
+                  }
+               ],
+               "type" : "filter-based"
+            }
+         },
+         {
+            "alarm" : true,
+            "block" : true,
+            "learn" : true,
+            "name" : "Apache/NCSA HTTP Server Signatures (High/Medium Accuracy)",
+            "signatureSet" : {
+               "filter" : {
+                  "accuracyFilter" : "ge",
+                  "accuracyValue" : "medium",
+                  "hasCve" : "all",
+                  "lastUpdatedFilter" : "all",
+                  "riskFilter" : "all",
+                  "riskValue" : "all",
+                  "signatureType" : "all",
+                  "tagFilter" : "all",
+                  "userDefinedFilter" : "all"
+               },
+               "systems" : [
+                  {
+                     "name" : "Apache"
+                  }
+               ],
+               "type" : "filter-based"
+            }
+         },
+         {
+            "alarm" : true,
+            "block" : true,
+            "learn" : true,
+            "name" : "PHP Signatures (High/Medium Accuracy)",
+            "signatureSet" : {
+               "filter" : {
+                  "accuracyFilter" : "ge",
+                  "accuracyValue" : "medium",
+                  "hasCve" : "all",
+                  "lastUpdatedFilter" : "all",
+                  "riskFilter" : "all",
+                  "riskValue" : "all",
+                  "signatureType" : "all",
+                  "tagFilter" : "all",
+                  "userDefinedFilter" : "all"
+               },
+               "systems" : [
+                  {
+                     "name" : "PHP"
+                  }
+               ],
+               "type" : "filter-based"
+            }
+         },
+         {
+            "alarm" : true,
+            "block" : true,
+            "learn" : true,
+            "name" : "JavaScript Signatures (High/Medium Accuracy)",
+            "signatureSet" : {
+               "filter" : {
+                  "accuracyFilter" : "ge",
+                  "accuracyValue" : "medium",
+                  "hasCve" : "all",
+                  "lastUpdatedFilter" : "all",
+                  "riskFilter" : "all",
+                  "riskValue" : "all",
+                  "signatureType" : "all",
+                  "tagFilter" : "all",
+                  "userDefinedFilter" : "all"
+               },
+               "systems" : [
+                  {
+                     "name" : "JavaScript"
+                  }
+               ],
+               "type" : "filter-based"
+            }
+         }
+      ],
+      "signature-settings" : {
+         "signatureStaging" : false
+      },
+      "softwareVersion" : "16.1.0",
+      "template" : {
+         "name" : "POLICY_TEMPLATE_RAPID_DEPLOYMENT"
+      },
+      "type" : "security"
+   }
+}
