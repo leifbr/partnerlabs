@@ -159,7 +159,7 @@ You will notice that the attack does not get blocked, however; the attack signat
 * Using a new private browser log into the Hackazon application
   * Username: firstname.lastname@mail.example.com
   * Password: password
-* The request will be blocked cand you will be ask why. Get the support ID of the offending request. 
+* The request will be blocked and you will be asked why. Get the support ID of the offending request. 
 
 * Go to the Application event logs and find the offending request using the support ID. Open the request and you will set a **Illegal parameter value length** click **View...** under **Suggestions**.
 
