@@ -22,6 +22,9 @@
                     "policyWAF": {
                         "use": "rapid-deployment-demo"
                     },
+                    "profileBotDefense": {
+                        "use": "bot-defense"
+                    },
                     "securityLogProfiles": [{
                         "bigip": "/Common/Log all requests"
                     }]
