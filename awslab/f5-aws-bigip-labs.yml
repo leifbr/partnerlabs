@@ -6,6 +6,7 @@
 # v1.2 - clean up output, added regions and AMIs, set mgmt IP
 # v1.3 - cleaned up parameters, opened Internal and Web SG to all 10.1.20.0 traffic, ready for beta
 # v1.4 - added BIG-IP licensing
+# v1.5 - turns out secondary IPs can be built in a random orders, so hardcodes 10.1.10.100 and 105 and the EIPs changed webserver primary IP to match UDF blueprint.
 AWSTemplateFormatVersion: 2010-09-09
 Conditions:
   noCustomImageId: !Equals 
@@ -339,21 +340,13 @@ Outputs:
     Value: !Ref Bigip1VipEipTo100
   Bigip1VipPrivateIp100:
     Description: Private virtual server address on the external interface (Secondary IP 1)
-    Value: !Select 
-      - '0'
-      - !GetAtt 
-        - Bigip1subnet1Az1Interface
-        - SecondaryPrivateIpAddresses
+    Value: '10.1.10.100'
   Bigip1VipEipTo105:
     Description: Public EIP address tied to 10.1.10.105 for virtual servers
     Value: !Ref Bigip1VipEipTo105
   Bigip1VipPrivateIp105:
     Description:  Private virtual server address on the external interface (Secondary IP 2)
-    Value: !Select 
-      - '1'
-      - !GetAtt 
-        - Bigip1subnet1Az1Interface
-        - SecondaryPrivateIpAddresses
+    Value: '10.1.10.105'
   # Bigip1subnet1Az1Interface:
     # Description: External interface Id on BIG-IP
     # Value: !Ref Bigip1subnet1Az1Interface
@@ -1369,11 +1362,7 @@ Resources:
         - Bigip1VipEipTo100
         - AllocationId
       NetworkInterfaceId: !Ref Bigip1subnet1Az1Interface
-      PrivateIpAddress: !Select
-        - '0'
-        - !GetAtt 
-          - Bigip1subnet1Az1Interface
-          - SecondaryPrivateIpAddresses
+      PrivateIpAddress: '10.1.10.100'
     Type: 'AWS::EC2::EIPAssociation'
   Bigip1VipEipTo105:
     DependsOn: AttachGateway
@@ -1387,11 +1376,7 @@ Resources:
         - Bigip1VipEipTo105
         - AllocationId
       NetworkInterfaceId: !Ref Bigip1subnet1Az1Interface
-      PrivateIpAddress: !Select
-        - '1'
-        - !GetAtt 
-          - Bigip1subnet1Az1Interface
-          - SecondaryPrivateIpAddresses
+      PrivateIpAddress: '10.1.10.105'
     Type: 'AWS::EC2::EIPAssociation'
   Bigip1subnet1Az1Interface:
     Properties:
@@ -1571,7 +1556,7 @@ Resources:
             - !Ref WebserverSecurityGroup
           SubnetId: !Ref subnet2Az1
           PrivateIpAddresses:
-          - PrivateIpAddress: 10.1.20.100
+          - PrivateIpAddress: 10.1.20.9
             Primary: 'true'
           - PrivateIpAddress: 10.1.20.11
             Primary: 'false'
@@ -1616,14 +1601,13 @@ Resources:
             - 'sudo systemctl start docker'
             - 'sudo systemctl enable docker'
             - 'echo Start up containerize web services'
-            - 'sudo docker run -itd --restart unless-stopped --name partnerlabs -p 10.1.20.100:80:80 leifbr/partnerlabs'
+            - 'sudo docker run -itd --restart unless-stopped --name partnerlabs -p 10.1.20.9:80:80 leifbr/partnerlabs'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo1 -p 10.1.20.11:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo2 -p 10.1.20.12:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo3 -p 10.1.20.13:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name f5demo4 -p 10.1.20.14:80:80 chen23/f5-demo-php'
             - 'sudo docker run -itd --restart unless-stopped --name juice30 -p 10.1.20.20:3000:3000 bkimminich/juice-shop'           
             - 'sudo docker run -itd --restart unless-stopped --name hack20 -p 10.1.20.20:80:80 leifbr/all-in-one-hackazon:schema2 ./start.sh > start.log'
-
     Type: 'AWS::EC2::Instance'
   WebserverSecurityGroup:
     Properties:
