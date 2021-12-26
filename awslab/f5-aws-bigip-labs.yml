@@ -6,7 +6,7 @@
 # v1.2 - clean up output, added regions and AMIs, set mgmt IP
 # v1.3 - cleaned up parameters, opened Internal and Web SG to all 10.1.20.0 traffic, ready for beta
 # v1.4 - added BIG-IP licensing
-# v1.5 - turns out secondary IPs can be built in a random orders, so hardcodes 10.1.10.100 and 105 and the EIPs changed webserver primary IP to match UDF blueprint.
+# v1.5.1 - turns out secondary IPs can be built in a random orders, so hardcodes 10.1.10.100 and 105 and the EIPs changed webserver primary IP to match UDF blueprint.
 AWSTemplateFormatVersion: 2010-09-09
 Conditions:
   noCustomImageId: !Equals 
@@ -22,7 +22,7 @@ Conditions:
     - !Ref licenseKey1
     - AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE 
 Description: >-
-  Template v1.4.0: AWS CloudFormation Template for creating a full stack with a
+  Template v1.5.1: AWS CloudFormation Template for creating a DYI lab full stack with a
   3NIC BIG-IP, a 1 Availability Zone VPC, subnets, security groups and a
   webserver with standized IP addressing for learning F5 BIG-IP solutions.  Based off
   the 3NIC learning stack developed by F5.
