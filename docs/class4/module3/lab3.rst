@@ -61,12 +61,12 @@ In BIG-IP command line terminal window (window2) check to see if DNS is running 
 
 .. code-block:: bash
 
-   tmsh show sys dns
+   tmsh show sys service named
    dig pool.ntp.org
 
 .. admonition:: TMSH
 
-   show sys dns  
+   show sys service named  
    run util dig pool.ntp.org
 
 
@@ -74,5 +74,5 @@ In BIG-IP command line terminal window (window2) check to see if NTP is running 
 
 .. code-block:: bash
    
-   tmsh show sys ntpd
+   tmsh show sys service ntpd
    ntpq -np

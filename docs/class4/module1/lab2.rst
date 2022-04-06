@@ -40,7 +40,7 @@ Once complete you should see the following:
 Go to the **Interface List**.  What is the status of the interface now?
 
 .. note:: Note
-   In the above example the VLAN tag of 40 is meaningless. By default the BIG-IP would have created a VLAN ID for the purposes of separating L2 traffic within TMOS.  Had **Tagged** be selected, then the BIG-IP would have applied 802.1q tagging to the VLAN using 40 as the VLAN tag.
+   In the above example the VLAN tag of 40 is meaningless. By default the BIG-IP would have created a VLAN ID for the purposes of separating L2 traffic within TMOS.  Had **Tagged** been selected, then the BIG-IP would have applied 802.1q tagging to the VLAN using 40 as the VLAN tag.
 
 Assign a Self IP to a VLAN
 --------------------------

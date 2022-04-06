@@ -26,7 +26,7 @@ to the following:
 Go to Local **Traffic > Pools > Statistics** and clear the **www\_pool**
 statistics.
 
-Browse to **http://10.1.10.100** and  **F5** at least 10
+Browse to **http://10.1.10.100** and  **F5** function key at least 10
 times.
 
 *Q1. Which* **www\_pool** *members was traffic sent to?*

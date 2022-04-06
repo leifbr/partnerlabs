@@ -166,20 +166,20 @@ Load Balancing
 
 *Q1. Which* **www\_pool** *members was traffic sent to?*
 
-Traffic was distributed to 10.1.20.12 and 10.1.20.13
+Traffic was fairly evenly distributed between all the pool members.
 
-*Q2. Did member 10.1.20.12 receive the most traffic? Why not?*
+*Q2. Did member 10.1.20.11 receive the most traffic? Why not?*
 
 No, because LB method is Round Robin, Ratio and Priority Group
 configurations on pool members do not apply.
 
-*Q3. Which* **www\_pool** *members was traffic sent to?*
+*Q3. Ration load Balancing: Which* **www\_pool** *members was traffic sent to?*
 
-Traffic was distributed to 10.1.20.12 and 10.1.20.13
+Traffic was sent to all pool members.
 
-*Q4. Did member 10.1.20.12 receive the most traffic?*
+*Q4. Did member 10.1.20.11 receive the most traffic?*
 
-10.1.20.12 received 5x more traffic than 10.1.20.12
+10.1.20.11 received 5x more traffic than the other members.
 
 Priority Group Activation
 ~~~~~~~~~~~~~~~~~~~~~~~~~
