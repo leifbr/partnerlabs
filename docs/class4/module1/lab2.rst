@@ -31,7 +31,7 @@ On the **Network** sidebar click on **VLANs** or select **VLAN List** from the p
 
 .. admonition:: TMSH
 
-   tmsh create net vlan test_vlan_40 tag 40 interfaces add { 1.4 { tagged } }
+   tmsh create net vlan test_vlan_40 tag 40 interfaces add { 1.4 { untagged } }
 
 Once complete you should see the following:
 
@@ -52,13 +52,13 @@ To assign a self IP, go to **Network >> Self IPs >> Self IP List** from the side
 - You will name your self IP:  **test_selfIP**
 - You will give your self IP the following address: **10.1.40.245**
 - With a netmask of: **255.255.255.0**
-- Assign the self IP to the VLAN you just created:  **test_vlan**
+- Assign the self IP to the VLAN you just created:  **test_vlan_40**
 - Note the **Port Lockdown** and **Traffic Group** settings.
 - Select **Finished** when you are done.
 
 .. admonition:: TMSH
 
-   tmsh create net self test_selfIP address 10.1.40.245/24 vlan test_vlan
+   tmsh create net self test_selfIP address 10.1.40.245/24 vlan test_vlan_40
 
 Once complete you should see the following:
 
