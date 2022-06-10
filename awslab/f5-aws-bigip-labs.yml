@@ -7,6 +7,7 @@
 # v1.3 - cleaned up parameters, opened Internal and Web SG to all 10.1.20.0 traffic, ready for beta
 # v1.4 - added BIG-IP licensing
 # v1.5.1 - turns out secondary IPs can be built in a random orders, so hardcodes 10.1.10.100 and 105 and the EIPs changed webserver primary IP to match UDF blueprint.
+# v1.5.2 - Updated all BIG-IP AMIs to v15.1.5.1, update applies to selected AWS regions.  Updated Ubuntu 18.04 LTS - Bionic AMIs
 AWSTemplateFormatVersion: 2010-09-09
 Conditions:
   noCustomImageId: !Equals 
@@ -30,148 +31,185 @@ Description: >-
   AWS resources used if you create a stack from this template.
 Mappings:
   BigipRegionMap:
+# Africa (Cape Town)
+#   af-south-1
+# Asia Pacific (Hong Kong)
     ap-east-1:
-      Best25Mbps: ami-027b4ab863c2da7f8
-      Good25Mbps: ami-09a1085441da2337d
-      PerAppVeAwaf25Mbps: ami-008aa07f46dee009c
-      PerAppVeLtm200Mbps: ami-0fd12f7488a0723ee
-      BYOL: ami-06e2d384ab36eb36c
+      Best25Mbps: ami-0a799c1326b9484ce
+      Good25Mbps: ami-0dfffb62689f9dea8
+      PerAppVeAwaf25Mbps: ami-04a31d38dd68fc6ef
+      BYOL: ami-0dcdf63a1e2c8a6d0
+# Asia Pacific (Tokyo)
     ap-northeast-1:
-      Best25Mbps: ami-0ce200d5adce5bc61
-      Good25Mbps: ami-0efbbbabdf301064d
-      PerAppVeAwaf25Mbps: ami-0ea38c70981337688
-      BYOL: ami-01059c3f3325d9619
+      Best25Mbps: ami-0615e7be380a2ef1b
+      Good25Mbps: ami-0e2159b3dcb4b6c27
+      PerAppVeAwaf25Mbps: ami-0d156db8c5d9ed706
+      BYOL: ami-01d6fa3a61181477c
+# Asia Pacific (Seoul)
     ap-northeast-2:
-      Best25Mbps: ami-0b39a40920dcd1543
-      Good25Mbps: ami-0e9fc329f7d109e3b
-      PerAppVeAwaf25Mbps: ami-026c73d8ff3402cbb
-      BYOL: ami-097d818e4963e017a
+      Best25Mbps: ami-099d31a24d8e7d007
+      Good25Mbps: ami-0e9ca82f08fb5636e
+      PerAppVeAwaf25Mbps: ami-0306a1439c86f2b99
+      BYOL: ami-0ad3a0c0986ce941f
+# Asia Pacific (Osaka)
+#   ap-northeast-3  
+# Asia Pacific (Mumbai)
     ap-south-1:
-      Best25Mbps: ami-0776d0783057e08b9
-      Good25Mbps: ami-0800adf463e9b14ec
-      PerAppVeAwaf25Mbps: ami-0eb3c581d4fd17d96
-      BYOL: ami-07fd3f2ef5f902f86
+      Best25Mbps: ami-0c4237e838407a7cd
+      Good25Mbps: ami-0281482efb83dd9c9
+      PerAppVeAwaf25Mbps: ami-08d5c129f6d0659f8
+      BYOL: ami-076480fafb4f263ff
+# Asia Pacific (Singapore)
     ap-southeast-1:
-      Best25Mbps: ami-0401897cb0a99f30e
-      Good25Mbps: ami-0cb2c3e6c276234b2
-      PerAppVeAwaf25Mbps: ami-0e934093ef30ff3ae
-      BYOL: ami-071c2bc10872531f5
+      Best25Mbps: ami-0e6c7aa9b696568ec
+      Good25Mbps: ami-0329d646d69081bc7
+      PerAppVeAwaf25Mbps: ami-03e961919c2538a90
+      BYOL: ami-02118a6aed081f34d
+# Asia Pacific (Sydney)
     ap-southeast-2:
-      Best25Mbps: ami-0d5dcf7f826f622e7
-      Good25Mbps: ami-0a580f5c65fcb5e49
-      PerAppVeAwaf25Mbps: ami-092635782475be56b
-      BYOL: ami-04d1e8e98d3f5424e
+      Best25Mbps: ami-03b6bf4605812302a
+      Good25Mbps: ami-0354d0d121a0fee42
+      PerAppVeAwaf25Mbps: ami-0886ec44f2618593c
+      BYOL: ami-0d7837872ac072301
+# Asia Pacific (Jakarta)
+#   ap-southeast-3
+# Canada (Central) 
     ca-central-1:
-      Best25Mbps: ami-0877c38a20d99d071
-      Good25Mbps: ami-0a0ed6f787c8c8dff
-      PerAppVeAwaf25Mbps: ami-06740abdb748cae66
-      BYOL: ami-07a23cf5bd0e7a6cb
+      Best25Mbps: ami-008c6bcfd1a381cc1
+      Good25Mbps: ami-05b78f1dc1907315d
+      PerAppVeAwaf25Mbps: ami-0a656af3fcc42a0aa
+      BYOL: ami-068d6fc2530bd61cf
+# Europe (Frankfurt)
     eu-central-1:
-      Best25Mbps: ami-098453531ef0c1bf4
-      Good25Mbps: ami-0fc032b443ad3a71e
-      PerAppVeAwaf25Mbps: ami-053e169cd8ab57179
-      BYOL: ami-06595fe1a66756714
+      Best25Mbps: ami-047ca4317c49c0f1f
+      Good25Mbps: ami-046f48a9a1c0358f6
+      PerAppVeAwaf25Mbps: ami-0aea8c110ef1fa3a0
+      BYOL: ami-0b977db0cc2129e60
+# Europe (Stockholm)
     eu-north-1:
-      Best25Mbps: ami-01404d56e699a511d
-      Good25Mbps: ami-0d30abaf975feddb3
-      PerAppVeAwaf25Mbps: ami-016ae7d43fc115799
-      BYOL: ami-040d17864c9c3aad4
+      Best25Mbps: ami-0ce7fcef7c2a61a67
+      Good25Mbps: ami-0995dce725df6109d
+      PerAppVeAwaf25Mbps: ami-0af67a08b886224b2
+      BYOL: ami-0eaac7cc053911880
+# Europe (Ireland)
     eu-west-1:
-      Best25Mbps: ami-09a3ca9fc1e414aff
-      Good25Mbps: ami-05751c51782c56aae
-      PerAppVeAwaf25Mbps: ami-0d663b4c5212fa3a5
-      BYOL: ami-03c8e8b5f014b5e90
+      Best25Mbps: ami-08025bebbbb2170a3
+      Good25Mbps: ami-0d56f1fc4e856ab2a
+      PerAppVeAwaf25Mbps: ami-0baf69ff7deac4652
+      BYOL: ami-0d27faae4842e97fe
+# Europe (London)
     eu-west-2:
-      Best25Mbps: ami-0123d57ef778fde74
-      Good25Mbps: ami-0d442de7a4ba7ff3e
-      PerAppVeAwaf25Mbps: ami-0c502e0885a86e22a
-      BYOL: ami-0eac8ccf75d7ff1ca
+      Best25Mbps: ami-0a7d42b095b3954fa
+      Good25Mbps: ami-06452c2feee8485aa
+      PerAppVeAwaf25Mbps: ami-0d66ecf1de3da908a
+      BYOL: ami-02ae9daa33fb6566c
+# Europe (Paris)
     eu-west-3:
-      Best25Mbps: ami-0b7c81ae1547c8fd6
-      Good25Mbps: ami-013e0788a02e6e651
-      PerAppVeAwaf25Mbps: ami-0692f5e492e7250cd
-      BYOL: ami-038614f050432d6d9
+      Best25Mbps: ami-03d3b193dd510c300
+      Good25Mbps: ami-022720ff1cae62fc7
+      PerAppVeAwaf25Mbps: ami-0d3d16688cb5bee0b
+      BYOL: ami-027c4d846585619a7
+# Europe (Milan)
+#   eu-south-1    
+# Middle East (Bahrain)
     me-south-1:
-      Best25Mbps: ami-0daa4796b6dde072a
-      Good25Mbps: ami-0eaf8a086eb79380b
-      PerAppVeAwaf25Mbps: ami-05cd33be861b6c07b
-      BYOL: ami-0a60fd9f3faf7c29d
+      Best25Mbps: ami-0a50a6cbdebdf4c08
+      Good25Mbps: ami-0f7522618b74d5253
+      PerAppVeAwaf25Mbps: ami-0814a56430fdd93c7
+      BYOL: ami-0b84773fccadf475e
+# South America (São Paulo)
     sa-east-1:
-      Best25Mbps: ami-099171da951358ee3
-      Good25Mbps: ami-034677cc80c5d068f
-      PerAppVeAwaf25Mbps: ami-0bb9274cf7ccdffef
-      BYOL: ami-01925a4e0390f0e0c
+      Best25Mbps: ami-045c3b4c87198bd06
+      Good25Mbps: ami-02cab18f6763c69c5
+      PerAppVeAwaf25Mbps: ami-02d28eca4289b3945
+      BYOL: ami-0f710004635f859ef
+# US East (N. Virginia)
     us-east-1:
-      Best25Mbps: ami-0c0a28362686c2f82
-      Good25Mbps: ami-08ab79e97e15a8b41
-      PerAppVeAwaf25Mbps: ami-0b974dae3e7a42601
-      BYOL: ami-0ee78e91f97dcb9a6
+      Best25Mbps: ami-0a3aa4f2b6a3cdeb2
+      Good25Mbps: ami-050a6fe2721ec150a
+      PerAppVeAwaf25Mbps: ami-02f5795ec2241f95e
+      BYOL: ami-01002cef4e3503d79
+# US East (Ohio)
     us-east-2:
-      Best25Mbps: ami-0b6e94aa6111effc6
-      Good25Mbps: ami-0baaca47317ac95b6
-      PerAppVeAwaf25Mbps: ami-0d786ca692564c819
-      BYOL: ami-0648f74287ffaf373
-    us-gov-east-1:
-      Best25Mbps: ami-06f3dee4526313f4d
-      Good25Mbps: ami-08732960cdb417d41
-      PerAppVeAwaf25Mbps: ami-0215056a785175c03
-      BYOL: ami-0e29443c0d2baed53
-    us-gov-west-1:
-      Best25Mbps: ami-02d2f5a1b6dc87290
-      Good25Mbps: ami-0780b0367d58330b2
-      PerAppVeAwaf25Mbps: ami-0d4b1d8f206342a75
-      BYOL: ami-0eb3a46cc8ab47c95
+      Best25Mbps: ami-06503efd5d5cf5389
+      Good25Mbps: ami-0eb80da10f90d298d
+      PerAppVeAwaf25Mbps: ami-0d21464bbf4f33316
+      BYOL: ami-05846cff3f5e387d1
+# US West (N. California)
     us-west-1:
-      Best25Mbps: ami-0b44273acf268a39b
-      Good25Mbps: ami-06c31f9d1db9987ab
-      PerAppVeAwaf25Mbps: ami-0710cd212a6513ccd
-      BYOL: ami-01d7302c269a9f9f2
+      Best25Mbps: ami-0cb9f82b024548ab0
+      Good25Mbps: ami-0950d3053471e9669
+      PerAppVeAwaf25Mbps: ami-09541ea6f9a23773e
+      BYOL:  ami-0e9681eadd1bdf740
+# US West (Oregon)
     us-west-2:
-      Best25Mbps: ami-0e5e6c0095256ac49
-      Good25Mbps: ami-0a0b59d02e622f065
-      PerAppVeAwaf25Mbps: ami-04e085d39662477f7
-      BYOL: ami-0f0f99f3ad7f0a55e
+      Best25Mbps: ami-0f3813caaf7a5bdd7
+      Good25Mbps: ami-08eed5c28a6f01fec
+      PerAppVeAwaf25Mbps: ami-05d6beb4470e7a5b5
+      BYOL: ami-032d4e114952c1553
   WebserverRegionMap:
+# Africa (Cape Town)
+#   af-south-1
+# Asia Pacific (Hong Kong)
     ap-east-1:
-      AMI: ami-03f495ecce4208867
+      AMI: ami-003457478eee67dde
+# Asia Pacific (Tokyo)
     ap-northeast-1:
-      AMI: ami-0f4c7c0b57bb44791
+      AMI: ami-06b83f30f48630ac1
+# Asia Pacific (Seoul)
     ap-northeast-2:
-      AMI: ami-091b01cd1626c1898
+      AMI: ami-0021b269a8b1ed36c
+# Asia Pacific (Osaka)
+#   ap-northeast-3  
+# Asia Pacific (Mumbai)
     ap-south-1:
-      AMI: ami-08831dd3549a454bf
+      AMI: ami-0ef38cb03fb3575ee
+# Asia Pacific (Singapore)
     ap-southeast-1:
-      AMI: ami-049c7e6a8fbacc0a6
+      AMI: ami-025c63e0989232be5
+# Asia Pacific (Sydney)
     ap-southeast-2:
-      AMI: ami-018d40e755400deb2
+      AMI: ami-0e3a0e500cb161e3e
+# Asia Pacific (Jakarta)
+#   ap-southeast-3
+# Canada (Central) 
     ca-central-1:
-      AMI: ami-0534a8203e795f522
+      AMI: ami-0e78376dfdb4b9f1d
+# Europe (Frankfurt)
     eu-central-1:
-      AMI: ami-02005be39814f8ff6
+      AMI: ami-0491096722e79a695
+# Europe (Stockholm)
     eu-north-1:
-      AMI: ami-0b2f42a292be6ac0c
+      AMI: ami-0c7c6bfc1a9e8a023
+# Europe (Ireland)
     eu-west-1:
-      AMI: ami-04a5854614a5ef0b2
+      AMI: ami-0795aa90d0375cb70
+# Europe (London)
     eu-west-2:
-      AMI: ami-047061fd75afc6f50
+      AMI: ami-08cfe7c968626b8dc
+# Europe (Paris)
     eu-west-3:
-      AMI: ami-0d4b40e9dde1d7bbe
+      AMI: ami-0fff118ac0af74c57
+# Europe (Milan)
+#   eu-south-1    
+# Middle East (Bahrain)
     me-south-1:
-      AMI: ami-0df67e53683379235
+      AMI: ami-050a74fdf4ec89a9e
+# South America (São Paulo)
     sa-east-1:
-      AMI: ami-02e7ee0747b6c93dc
-    us-gov-east-1:
-      AMI: ami-0e29443c0d2baed53
-    us-gov-west-1:
-      AMI: ami-0eb3a46cc8ab47c95
+      AMI: ami-06761fee0c597338d
+# US East (N. Virginia)
     us-east-1:
-      AMI: ami-021f21db624970cc7
+      AMI: ami-09025f5e3f0599168
+# US East (Ohio)
     us-east-2:
-      AMI: ami-069eca27fa16433a0
+      AMI: ami-050ac92a46122c7ca
+# US West (N. California)
     us-west-1:
-      AMI: ami-04bedabfec81a844a
+      AMI: ami-089c75d14528f83c7
+# US West (Oregon)
     us-west-2:
-      AMI: ami-020b9db557781b212
+      AMI: ami-07ad01865666a96fa
 Metadata:
   'AWS::CloudFormation::Interface':
     ParameterGroups:
