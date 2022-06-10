@@ -1,0 +1,6 @@
+network:
+    version: 2
+    renderer: NetworkManager
+    ethernets:
+       ens36:
+          dhcp4: yes

@@ -1,0 +1,7 @@
+network:
+    version: 2
+    renderer: NetworkManager
+    ethernets:
+       ens33:
+          dhcp4: no
+          addresses: [10.1.1.9/24]
