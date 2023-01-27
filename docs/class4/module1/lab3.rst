@@ -35,8 +35,8 @@ then **Update**.
 
 *Q1. Was the existing ftp connection in the connection table affected?   Why?*
 
-Quit ftp and clear virtual server statistics by going to **Local Traffic
-> Virtual Servers > Statistic**, select the virtual server and hit
+Send a quit command to the ftp connection. Clear virtual server statistics by going to **Local Traffic
+> Virtual Servers > Statistics > Virtual Server**, select the checkbox next to the virtual server **ftp_vs** and hit
 **Reset**.
 
 Attempt to establish an ftp connection to 10.1.10.100.
