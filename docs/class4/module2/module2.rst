@@ -6,7 +6,7 @@ servers pre-configured. In this lab you will determine how traffic is
 processed and take a look at various virtual server states and some
 reasons a virtual server may not be working.
 
-201 Objectives orimarily covered in these labs are:: 
+201 Objectives primarily covered in these labs are:: 
    - 4.01
       - Apply procedural concepts required to modify and manage virtual servers
    - 1.03
