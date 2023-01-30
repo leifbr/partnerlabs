@@ -83,5 +83,5 @@ above?*
 10.1.20.249 come from?*
 
 .. HINT::
-   You will have to review the configuration of **ftp\_vs** to  determine the answer to question 3.
+   You will have to review the configuration of **ftp\_vs** to  determine the answer to question 4.
 
