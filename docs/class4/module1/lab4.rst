@@ -9,9 +9,6 @@ traffic under different configurations to determine how virtual servers
 process new inbound connections. You will be using tcpdump from window1,
 virtual server statistics, as well as a browser to determine behavior.
 
-Create **wildcard\_vs** **10.1.10.100:\*** with a **TCP** profile, **Automap** and a
-pool named **wildcard\_pool** with the following member **10.1.20.11:\***
-
 To create the wildcard pool, go to **Local Traffic > Pools > Pool List**
 and select **Create**.
 
@@ -46,8 +43,7 @@ Server** and select **Create**.
 Don't forget to hit **Finished.**
 
 You didn't need to enter the source addresses allowed. Go to your new virtual
-server and look at the **Source** to see what the default default is source addresses
-allowed.
+server and look at the **Source** to see what defaults for allowed source addresses.
 
 Testing Virtual Server Packet Processing Behavior
 -------------------------------------------------
@@ -83,8 +79,8 @@ Observe connection statistics (VS stats)
 
 *Q4. Which VS is used for web traffic?*
 
-Clean up your modifications
-
 Clear virtual server stats.
 
-Modify **www\_vs** to include the default **Source** of 0.0.0.0/0.
+Clean up your modifications ->
+
+Modify **www\_vs** to the default **Source Address** of 0.0.0.0/0.
