@@ -12,7 +12,7 @@ If you do NOT have an active account you should have received an email from **no
 Accessing the UDF labs
 ----------------------
 
-You will be access the labs using the F5 Unified Demo Framework (UDF).  **Chrome** is the preferred browser for UDF access.  Other browsers may work but are not supported.
+You will be accessing the labs using the F5 Unified Demo Framework (UDF).  **Chrome** is the preferred browser for UDF access.  Other browsers may work but are not supported.
 
 1. Open your browser and navigate to the F5 UDF https://udf.f5.com 
    
@@ -21,7 +21,7 @@ You will be access the labs using the F5 Unified Demo Framework (UDF).  **Chrome
 .. image:: /_static/201L/udf-non-f5-user.png
 
 .. IMPORTANT::
-   You should retain these credentials, as they will be required to any access future F5 UDF courses you attend in the F5 UDF environment
+   You should retain these credentials, as they will be required to access any future F5 UDF courses you attend in the F5 UDF environment.
 
 2. You should see the event(s) under **Happening now**. Find the **201 Certification Lab - TMOS Administration** event and click on the **Launch** link at the far right. 
 
