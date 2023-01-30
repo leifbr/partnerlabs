@@ -10,7 +10,7 @@ balancing configurations.
 Open the **www\_pool Members** tab.
 
 Note the load balancing method on the pool and the **Ratio** and
-**Priority** settings on the members. Select each member and update them
+**Priority Group** configurations on the members. Select each member and update them
 to the following:
 
 +--------------+-------------+----------------+
@@ -98,9 +98,9 @@ Clear stats for **www\_pool** and browse to **http://10.1.10.100** hitting **F5*
 *Q2. Was traffic evenly distributed to all* **www\_pool** *members? Why
 not?*
 
-Place the pointer in the web page and right click and selectg **Inspect**.  Select **Network** from the top bar in the right window and refresh the page.
+Place the pointer in the web page and right click and select **Inspect**.  Select **Network** from the top bar in the right window and refresh the page.
 
-Select 10.1.10.100 in the **Name** section and look at the **Headers** in the **Cookie** header you will see the BIG-IP cookie named **BIGipServerwww_pool**.
+Select 10.1.10.100 in the **Name** section and look at the **Request Headers** in the **Cookie** header you will see the BIG-IP cookie named **BIGipServerwww_pool**.
 
 .. image:: /_static/201L/cookie-persistence.png
 
