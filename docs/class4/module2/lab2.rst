@@ -20,10 +20,12 @@ Go to **Local Traffic > Monitors** and select **Create**.
 | **Timeout**          | 46               |
 +----------------------+------------------+
 
+Select Finished
+
 Effects of Monitors on Members, Pools and Virtual Servers
 ---------------------------------------------------------
 
-Go to **Local Traffic > Pools > www\_pool** and assign ths
+Go to **Local Traffic > Pools > Pool List** Then open  **www\_pool** and assign the
 **mysql\_monitor** to the pool.
 
 Observe availability status of **www\_pool.** The pool status
@@ -32,11 +34,11 @@ momentarily changes to **Unknown**.
 *Q1. Since the* **mysql\_monitor** *will fail, how long will it take to
 mark the pool offline?*
 
-Go to **Local Traffic > Pool > www\_pool** and then **Member** from the
+Go to **Local Traffic > Pool > www\_pool** and then **Members** from the
 top bar and open member **10.1.20.13:80** and note the status of the
 monitors.
 
-Open **Local Traffic -> Network Map -> Show Map**
+Open **Local Traffic -> Network Map** -> **Show Map**
 
 *Q2. What is the icon and status of* **www\_vs**\ *?*
 
@@ -72,7 +74,7 @@ Offliine (Enabled)?*
 More on status and member specific monitors
 -------------------------------------------
 
-Go to **Local Traffic > Pool > www\_pool** and then **Member** from the
+Go to **Local Traffic > Pool > www\_pool** and then **Members** from the
 top bar and open member **10.1.20.13:80.** Enable the **Configuration:
 Advanced** menus.
 
