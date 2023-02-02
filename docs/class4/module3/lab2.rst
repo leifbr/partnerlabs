@@ -41,3 +41,5 @@ On **SSH IP Allow** > **Specify Range** of **10.1.1.10-20**
 Open new SSH session to **10.1.10.245**
 
 *Q7. Was new ssh session established?*
+
+Change the SSH allow list back to **All Addresses*
