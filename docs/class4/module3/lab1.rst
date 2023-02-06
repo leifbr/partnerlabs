@@ -12,7 +12,7 @@ For historical information you want to go to **Statistics >> Performance Reports
 
 Go to **Statistics >> Performance Reports** and review the available information.
 
-Then go to the **Througput** tab.  On the **Throughput(bits)** graph select **View Detailed Graph...** on the right.
+Then go to the **Throughput** tab.  On the **Throughput(bits)** graph select **View Detailed Graph...** on the right.
 
 .. NOTE::
 
