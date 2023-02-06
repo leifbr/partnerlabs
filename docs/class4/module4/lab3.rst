@@ -10,17 +10,17 @@ As you saw in the first lab, Application Visibility and Reporting has
 already been provisioned. You are going to create an analytics profile
 and attach it to an HTTP iApp application you will create.
 
-Open **Local Traffic > Profiles > Analytics** page.
+Open **Local Traffic > Profiles > Analytics > HTTP Analytics** page.
 
 Create an analytics profile checking the following boxes to obtain the 
 desired information, and then click **Finished**.
 
+**Note:** check the box on far right to edit the setting.
+
 +--------------------------+-----------------------------------------+
 | **Profile Name**         | custom\_analytics                       |
 +==========================+=========================================+
-| **Collected Metrics**    | Max TPS                                 |
-|                          |                                         |
-|                          | Throughput                              |
+| **Collected Metrics**    | Max TPS  and Throughput                 |
 |                          |                                         |
 |                          | Page Load Time                          |
 +--------------------------+-----------------------------------------+
