@@ -8,7 +8,7 @@ You can determine what the BIG-IP is licensed for in a number of ways on the **S
 
 Go to the license and provisioning pages and review the information. The **Resource Provisioning** page will show you which modules are provisioned.  A module must be licensed and provisioned for the module to be able to process application traffic.
 
-One thing the license and provisioning pages do not show you is the **Service Check Date**.  The **Service Check Date** is vitality important when you are performing upgrades as date determines which BIG-IP upgrade are available to you.  Go into tmsh and run the show license command and find the **Service Check Date**.
+One thing the license and provisioning pages do not show you is the **Service Check Date**.  The **Service Check Date** is vitally important when you are performing upgrades as date determines which BIG-IP upgrade are available to you.  Go into tmsh and run the show license command and find the **Service Check Date**.
 
 .. admonition:: TMSH
 
@@ -34,15 +34,17 @@ Go to **System >> Users >> User List** and select **Create**.
 
 **Add** the Role to the Partition Access box.
 
+Select **Finished** to create the new user account.
+
 .. NOTE::
    Note the default **Terminal Access** which is disabled.  This means *opuser* has no access to the BIG-IP CLI.  If you had selected **tmsh** when *opuser* SSH'd into the BIG-IP they would go directly to a TMSH prompt, but have no access to bash (linux).
 
-Using a private browsing window (or log off and on) log on as *opuser*.  Go to the **www_pool**.  Note configuration fields are greyed out. Attempt to diable and enable a pool member.
+Using a private browsing window (or log out and in) log in as *opuser*.  Go to the **www_pool**.  Note configuration fields are greyed out. Attempt to diable and enable a pool member.
 
 Check the logs
 --------------
 
-Go to **System >> Logs >> Local Traffic**  and check the logs to see the notices.
+From the *admin* user - Go to **System >> Logs >> Local Traffic**  and check the logs to see the notices.
 
 .. HINT::
    If you click the arrow on the **Timestamp** column you can move the latest log entries to the top.
@@ -54,8 +56,8 @@ Attempt to SSH to the BIG-IP as *opuser*.
 Check DNS and NTP are configured and functioning
 ------------------------------------------------
 
-Go to **System > Configuration > Device > General** and review the
-DNS and NTP setting
+Go to **System > Configuration > Device** tab and review the
+DNS and NTP settings
 
 In BIG-IP command line terminal window (window2) check to see if DNS is running and test DNS from the CLI or TMSH enter:
 
@@ -66,7 +68,8 @@ In BIG-IP command line terminal window (window2) check to see if DNS is running 
 
 .. admonition:: TMSH
 
-   show sys service named  
+   show sys service named
+   
    run util dig pool.ntp.org
 
 
